@@ -17,7 +17,7 @@
 
 ### Prerequisites
 
-- JDK 1.8
+- JDK 11
 - Docker 
 - Maven
 
