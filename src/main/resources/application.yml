@@ -1,0 +1,37 @@
+# logging.level.reactor.netty.http.client: DEBUG
+spring.main.allow-bean-definition-overriding: true
+spring.profiles.active: dev
+spring.cloud.config.import-check.enabled: false
+spring.application.name: "@project.artifactId@" 
+spring.application.description: "@project.description@"
+server.port: 8080
+
+# Actuator (SBA Config)
+management.endpoints.web.exposure.include: "*"
+management.endpoint.health.show-details: ALWAYS
+management.info.env.enabled: true
+
+info.dataset-ids:
+  "[/api/log/searchs]": "dxc.search-log"
+# Configuring info endpoint
+info:
+  name: "${spring.application.name}"
+  description: "${spring.application.description}"
+  version: "@project.version@"
+  profiles: "${spring.profiles.active}"
+# build properties from maven
+  build:
+    groupId: "@project.groupId@"
+    artifact: "@project.artifactId@"
+    name: "@project.name@"
+    version: "@project.version@"  
+  license:
+    name: "@project.licenses[0].name@"
+    url: "@project.licenses[0].url@"
+  contact:
+    name: "@project.developers[0].name@"
+    url: "@project.developers[0].url@"
+    email: "@project.developers[0].email@"
+  termOfService: "@project.licenses[0].url@"
+
+

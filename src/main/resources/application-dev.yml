@@ -1,0 +1,158 @@
+#################################
+##  DEV Configuration
+#################################
+
+# ===============================
+#  Spring Cloud Config
+# ===============================
+spring.cloud.config.enabled: false 
+spring.cloud.discovery.enabled: false
+eureka.client.enabled: false
+
+# ===============================
+#  Basic Cofnig
+# ===============================
+# Server port
+server.port: 8081
+
+# Server Error never,on_trace_param,always
+server.error: # Attention Required!!
+  include-stacktrace: always 
+  include-message: always 
+  include-binding-errors: always 
+  include-exception: false
+
+# H2 Console
+spring.h2.console.enabled: true # Attention Required!!
+spring.h2.console.port: 0
+
+# Open API Specification (Swagger 3)
+springdoc.api-docs.enabled: true
+springdoc.swagger-ui.enabled: true
+springdoc.swagger-ui.filter: true
+
+
+# Features
+spring.liquibase.enabled: false
+
+# ===============================
+## Log Config
+# ===============================
+# Log Level 
+logging.level:  # Attention Required!!
+  th.go.dxc: DEBUG 
+  org.springframework.web: DEBUG  
+  org.springframework.ws.client.core.WebServiceTemplate: DEBUG
+  org.springframework.ws.client.MessageTracing: DEBUG
+  org.springframework.ws.server.MessageTracing: DEBUG
+  org.springframework.ws.client.MessageTracing.sent: DEBUG
+  org.springframework.ws.server.MessageTracing.sent: DEBUG
+  org.springframework.ws.client.MessageTracing.received: DEBUG
+  org.springframework.ws.server.MessageTracing.received: DEBUG
+  sun.security: DEBUG
+
+# Log File
+logging.file.name: logs/${spring.application.name}-${spring.profiles.active}.log
+logging.logback.rollingpolicy:
+  file-name-pattern: logs/${spring.application.name}-${spring.profiles.active}-%d{yyyy-MM-dd}.%i.log
+  max-file-size: 10MB
+  max-history: 7
+  total-size-cap: 0B
+  clean-history-on-start: true # Attention Required!!
+  
+# ===============================
+#  Spring Security Config
+# ===============================
+spring.security.oauth2.resourceserver:
+  jwt:
+    issuer-uri: https://sso.dxc.go.th/auth/realms/DXC
+
+# ===============================
+#  Application Cofig
+# ===============================
+
+# Ago Criminal Api Connector
+infra.connector.thaid-api:
+   base_url: "https://imauth.bora.dopa.go.th"
+
+#==================
+# DXC Primary Data Source
+#==================
+app.datasource.primary:
+  jdbc:
+    url: jdbc:h2:mem:primary;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  hikari:
+    minimum-idle: 2 #minimum number of idle connections maintained by HikariCP in a connection pool
+    maximum-pool-size: 10 #maximum pool size
+  jpa:
+    show-sql: true # Attention Required!!
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: true  # have the same EntityManager until the web request is finished
+    properties:
+      # Naming Convention Properties      
+      hibernate.physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      # DDL Auto Properties (database) 
+      javax.persistence.schema-generation.database.action: drop-and-create # Attention Required!!
+      # Extra config
+      javax.persistence.schema-generation.scripts.action: drop-and-create # Attention Required!!
+      javax.persistence.schema-generation.scripts.create-target: sqls/create-schema.sql # Attention Required!!
+      javax.persistence.schema-generation.scripts.drop-target: sqls/drop-schema.sql # Attention Required!!
+
+#==================
+# DB-01 Datasource
+#==================
+app.datasource.db-01:
+  jdbc:
+    url: jdbc:h2:mem:db01;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  hikari:
+    minimum-idle: 2 #minimum number of idle connections maintained by HikariCP in a connection pool
+    maximum-pool-size: 3 #maximum pool size
+  jpa:
+    show-sql: true # Attention Required!!
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: true  # have the same EntityManager until the web request is finished
+    properties:
+      # Naming Convention Properties      
+      hibernate.physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+#      hibernate.hbm2ddl.import_files: sql/dev/dxc_master_db/dxc_organization_v1-h2-insert.sql, sql/dev/dxc_master_db/dxc_data_set_v1-h2-insert.sql, sql/dev/dxc_master_db/dxc_data_service_v1-h2-insert.sql # Attention Required!!
+      # DDL Auto Properties (database)
+      javax.persistence.schema-generation.database.action: drop-and-create # Attention Required!!
+      # Extra config
+      javax.persistence.schema-generation.scripts.action: drop-and-create # Attention Required!!
+      javax.persistence.schema-generation.scripts.create-target: sqls/create-schema.sql # Attention Required!!
+      javax.persistence.schema-generation.scripts.drop-target: sqls/drop-schema.sql # Attention Required!!
+
+#==================
+# DXC SAM DB Datasource
+#==================
+app.datasource.dxc-sam-db:
+  jdbc:
+    url: jdbc:sqlserver://10.14.33.22;databaseName=SAM
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: dxc_user
+    password: patiwat
+  hikari:
+    minimum-idle: 2 #minimum number of idle connections maintained by HikariCP in a connection pool
+    maximum-pool-size: 3 #maximum pool size
+  jpa:
+    show-sql: true # Attention Required!!
+    database-platform: org.hibernate.dialect.SQLServer2008Dialect
+    open-in-view: true  # have the same EntityManager until the web request is finished
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
+      # Naming Convention Properties      
+      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      hibernate.implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+#      hibernate.hbm2ddl.import_files: sql/dxc_sam_db/dxc_user_search_log_v1-insert.sql # Attention Required!!
+      # DDL Auto Properties (database)
+      javax.persistence.schema-generation.database.action: none # Attention Required!!
+      # Extra config
+      javax.persistence.schema-generation.scripts.action: none # Attention Required!!
+#      javax.persistence.schema-generation.scripts.create-target: sqls/create-schema.sql # Attention Required!!
+#      javax.persistence.schema-generation.scripts.drop-target: sqls/drop-schema.sql # Attention Required!!
