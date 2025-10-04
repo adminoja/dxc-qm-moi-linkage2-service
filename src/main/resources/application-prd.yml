@@ -30,7 +30,7 @@ eureka.client:
   
 # Config Client
 spring.cloud.config.enabled: true
-spring.config.import: "configserver:https://configUser:c0nf1gP9ssw0rd@config-01.dxc.go.th:8888/"
+spring.config.import: "configserver:http://configUser:c0nf1gP9ssw0rd@config-01.dxc.go.th:8888/"
 
 # ===============================
 ## Log Config
