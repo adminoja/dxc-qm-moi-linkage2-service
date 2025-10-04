@@ -24,12 +24,14 @@ import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
 import th.go.dxc.infra.connector.thaid.model.response.TokenIntrospectResponse;
 import th.go.dxc.infra.connector.thaid.model.response.TokenResponse;
+import th.go.dxc.infra.connector.thaid.model.response.TokenRevokeResponse;
 
 @Slf4j
 public class ThaidServiceWebClientImpl implements ThaidService {
 
 	private static final String THAID_TOKEN_PATH = "/api/v2/oauth2/token/";
 	private static final String THAID_INTROSPECT_PATH = "/api/v2/oauth2/introspect/";
+	private static final String THAID_REVOKE_PATH = "/api/v2/oauth2/revoke/";
 
 	private final WebClient webClient;
 	private final ThaidProperties properties;
@@ -99,5 +101,29 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.bodyToMono(TokenIntrospectResponse.class)
 				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
 	}
+
+	@Override
+	public Mono<TokenRevokeResponse> revokeToken(String accessToken) {
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("token", accessToken);
+		
+		return webClient.post()
+				.uri(THAID_REVOKE_PATH)
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.body(BodyInserters.fromFormData(formData))
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
+								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
+								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+										clientResponse.statusCode(),
+										errorResponseBody.getErrorDescription() != null
+												? errorResponseBody.getErrorDescription()
+												: (errorResponseBody.getError() != null ? errorResponseBody.getError()
+														: "Unknown error from ThaID")))))
+				.bodyToMono(TokenRevokeResponse.class)
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+	}
+	
 	
 }
