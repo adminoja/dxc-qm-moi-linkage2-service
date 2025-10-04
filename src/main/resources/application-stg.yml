@@ -1,0 +1,74 @@
+#--------------------------
+# Base Config
+#--------------------------
+server.port: 0
+
+server.error:
+  include-stacktrace: never #ไม่โชว์ stacktrace ให้ user เห็น (เหมาะกับ prd)
+  include-message: always #โชว์ข้อความ error (message)
+  include-binding-errors: never #ไม่แสดงรายละเอียด validation error แบบ bindingResult
+  include-exception: false #ไม่แสดงชื่อ exception class
+    
+# ===============================
+## Log Config
+# ===============================
+# Log Level 
+logging.level:  # Attention Required!!
+  th.go.dxc: INFO 
+  org.springframework.web: INFO  
+  org.springframework.ws.client.core.WebServiceTemplate: INFO
+  org.springframework.ws.client.MessageTracing: INFO
+  org.springframework.ws.server.MessageTracing: INFO
+  org.springframework.ws.client.MessageTracing.sent: INFO
+  org.springframework.ws.server.MessageTracing.sent: INFO
+  org.springframework.ws.client.MessageTracing.received: INFO
+  org.springframework.ws.server.MessageTracing.received: INFO
+  sun.security: INFO
+
+# ===============================
+#  Spring Cloud Config
+# ===============================
+# Discovery Client
+spring.cloud.discovery.enabled: false #ควรปิดที่ stg เวลา run ip เครื่องจะได้ไม่ใปขึ้นที่ cloud-admin
+eureka.client.enabled: false #ควรปิดที่ stg เวลา run ip เครื่องจะได้ไม่ใปขึ้นที่ cloud-admin
+
+eureka.instance:
+#  environment: staging
+#  hostname: 10.129.214.131 # Use when test via VPN (different IP)
+  preferIpAddress: true # Use when ip is valid
+  leaseRenewalIntervalInSeconds: 10   # SBA
+  nonSecurePortEnabled: true
+  securePortEnabled: false
+  metadataMap:    
+    startup: ${random.int}    #needed to trigger info and endpoint update after restart (SBA)
+    user:  configUser
+    password:  c0nf1gP9ssw0rd
+    
+eureka.client:  
+  registerWithEureka: true
+  fetchRegistry: true
+  registryFetchIntervalSeconds: 5    # SBA
+  serviceUrl.defaultZone: http://10.14.33.37:8761/eureka
+  
+# Config Client
+spring.cloud.config.enabled: false #ใส่ false เพื่อปิดการใช้งาน cloud config ให้ run บนเครื่องได้ 
+#spring.config.import: "configserver:https://configUser:c0nf1gP9ssw0rd@config-01.dxc.go.th:8888/" #ปิดก่อนถึง run บนเครื่องได้ 
+
+# ===============================
+#  Spring Security Config
+# ===============================
+spring.security.oauth2.resourceserver:
+  jwt:
+    issuer-uri: https://sso.dxc.go.th/auth/realms/DXC
+
+# ===============================
+#  Application Cofig
+# ===============================
+
+# ThaID Api Connector
+infra.connector.thaid:
+   base_url: "https://imauth.bora.dopa.go.th"
+   authorization: "Basic ZDNFNVdVTnhOV1pxUVd0V1dUaE9jbVJHYjNaUFNWVkZNakZoT1dSQk0wNDpTMngyTXpSdFUyNXdOMEZvZEhwWVFrTkZVVzFHT0VReU1HRnJWVlpQZG5oWmJYUXpSbXR1WWc="
+   authorization_code: "authorization_code"
+   redirect_uri: "https://search.dxc.go.th/secured/v2/index.html#/loginThaiD"
+   enable-wiretap: false  # ใช้ false เฉพาะ stg กับ prd เพื่อ log headers/status only
