@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenRequest {
-	private String accessToken;
-}	
+public class AuthorizationCodeRequest {
+	private String code;
+}

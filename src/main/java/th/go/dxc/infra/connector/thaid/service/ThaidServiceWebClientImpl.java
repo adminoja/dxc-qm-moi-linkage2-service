@@ -19,14 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
+import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
+import th.go.dxc.infra.connector.thaid.model.response.TokenIntrospectResponse;
 import th.go.dxc.infra.connector.thaid.model.response.TokenResponse;
 
 @Slf4j
 public class ThaidServiceWebClientImpl implements ThaidService {
 
 	private static final String THAID_TOKEN_PATH = "/api/v2/oauth2/token/";
+	private static final String THAID_INTROSPECT_PATH = "/api/v2/oauth2/introspect/";
 
 	private final WebClient webClient;
 	private final ThaidProperties properties;
@@ -49,31 +52,6 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.clientConnector(new ReactorClientHttpConnector(httpClient)).build();
 	}
 
-//	@Override
-//	public TokenResponse exchangeToken(String code) {
-//		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-//		formData.add("code", code);
-//		formData.add("grant_type", properties.getAuthorizationCode());
-//		formData.add("redirect_uri", properties.getRedirectUri());
-//
-//		TokenResponse response = webClient.post()
-//			.uri(THAID_TOKEN_PATH)
-//			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//			.body(BodyInserters.fromFormData(formData))
-//			.retrieve()
-//			.onStatus(HttpStatus::isError, clientResponse ->
-//				clientResponse.bodyToMono(TokenErrorResponse.class)
-//					.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
-//						clientResponse.statusCode(), 
-//						errorResponseBody.getErrorDescription() != null ? errorResponseBody.getErrorDescription() : "Unknown error from ThaID"
-//					)))
-//			)
-//			.bodyToMono(TokenResponse.class)
-//			.block(); // ถ้าอยาก async เปลี่ยนเป็น Mono<> ได้
-//
-//		return response;
-//	}
-
 	@Override
 	public Mono<TokenResponse> exchangeToken(String code) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -82,22 +60,44 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 		formData.add("redirect_uri", properties.getRedirectUri());
 
 		return webClient.post()
-			.uri(THAID_TOKEN_PATH)
-			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.body(BodyInserters.fromFormData(formData))
-			.retrieve()
-			.onStatus(HttpStatus::isError, clientResponse ->
-				clientResponse.bodyToMono(TokenErrorResponse.class)
-					.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
-					.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
-						clientResponse.statusCode(), errorResponseBody.getErrorDescription() != null 
-						? errorResponseBody.getErrorDescription() 
-						: (errorResponseBody.getError() != null 
-							? errorResponseBody.getError()
-							: "Unknown error from ThaID")
-					)))
-			)
-			.bodyToMono(TokenResponse.class)
-			.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+				.uri(THAID_TOKEN_PATH)
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.body(BodyInserters.fromFormData(formData))
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
+								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
+								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+										clientResponse.statusCode(),
+										errorResponseBody.getErrorDescription() != null
+												? errorResponseBody.getErrorDescription()
+												: (errorResponseBody.getError() != null ? errorResponseBody.getError()
+														: "Unknown error from ThaID")))))
+				.bodyToMono(TokenResponse.class)
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
 	}
+
+	@Override
+	public Mono<TokenIntrospectResponse> introspectToken(String accessToken) {
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("token", accessToken);
+		
+		return webClient.post()
+				.uri(THAID_INTROSPECT_PATH)
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.body(BodyInserters.fromFormData(formData))
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
+								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
+								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+										clientResponse.statusCode(),
+										errorResponseBody.getErrorDescription() != null
+												? errorResponseBody.getErrorDescription()
+												: (errorResponseBody.getError() != null ? errorResponseBody.getError()
+														: "Unknown error from ThaID")))))
+				.bodyToMono(TokenIntrospectResponse.class)
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+	}
+	
 }
