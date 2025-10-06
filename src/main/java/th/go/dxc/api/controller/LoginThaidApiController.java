@@ -25,9 +25,9 @@ import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.infra.connector.thaid.model.request.FreshTokenRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
 
-@Tags(value = { @Tag(name = "บริการ Login ThaID") })
+@Tags(value = { @Tag(name = "บริการ ThaID") })
 @RestController
-@RequestMapping("/api/v2/login-thaid/token")
+@RequestMapping("/api/v2/thaid")
 public class LoginThaidApiController {
 	
 	private final LoginThaidService service;
@@ -57,7 +57,7 @@ public class LoginThaidApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "")
+	@RequestMapping(method = RequestMethod.POST, value = "/request")
 	@ResponseBody
 	public Mono<ThaidToken> exchangeToken(@RequestBody AuthorizationCodeRequest request) {
 		return service.exchangeToken(request.getCode());
@@ -89,7 +89,7 @@ public class LoginThaidApiController {
 		return service.freshToken(request.getRefreshToken());
 	}
 	
-	@Operation(summary = "ตรวจสอบ AccessToken ThaID",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "ตรวจสอบ Token ThaID",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
 		

@@ -25,7 +25,7 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 
 @Tags(value = { @Tag(name = "บริการ Login Linkage2") })
 @RestController
-@RequestMapping("/api/v2/linkage2/login")
+@RequestMapping("/api/v2/linkage2")
 public class LoginLinkage2ApiController {
 	
 	private Linkage2Service service;
@@ -55,7 +55,7 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "")
+	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
 	public Mono<LoginLinkage2> loginLinkage2(@RequestBody LoginLinkage2Request request) {
 		return service.loginLinkage2(request);
