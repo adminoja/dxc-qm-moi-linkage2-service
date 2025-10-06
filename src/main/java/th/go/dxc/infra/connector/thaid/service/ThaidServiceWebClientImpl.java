@@ -2,9 +2,7 @@ package th.go.dxc.infra.connector.thaid.service;
 
 import java.text.ParseException;
 import java.time.Duration;
-import java.util.List;
 
-import org.hibernate.event.internal.ReattachVisitor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
-import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
 import th.go.dxc.infra.connector.thaid.model.response.TokenIntrospectResponse;

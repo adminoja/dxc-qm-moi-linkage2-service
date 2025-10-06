@@ -12,8 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import th.go.dxc.app.service.Linkage2Service;
+import th.go.dxc.app.service.Linkage2ServiceImpl;
 import th.go.dxc.app.service.LoginThaidService;
 import th.go.dxc.app.service.LoginThaidServiceImpl;
+import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
+import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
+import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2ServiceWebClientImpl;
 import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.service.ThaidService;
 import th.go.dxc.infra.connector.thaid.service.ThaidServiceWebClientImpl;
@@ -44,12 +49,23 @@ public class PrdAppConfig {
 	}
 	
 	@Bean
+	public ThaidService thaidService(WebClient.Builder webClientBuilder, ThaidProperties properties) {
+		return new ThaidServiceWebClientImpl(webClientBuilder, properties);
+	}
+	
+	@Bean
 	public LoginThaidService loginThaidService(ThaidService service, MapperFacade mapper) {
 		return new LoginThaidServiceImpl(service, mapper);
 	}
 	
 	@Bean
-	public ThaidService thaidService(WebClient.Builder webClientBuilder, ThaidProperties properties) {
-		return new ThaidServiceWebClientImpl(webClientBuilder, properties);
+	public DopaLinkage2Service dopaLinkage2Service(WebClient.Builder webClientBuilder, DopaLinkage2Properties properties) {
+		return new DopaLinkage2ServiceWebClientImpl(webClientBuilder, properties);
 	}
+	
+	@Bean
+	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapper) {
+		return new Linkage2ServiceImpl(service, mapper);
+	}
+	
 }

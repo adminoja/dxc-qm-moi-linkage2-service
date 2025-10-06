@@ -68,3 +68,7 @@ infra.connector.thaid:
    refresh_token: "refresh_token"
    redirect_uri: "https://search.dxc.go.th/secured/v2/index.html#/loginThaiD"
    enable-wiretap: false  # ใช้ false เฉพาะ stg กับ prd เพื่อ log headers/status only
+
+# Dopa Linkage2 Api Connector
+infra.connector.dopalinkage2:
+   base_url: "http://10.14.33.9"

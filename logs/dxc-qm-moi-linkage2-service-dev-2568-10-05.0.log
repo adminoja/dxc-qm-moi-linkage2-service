@@ -1,0 +1,883 @@
+2568-10-05 01:15:04.186  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 16912 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-05 01:15:04.193 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-05 01:15:04.194  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-05 01:15:06.403  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fb17cb72-ff16-3bd2-8844-5df8df7f51a2
+2568-10-05 01:15:07.155  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:15:07.158  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:15:07.162  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:15:08.099  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-05 01:15:08.114  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-05 01:15:08.115  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-05 01:15:08.383  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-05 01:15:08.384  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4128 ms
+2568-10-05 01:15:08.611  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-05 01:15:08.991  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-05 01:15:09.003  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:656f4228-e33a-42a8-86b0-386f1db08c5d'
+2568-10-05 01:15:09.162 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-05 01:15:10.501  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-05 01:15:10.586  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-05 01:15:10.850  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-05 01:15:11.068  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-05 01:15:11.422  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-05 01:15:11.435  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-05 01:15:11.461  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-05 01:15:13.249 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@25dacc5a]
+2568-10-05 01:15:13.289 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@2a41d17a]
+2568-10-05 01:15:13.333 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@1d2aa638]
+2568-10-05 01:15:13.357  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] th.go.dxc.config.DevApiConfig            : Init th.go.dxc.config.DevApiConfig
+2568-10-05 01:15:13.361  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] th.go.dxc.config.DevSecurityConfig       : Init th.go.dxc.config.DevSecurityConfig
+2568-10-05 01:15:13.411  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] th.go.dxc.config.DevWebConfig            : Init th.go.dxc.config.DevWebConfig$$EnhancerBySpringCGLIB$$4a083064
+2568-10-05 01:15:13.543  WARN [dxc-qm-moi-linkage2-service,,] 16912 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2568-10-05 01:15:13.927 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2568-10-05 01:15:14.061 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2568-10-05 01:15:14.080  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2568-10-05 01:15:14.886 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/**] in 'resourceHandlerMapping'
+2568-10-05 01:15:14.913 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2568-10-05 01:15:15.034  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] i.g.p.r.RSQLQueryDSLAutoConfiguration    : RSQLQueryDSLAutoConfiguration.rsqlCommonSupport(entityManagerMap:0)
+2568-10-05 01:15:15.035  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : 0 EntityManager bean is found: {}
+2568-10-05 01:15:15.038  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : RSQLCommonSupport [5.0.19]  is initialized
+2568-10-05 01:15:15.579  WARN [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:15:15.580  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2568-10-05 01:15:15.580  WARN [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/mock/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:15:15.581  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/mock/**']
+2568-10-05 01:15:15.651  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 17 endpoint(s) beneath base path '/actuator'
+2568-10-05 01:15:15.696  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Or [Ant [pattern='/services/**'], Ant [pattern='/api/**']] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@749ebc39, org.springframework.security.web.context.SecurityContextPersistenceFilter@74534564, org.springframework.security.web.header.HeaderWriterFilter@2715b3ea, org.springframework.web.filter.CorsFilter@7dc6ce7d, org.springframework.security.web.authentication.logout.LogoutFilter@3da76d3a, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter@1390cc4c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@18a9762, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5ac3c6cd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@52caa9d8, org.springframework.security.web.session.SessionManagementFilter@47de4dce, org.springframework.security.web.access.ExceptionTranslationFilter@47511582, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@26abee34]
+2568-10-05 01:15:17.459  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:15:17.478  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2568-10-05 01:15:17.680  WARN [dxc-qm-moi-linkage2-service,,] 16912 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2568-10-05 01:15:17.776  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2568-10-05 01:15:19.449  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:15:19.481  INFO [dxc-qm-moi-linkage2-service,,] 16912 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Started DxcQmMoiLinkage2ServiceApplication in 17.759 seconds (JVM running for 18.42)
+2568-10-05 01:16:20.983  INFO [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2568-10-05 01:16:20.986  INFO [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2568-10-05 01:16:20.986 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2568-10-05 01:16:20.986 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2568-10-05 01:16:20.986 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2568-10-05 01:16:20.988 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@67c020c8
+2568-10-05 01:16:20.989 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@6f13ed1
+2568-10-05 01:16:20.989 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2568-10-05 01:16:20.989  INFO [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2568-10-05 01:16:21.010 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2568-10-05 01:16:21.143 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2568-10-05 01:16:21.346 DEBUG [dxc-qm-moi-linkage2-service,cbb7ab1f01c68b27,cbb7ab1f01c68b27] 16912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:21.391 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
+2568-10-05 01:16:21.394 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2568-10-05 01:16:21.400 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2568-10-05 01:16:21.401 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2568-10-05 01:16:21.404 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2568-10-05 01:16:21.408 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2568-10-05 01:16:21.436 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:16:21.437 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Oct 05 01:16:21 ICT 2025, status=404, error=Not Found, message=No message available,  (truncated)...]
+2568-10-05 01:16:21.486 DEBUG [dxc-qm-moi-linkage2-service,939495d38d28b37c,939495d38d28b37c] 16912 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
+2568-10-05 01:16:22.840 DEBUG [dxc-qm-moi-linkage2-service,f5e25ffb9b6a0368,f5e25ffb9b6a0368] 16912 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2568-10-05 01:16:22.842 DEBUG [dxc-qm-moi-linkage2-service,f5e25ffb9b6a0368,f5e25ffb9b6a0368] 16912 --- [http-nio-8081-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:16:22.871 DEBUG [dxc-qm-moi-linkage2-service,f5e25ffb9b6a0368,f5e25ffb9b6a0368] 16912 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:22.889 DEBUG [dxc-qm-moi-linkage2-service,417a5a636dc3e4bb,417a5a636dc3e4bb] 16912 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui.css", parameters={}
+2568-10-05 01:16:22.890 DEBUG [dxc-qm-moi-linkage2-service,417a5a636dc3e4bb,417a5a636dc3e4bb] 16912 --- [http-nio-8081-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:16:22.896 DEBUG [dxc-qm-moi-linkage2-service,4b442e45a10cc815,4b442e45a10cc815] 16912 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-standalone-preset.js", parameters={}
+2568-10-05 01:16:22.896 DEBUG [dxc-qm-moi-linkage2-service,f9d05bdb1fc5fe7c,f9d05bdb1fc5fe7c] 16912 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-bundle.js", parameters={}
+2568-10-05 01:16:22.898 DEBUG [dxc-qm-moi-linkage2-service,417a5a636dc3e4bb,417a5a636dc3e4bb] 16912 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:22.899 DEBUG [dxc-qm-moi-linkage2-service,f9d05bdb1fc5fe7c,f9d05bdb1fc5fe7c] 16912 --- [http-nio-8081-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:16:22.900 DEBUG [dxc-qm-moi-linkage2-service,4b442e45a10cc815,4b442e45a10cc815] 16912 --- [http-nio-8081-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:16:22.920 DEBUG [dxc-qm-moi-linkage2-service,4b442e45a10cc815,4b442e45a10cc815] 16912 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:22.925 DEBUG [dxc-qm-moi-linkage2-service,f9d05bdb1fc5fe7c,f9d05bdb1fc5fe7c] 16912 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:23.041 DEBUG [dxc-qm-moi-linkage2-service,1525c8498d36f410,1525c8498d36f410] 16912 --- [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2568-10-05 01:16:23.042 DEBUG [dxc-qm-moi-linkage2-service,1525c8498d36f410,1525c8498d36f410] 16912 --- [http-nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2568-10-05 01:16:23.044 DEBUG [dxc-qm-moi-linkage2-service,1525c8498d36f410,1525c8498d36f410] 16912 --- [http-nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2568-10-05 01:16:23.045 DEBUG [dxc-qm-moi-linkage2-service,1525c8498d36f410,1525c8498d36f410] 16912 --- [http-nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, filter=true, oauth2RedirectUrl=http://localhost:8081/swagger (truncated)...]
+2568-10-05 01:16:23.046 DEBUG [dxc-qm-moi-linkage2-service,1525c8498d36f410,1525c8498d36f410] 16912 --- [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:23.072 DEBUG [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2568-10-05 01:16:23.073 DEBUG [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2568-10-05 01:16:23.438  INFO [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 346 ms
+2568-10-05 01:16:23.448 DEBUG [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2568-10-05 01:16:23.448 DEBUG [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"ฐานข้อมูลกรมกา (truncated)..."]
+2568-10-05 01:16:23.450 DEBUG [dxc-qm-moi-linkage2-service,1d5e2bf2cd59f497,1d5e2bf2cd59f497] 16912 --- [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:16:59.743 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#exchangeToken(AuthorizationCodeRequest)
+2568-10-05 01:16:59.874 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/.well-known/openid-configuration
+2568-10-05 01:16:59.876 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2568-10-05 01:17:00.106 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:17:00.107 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Reading to [java.util.Map<java.lang.String, java.lang.Object>]
+2568-10-05 01:17:00.169 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/protocol/openid-connect/certs
+2568-10-05 01:17:00.170 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2568-10-05 01:17:00.180 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:17:00.180 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as "application/json"
+2568-10-05 01:17:00.268 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token", parameters={}
+2568-10-05 01:17:00.269 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#exchangeToken(AuthorizationCodeRequest)
+2568-10-05 01:17:00.276 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [AuthorizationCodeRequest(code=MDZjMGQxMjQtMmUzMC00ZjJjLWJlMjItZDQyNTBkNGY0MWViIzU1ODhiMjEzLTBmMmUtND (truncated)...]
+2568-10-05 01:17:00.396 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [4f09fb3d] HTTP POST https://imauth.bora.dopa.go.th/api/v2/oauth2/token/
+2568-10-05 01:17:01.159 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.w.c.request.async.WebAsyncManager    : Started async request
+2568-10-05 01:17:01.160 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Exiting but response remains open for further handling
+2568-10-05 01:17:01.396 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [4f09fb3d] Writing form fields [code, grant_type, redirect_uri] (content masked)
+2568-10-05 01:17:01.578 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [reactor-http-nio-3] o.s.w.r.f.client.ExchangeFunctions       : [4f09fb3d] [f44c92e4-1] Response 200 OK
+2568-10-05 01:17:01.620 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [4f09fb3d] [f44c92e4-1] Decoded [TokenResponse(expiresIn=1759602721, accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk (truncated)...]
+2568-10-05 01:17:01.772 DEBUG [dxc-qm-moi-linkage2-service,a7be101785c04874,a7be101785c04874] 16912 --- [reactor-http-nio-3] o.s.w.c.request.async.WebAsyncManager    : Async result set, dispatch to /api/v2/login-thaid/token
+2568-10-05 01:17:01.774 DEBUG [dxc-qm-moi-linkage2-service,6a8a7698061af16d,6a8a7698061af16d] 16912 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : "ASYNC" dispatch for POST "/api/v2/login-thaid/token", parameters={}
+2568-10-05 01:17:01.775 DEBUG [dxc-qm-moi-linkage2-service,6a8a7698061af16d,6a8a7698061af16d] 16912 --- [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerAdapter : Resume with async result [ThaidToken(expiresIn=1759602721, accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MD (truncated)...]
+2568-10-05 01:17:01.778 DEBUG [dxc-qm-moi-linkage2-service,6a8a7698061af16d,6a8a7698061af16d] 16912 --- [http-nio-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:17:01.778 DEBUG [dxc-qm-moi-linkage2-service,6a8a7698061af16d,6a8a7698061af16d] 16912 --- [http-nio-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [ThaidToken(expiresIn=1759602721, accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MD (truncated)...]
+2568-10-05 01:17:01.780 DEBUG [dxc-qm-moi-linkage2-service,6a8a7698061af16d,6a8a7698061af16d] 16912 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Exiting from "ASYNC" dispatch, status 200
+2568-10-05 01:17:40.171 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:17:40.174 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:17:40.175 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:17:40.177 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OTYwMTgy (truncated)...]
+2568-10-05 01:17:40.181 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] o.s.w.r.f.client.ExchangeFunctions       : [ab1d8da] HTTP POST https://imauth.bora.dopa.go.th/api/v2/oauth2/introspect/
+2568-10-05 01:17:40.183 DEBUG [dxc-qm-moi-linkage2-service,,] 16912 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [ab1d8da] Writing form fields [token] (content masked)
+2568-10-05 01:17:40.182 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] o.s.w.c.request.async.WebAsyncManager    : Started async request
+2568-10-05 01:17:40.186 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Exiting but response remains open for further handling
+2568-10-05 01:17:40.199 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [reactor-http-nio-3] o.s.w.r.f.client.ExchangeFunctions       : [ab1d8da] [f44c92e4-2] Response 200 OK
+2568-10-05 01:17:40.203 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [ab1d8da] [f44c92e4-2] Decoded [TokenIntrospectResponse(active=true)]
+2568-10-05 01:17:40.215 DEBUG [dxc-qm-moi-linkage2-service,18e90754d5c9307e,18e90754d5c9307e] 16912 --- [reactor-http-nio-3] o.s.w.c.request.async.WebAsyncManager    : Async result set, dispatch to /api/v2/login-thaid/token/Introspect
+2568-10-05 01:17:40.217 DEBUG [dxc-qm-moi-linkage2-service,1288f7bee76bbed7,1288f7bee76bbed7] 16912 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : "ASYNC" dispatch for POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:17:40.218 DEBUG [dxc-qm-moi-linkage2-service,1288f7bee76bbed7,1288f7bee76bbed7] 16912 --- [http-nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerAdapter : Resume with async result [IntrospectToken(active=true)]
+2568-10-05 01:17:40.219 DEBUG [dxc-qm-moi-linkage2-service,1288f7bee76bbed7,1288f7bee76bbed7] 16912 --- [http-nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:17:40.219 DEBUG [dxc-qm-moi-linkage2-service,1288f7bee76bbed7,1288f7bee76bbed7] 16912 --- [http-nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [IntrospectToken(active=true)]
+2568-10-05 01:17:40.220 DEBUG [dxc-qm-moi-linkage2-service,1288f7bee76bbed7,1288f7bee76bbed7] 16912 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Exiting from "ASYNC" dispatch, status 200
+2568-10-05 01:18:27.454  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 13056 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-05 01:18:27.457 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-05 01:18:27.458  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-05 01:18:29.261  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fb17cb72-ff16-3bd2-8844-5df8df7f51a2
+2568-10-05 01:18:29.872  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:18:29.875  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:18:29.878  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:18:30.778  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-05 01:18:30.790  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-05 01:18:30.790  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-05 01:18:31.022  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-05 01:18:31.023  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3513 ms
+2568-10-05 01:18:31.245  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-05 01:18:31.516  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-05 01:18:31.528  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:edcd1951-31b1-476d-9d0e-7e3f73069e7f'
+2568-10-05 01:18:31.716 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-05 01:18:32.882  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-05 01:18:32.945  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-05 01:18:33.122  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-05 01:18:33.284  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-05 01:18:33.579  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-05 01:18:33.593  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-05 01:18:33.621  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-05 01:18:35.042 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@5a183fa6]
+2568-10-05 01:18:35.074 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@3344c1d7]
+2568-10-05 01:18:35.112 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@2cbd855e]
+2568-10-05 01:18:35.132  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] th.go.dxc.config.DevApiConfig            : Init th.go.dxc.config.DevApiConfig
+2568-10-05 01:18:35.137  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] th.go.dxc.config.DevSecurityConfig       : Init th.go.dxc.config.DevSecurityConfig
+2568-10-05 01:18:35.190  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] th.go.dxc.config.DevWebConfig            : Init th.go.dxc.config.DevWebConfig$$EnhancerBySpringCGLIB$$85a5df9c
+2568-10-05 01:18:35.294  WARN [dxc-qm-moi-linkage2-service,,] 13056 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2568-10-05 01:18:35.638 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2568-10-05 01:18:35.754 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2568-10-05 01:18:35.771  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2568-10-05 01:18:36.733 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/**] in 'resourceHandlerMapping'
+2568-10-05 01:18:36.754 DEBUG [dxc-qm-moi-linkage2-service,,] 13056 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2568-10-05 01:18:36.842  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] i.g.p.r.RSQLQueryDSLAutoConfiguration    : RSQLQueryDSLAutoConfiguration.rsqlCommonSupport(entityManagerMap:0)
+2568-10-05 01:18:36.843  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : 0 EntityManager bean is found: {}
+2568-10-05 01:18:36.845  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : RSQLCommonSupport [5.0.19]  is initialized
+2568-10-05 01:18:37.389  WARN [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:18:37.389  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2568-10-05 01:18:37.390  WARN [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/mock/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:18:37.390  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/mock/**']
+2568-10-05 01:18:37.452  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 17 endpoint(s) beneath base path '/actuator'
+2568-10-05 01:18:37.496  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Or [Ant [pattern='/services/**'], Ant [pattern='/api/**']] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@37edb7fa, org.springframework.security.web.context.SecurityContextPersistenceFilter@45add64c, org.springframework.security.web.header.HeaderWriterFilter@19b6b7e7, org.springframework.web.filter.CorsFilter@6af447b6, org.springframework.security.web.authentication.logout.LogoutFilter@480b785a, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter@61cf142f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3b4a77be, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5f0c04d2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@47cce306, org.springframework.security.web.session.SessionManagementFilter@3e6b08d4, org.springframework.security.web.access.ExceptionTranslationFilter@67d8e214, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3905229]
+2568-10-05 01:18:39.261  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:18:39.294  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2568-10-05 01:18:39.493  WARN [dxc-qm-moi-linkage2-service,,] 13056 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2568-10-05 01:18:39.588  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2568-10-05 01:18:41.264  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:18:41.308  INFO [dxc-qm-moi-linkage2-service,,] 13056 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Started DxcQmMoiLinkage2ServiceApplication in 16.185 seconds (JVM running for 16.795)
+2568-10-05 01:18:45.269  INFO [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2568-10-05 01:18:45.270  INFO [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2568-10-05 01:18:45.271 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2568-10-05 01:18:45.271 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2568-10-05 01:18:45.271 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2568-10-05 01:18:45.273 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6eacf3be
+2568-10-05 01:18:45.274 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2dbfcbe4
+2568-10-05 01:18:45.274 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2568-10-05 01:18:45.274  INFO [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2568-10-05 01:18:45.303 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:18:45.403 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/.well-known/openid-configuration
+2568-10-05 01:18:45.416 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2568-10-05 01:18:45.582 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:18:45.584 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Reading to [java.util.Map<java.lang.String, java.lang.Object>]
+2568-10-05 01:18:45.652 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/protocol/openid-connect/certs
+2568-10-05 01:18:45.653 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2568-10-05 01:18:45.664 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:18:45.664 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as "application/json"
+2568-10-05 01:18:45.746 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:18:45.747 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:18:45.893 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OT (truncated)...]
+2568-10-05 01:18:45.904 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+2568-10-05 01:18:45.914 ERROR [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+] with root cause
+
+java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+	at th.go.dxc.api.controller.LoginThaidApiController.introspectToken(LoginThaidApiController.java:90) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:67) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:137) ~[spring-security-oauth2-resource-server-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.servlet.TracingFilter.doFilter(TracingFilter.java:68) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.springframework.cloud.sleuth.autoconfig.instrument.web.TraceWebServletConfiguration$LazyTracingFilter.doFilter(TraceWebServletConfiguration.java:131) ~[spring-cloud-sleuth-autoconfigure-3.1.2.jar:3.1.2]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96) ~[spring-boot-actuator-2.6.7.jar:2.6.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.tomcat.TraceValve.invoke(TraceValve.java:90) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
+
+2568-10-05 01:18:45.919 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2568-10-05 01:18:45.921 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2568-10-05 01:18:45.931 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:18:45.932 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Oct 05 01:18:45 ICT 2025, status=500, error=Internal Server Error, trace=java.lang.Er (truncated)...]
+2568-10-05 01:18:45.955 DEBUG [dxc-qm-moi-linkage2-service,1b1b089e9eaf5575,1b1b089e9eaf5575] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2568-10-05 01:18:51.581 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:18:51.584 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:18:51.585 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:18:51.587 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OT (truncated)...]
+2568-10-05 01:18:51.588 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+2568-10-05 01:18:51.590 ERROR [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+] with root cause
+
+java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+	at th.go.dxc.api.controller.LoginThaidApiController.introspectToken(LoginThaidApiController.java:90) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:67) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:137) ~[spring-security-oauth2-resource-server-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.servlet.TracingFilter.doFilter(TracingFilter.java:68) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.springframework.cloud.sleuth.autoconfig.instrument.web.TraceWebServletConfiguration$LazyTracingFilter.doFilter(TraceWebServletConfiguration.java:131) ~[spring-cloud-sleuth-autoconfigure-3.1.2.jar:3.1.2]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96) ~[spring-boot-actuator-2.6.7.jar:2.6.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.tomcat.TraceValve.invoke(TraceValve.java:90) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
+
+2568-10-05 01:18:51.592 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2568-10-05 01:18:51.593 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2568-10-05 01:18:51.595 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:18:51.596 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Oct 05 01:18:51 ICT 2025, status=500, error=Internal Server Error, trace=java.lang.Er (truncated)...]
+2568-10-05 01:18:51.598 DEBUG [dxc-qm-moi-linkage2-service,dd157ced8614536d,dd157ced8614536d] 13056 --- [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2568-10-05 01:18:55.979 DEBUG [dxc-qm-moi-linkage2-service,4628a438f3e5f5cf,4628a438f3e5f5cf] 13056 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2568-10-05 01:18:55.985 DEBUG [dxc-qm-moi-linkage2-service,4628a438f3e5f5cf,4628a438f3e5f5cf] 13056 --- [http-nio-8081-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:18:56.009 DEBUG [dxc-qm-moi-linkage2-service,4628a438f3e5f5cf,4628a438f3e5f5cf] 13056 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 304 NOT_MODIFIED
+2568-10-05 01:18:56.201 DEBUG [dxc-qm-moi-linkage2-service,265968c8658b17fb,265968c8658b17fb] 13056 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2568-10-05 01:18:56.201 DEBUG [dxc-qm-moi-linkage2-service,78268fa015c2883a,78268fa015c2883a] 13056 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/favicon-32x32.png", parameters={}
+2568-10-05 01:18:56.202 DEBUG [dxc-qm-moi-linkage2-service,265968c8658b17fb,265968c8658b17fb] 13056 --- [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2568-10-05 01:18:56.202 DEBUG [dxc-qm-moi-linkage2-service,78268fa015c2883a,78268fa015c2883a] 13056 --- [http-nio-8081-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:18:56.203 DEBUG [dxc-qm-moi-linkage2-service,265968c8658b17fb,265968c8658b17fb] 13056 --- [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2568-10-05 01:18:56.204 DEBUG [dxc-qm-moi-linkage2-service,265968c8658b17fb,265968c8658b17fb] 13056 --- [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, filter=true, oauth2RedirectUrl=http://localhost:8081/swagger (truncated)...]
+2568-10-05 01:18:56.206 DEBUG [dxc-qm-moi-linkage2-service,265968c8658b17fb,265968c8658b17fb] 13056 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:18:56.207 DEBUG [dxc-qm-moi-linkage2-service,78268fa015c2883a,78268fa015c2883a] 13056 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:18:56.227 DEBUG [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2568-10-05 01:18:56.228 DEBUG [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2568-10-05 01:18:56.507 DEBUG [dxc-qm-moi-linkage2-service,77c89ecfc7e9dfce,77c89ecfc7e9dfce] 13056 --- [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2568-10-05 01:18:56.509 DEBUG [dxc-qm-moi-linkage2-service,77c89ecfc7e9dfce,77c89ecfc7e9dfce] 13056 --- [http-nio-8081-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:18:56.512 DEBUG [dxc-qm-moi-linkage2-service,77c89ecfc7e9dfce,77c89ecfc7e9dfce] 13056 --- [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 304 NOT_MODIFIED
+2568-10-05 01:18:56.565  INFO [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 324 ms
+2568-10-05 01:18:56.580 DEBUG [dxc-qm-moi-linkage2-service,2ff80e28e572e829,2ff80e28e572e829] 13056 --- [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2568-10-05 01:18:56.582 DEBUG [dxc-qm-moi-linkage2-service,2ff80e28e572e829,2ff80e28e572e829] 13056 --- [http-nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2568-10-05 01:18:56.583 DEBUG [dxc-qm-moi-linkage2-service,2ff80e28e572e829,2ff80e28e572e829] 13056 --- [http-nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2568-10-05 01:18:56.584 DEBUG [dxc-qm-moi-linkage2-service,2ff80e28e572e829,2ff80e28e572e829] 13056 --- [http-nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, filter=true, oauth2RedirectUrl=http://localhost:8081/swagger (truncated)...]
+2568-10-05 01:18:56.585 DEBUG [dxc-qm-moi-linkage2-service,2ff80e28e572e829,2ff80e28e572e829] 13056 --- [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:18:56.586 DEBUG [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2568-10-05 01:18:56.586 DEBUG [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"ฐานข้อมูลกรมกา (truncated)..."]
+2568-10-05 01:18:56.588 DEBUG [dxc-qm-moi-linkage2-service,84958f5821898a20,84958f5821898a20] 13056 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:18:56.599 DEBUG [dxc-qm-moi-linkage2-service,df62e95b0387b4c2,df62e95b0387b4c2] 13056 --- [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2568-10-05 01:18:56.601 DEBUG [dxc-qm-moi-linkage2-service,df62e95b0387b4c2,df62e95b0387b4c2] 13056 --- [http-nio-8081-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2568-10-05 01:18:56.607 DEBUG [dxc-qm-moi-linkage2-service,df62e95b0387b4c2,df62e95b0387b4c2] 13056 --- [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2568-10-05 01:18:56.608 DEBUG [dxc-qm-moi-linkage2-service,df62e95b0387b4c2,df62e95b0387b4c2] 13056 --- [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"ฐานข้อมูลกรมกา (truncated)..."]
+2568-10-05 01:18:56.609 DEBUG [dxc-qm-moi-linkage2-service,df62e95b0387b4c2,df62e95b0387b4c2] 13056 --- [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:19:11.164 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:19:11.168 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:19:11.169 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:19:11.171 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OT (truncated)...]
+2568-10-05 01:19:11.171 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+2568-10-05 01:19:11.174 ERROR [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+] with root cause
+
+java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+	at th.go.dxc.api.controller.LoginThaidApiController.introspectToken(LoginThaidApiController.java:90) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:67) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:137) ~[spring-security-oauth2-resource-server-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.servlet.TracingFilter.doFilter(TracingFilter.java:68) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.springframework.cloud.sleuth.autoconfig.instrument.web.TraceWebServletConfiguration$LazyTracingFilter.doFilter(TraceWebServletConfiguration.java:131) ~[spring-cloud-sleuth-autoconfigure-3.1.2.jar:3.1.2]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96) ~[spring-boot-actuator-2.6.7.jar:2.6.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.tomcat.TraceValve.invoke(TraceValve.java:90) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
+
+2568-10-05 01:19:11.176 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2568-10-05 01:19:11.177 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2568-10-05 01:19:11.178 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:19:11.178 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Oct 05 01:19:11 ICT 2025, status=500, error=Internal Server Error, trace=java.lang.Er (truncated)...]
+2568-10-05 01:19:11.179 DEBUG [dxc-qm-moi-linkage2-service,4972e169b19f002f,4972e169b19f002f] 13056 --- [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2568-10-05 01:19:26.410 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:19:26.414 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:19:26.415 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:19:26.417 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OT (truncated)...]
+2568-10-05 01:19:26.417 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+2568-10-05 01:19:26.419 ERROR [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Handler dispatch failed; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+] with root cause
+
+java.lang.Error: Unresolved compilation problem: 
+	The method getToken() is undefined for the type TokenRequest
+
+	at th.go.dxc.api.controller.LoginThaidApiController.introspectToken(LoginThaidApiController.java:90) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:67) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:137) ~[spring-security-oauth2-resource-server-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.servlet.TracingFilter.doFilter(TracingFilter.java:68) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.springframework.cloud.sleuth.autoconfig.instrument.web.TraceWebServletConfiguration$LazyTracingFilter.doFilter(TraceWebServletConfiguration.java:131) ~[spring-cloud-sleuth-autoconfigure-3.1.2.jar:3.1.2]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96) ~[spring-boot-actuator-2.6.7.jar:2.6.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.cloud.sleuth.instrument.web.tomcat.TraceValve.invoke(TraceValve.java:90) ~[spring-cloud-sleuth-instrumentation-3.1.2.jar:3.1.2]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
+
+2568-10-05 01:19:26.421 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2568-10-05 01:19:26.423 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2568-10-05 01:19:26.425 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:19:26.425 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Oct 05 01:19:26 ICT 2025, status=500, error=Internal Server Error, trace=java.lang.Er (truncated)...]
+2568-10-05 01:19:26.426 DEBUG [dxc-qm-moi-linkage2-service,08aad4efcad88219,08aad4efcad88219] 13056 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2568-10-05 01:20:07.872  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 18020 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-05 01:20:07.874 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-05 01:20:07.875  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-05 01:20:09.659  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fb17cb72-ff16-3bd2-8844-5df8df7f51a2
+2568-10-05 01:20:10.258  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:20:10.261  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:20:10.264  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:20:11.123  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-05 01:20:11.136  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-05 01:20:11.137  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-05 01:20:11.375  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-05 01:20:11.375  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3453 ms
+2568-10-05 01:20:11.621  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-05 01:20:11.896  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-05 01:20:11.909  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:da3afb94-5333-447b-9d81-2531378ef926'
+2568-10-05 01:20:12.070 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-05 01:20:13.283  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-05 01:20:13.350  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-05 01:20:13.538  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-05 01:20:13.704  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-05 01:20:14.004  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-05 01:20:14.020  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-05 01:20:14.068  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-05 01:20:15.713 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@4791d904]
+2568-10-05 01:20:15.750 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@158b8d10]
+2568-10-05 01:20:15.793 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@4795876e]
+2568-10-05 01:20:15.817  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] th.go.dxc.config.DevApiConfig            : Init th.go.dxc.config.DevApiConfig
+2568-10-05 01:20:15.822  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] th.go.dxc.config.DevSecurityConfig       : Init th.go.dxc.config.DevSecurityConfig
+2568-10-05 01:20:15.909  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] th.go.dxc.config.DevWebConfig            : Init th.go.dxc.config.DevWebConfig$$EnhancerBySpringCGLIB$$85a5df9c
+2568-10-05 01:20:16.113  WARN [dxc-qm-moi-linkage2-service,,] 18020 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2568-10-05 01:20:16.457 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2568-10-05 01:20:16.581 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2568-10-05 01:20:16.600  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2568-10-05 01:20:17.572 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/**] in 'resourceHandlerMapping'
+2568-10-05 01:20:17.602 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2568-10-05 01:20:17.693  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] i.g.p.r.RSQLQueryDSLAutoConfiguration    : RSQLQueryDSLAutoConfiguration.rsqlCommonSupport(entityManagerMap:0)
+2568-10-05 01:20:17.694  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : 0 EntityManager bean is found: {}
+2568-10-05 01:20:17.697  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : RSQLCommonSupport [5.0.19]  is initialized
+2568-10-05 01:20:18.234  WARN [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:20:18.235  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2568-10-05 01:20:18.236  WARN [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/mock/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:20:18.236  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/mock/**']
+2568-10-05 01:20:18.302  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 17 endpoint(s) beneath base path '/actuator'
+2568-10-05 01:20:18.348  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Or [Ant [pattern='/services/**'], Ant [pattern='/api/**']] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@59294f29, org.springframework.security.web.context.SecurityContextPersistenceFilter@5ac3c6cd, org.springframework.security.web.header.HeaderWriterFilter@6d398593, org.springframework.web.filter.CorsFilter@795d43d9, org.springframework.security.web.authentication.logout.LogoutFilter@2e6dc94c, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter@37edb7fa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@d2161b6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6d821475, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30c96ea9, org.springframework.security.web.session.SessionManagementFilter@104972a0, org.springframework.security.web.access.ExceptionTranslationFilter@4951c45f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7dc6ce7d]
+2568-10-05 01:20:20.122  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:20:20.138  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2568-10-05 01:20:20.332  WARN [dxc-qm-moi-linkage2-service,,] 18020 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2568-10-05 01:20:20.427  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2568-10-05 01:20:22.105  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:20:22.143  INFO [dxc-qm-moi-linkage2-service,,] 18020 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Started DxcQmMoiLinkage2ServiceApplication in 16.607 seconds (JVM running for 17.231)
+2568-10-05 01:20:34.649  INFO [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2568-10-05 01:20:34.650  INFO [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2568-10-05 01:20:34.651 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2568-10-05 01:20:34.651 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2568-10-05 01:20:34.651 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2568-10-05 01:20:34.653 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5ae5a507
+2568-10-05 01:20:34.653 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@f359e65
+2568-10-05 01:20:34.654 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2568-10-05 01:20:34.654  INFO [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2568-10-05 01:20:34.686 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:20:34.802 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/.well-known/openid-configuration
+2568-10-05 01:20:34.815 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2568-10-05 01:20:34.987 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:20:34.988 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Reading to [java.util.Map<java.lang.String, java.lang.Object>]
+2568-10-05 01:20:35.064 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : HTTP GET https://sso.dxc.go.th/auth/realms/DXC/protocol/openid-connect/certs
+2568-10-05 01:20:35.065 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2568-10-05 01:20:35.075 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Response 200 OK
+2568-10-05 01:20:35.075 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as "application/json"
+2568-10-05 01:20:35.164 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:20:35.165 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to th.go.dxc.api.controller.LoginThaidApiController#introspectToken(TokenRequest)
+2568-10-05 01:20:35.310 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [TokenRequest(accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk2MDI3MjEsImlhdCI6MTc1OT (truncated)...]
+2568-10-05 01:20:35.416 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.w.r.f.client.ExchangeFunctions       : [6f98a5cd] HTTP POST https://imauth.bora.dopa.go.th/api/v2/oauth2/introspect/
+2568-10-05 01:20:36.124 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.w.c.request.async.WebAsyncManager    : Started async request
+2568-10-05 01:20:36.125 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting but response remains open for further handling
+2568-10-05 01:20:36.293 DEBUG [dxc-qm-moi-linkage2-service,,] 18020 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [6f98a5cd] Writing form fields [token] (content masked)
+2568-10-05 01:20:36.335 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [reactor-http-nio-3] o.s.w.r.f.client.ExchangeFunctions       : [6f98a5cd] [ad73a151-1] Response 200 OK
+2568-10-05 01:20:36.369 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [reactor-http-nio-3] org.springframework.web.HttpLogging      : [6f98a5cd] [ad73a151-1] Decoded [TokenIntrospectResponse(active=true)]
+2568-10-05 01:20:36.480 DEBUG [dxc-qm-moi-linkage2-service,58822cef91887070,58822cef91887070] 18020 --- [reactor-http-nio-3] o.s.w.c.request.async.WebAsyncManager    : Async result set, dispatch to /api/v2/login-thaid/token/Introspect
+2568-10-05 01:20:36.487 DEBUG [dxc-qm-moi-linkage2-service,3fdf0f83ae87f21a,3fdf0f83ae87f21a] 18020 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : "ASYNC" dispatch for POST "/api/v2/login-thaid/token/Introspect", parameters={}
+2568-10-05 01:20:36.488 DEBUG [dxc-qm-moi-linkage2-service,3fdf0f83ae87f21a,3fdf0f83ae87f21a] 18020 --- [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerAdapter : Resume with async result [IntrospectToken(active=true)]
+2568-10-05 01:20:36.501 DEBUG [dxc-qm-moi-linkage2-service,3fdf0f83ae87f21a,3fdf0f83ae87f21a] 18020 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2568-10-05 01:20:36.502 DEBUG [dxc-qm-moi-linkage2-service,3fdf0f83ae87f21a,3fdf0f83ae87f21a] 18020 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [IntrospectToken(active=true)]
+2568-10-05 01:20:36.514 DEBUG [dxc-qm-moi-linkage2-service,3fdf0f83ae87f21a,3fdf0f83ae87f21a] 18020 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "ASYNC" dispatch, status 200
+2568-10-05 01:27:15.605  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 21340 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-05 01:27:15.609 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-05 01:27:15.609  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-05 01:27:17.399  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fb17cb72-ff16-3bd2-8844-5df8df7f51a2
+2568-10-05 01:27:17.997  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:27:18.001  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:27:18.004  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-05 01:27:18.878  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-05 01:27:18.890  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-05 01:27:18.890  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-05 01:27:19.122  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-05 01:27:19.123  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3466 ms
+2568-10-05 01:27:19.335  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-05 01:27:19.610  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-05 01:27:19.623  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:cf230261-71d5-4baa-9c79-972786c9bc1b'
+2568-10-05 01:27:19.783 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-05 01:27:20.970  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-05 01:27:21.034  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-05 01:27:21.210  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-05 01:27:21.368  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-05 01:27:21.640  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-05 01:27:21.653  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-05 01:27:21.677  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-05 01:27:23.115 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@53850535]
+2568-10-05 01:27:23.147 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@1f062e10]
+2568-10-05 01:27:23.185 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@70e07ef8]
+2568-10-05 01:27:23.204  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] th.go.dxc.config.DevApiConfig            : Init th.go.dxc.config.DevApiConfig
+2568-10-05 01:27:23.208  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] th.go.dxc.config.DevSecurityConfig       : Init th.go.dxc.config.DevSecurityConfig
+2568-10-05 01:27:23.260  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] th.go.dxc.config.DevWebConfig            : Init th.go.dxc.config.DevWebConfig$$EnhancerBySpringCGLIB$$85a5df9c
+2568-10-05 01:27:23.368  WARN [dxc-qm-moi-linkage2-service,,] 21340 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2568-10-05 01:27:23.709 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2568-10-05 01:27:23.843 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2568-10-05 01:27:23.861  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2568-10-05 01:27:24.828 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/**] in 'resourceHandlerMapping'
+2568-10-05 01:27:24.853 DEBUG [dxc-qm-moi-linkage2-service,,] 21340 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2568-10-05 01:27:24.954  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] i.g.p.r.RSQLQueryDSLAutoConfiguration    : RSQLQueryDSLAutoConfiguration.rsqlCommonSupport(entityManagerMap:0)
+2568-10-05 01:27:24.956  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : 0 EntityManager bean is found: {}
+2568-10-05 01:27:24.958  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : RSQLCommonSupport [5.0.19]  is initialized
+2568-10-05 01:27:25.557  WARN [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:27:25.558  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2568-10-05 01:27:25.559  WARN [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/mock/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-05 01:27:25.559  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/mock/**']
+2568-10-05 01:27:25.626  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 17 endpoint(s) beneath base path '/actuator'
+2568-10-05 01:27:25.671  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Or [Ant [pattern='/services/**'], Ant [pattern='/api/**']] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@34ccce55, org.springframework.security.web.context.SecurityContextPersistenceFilter@4a7b42db, org.springframework.security.web.header.HeaderWriterFilter@104972a0, org.springframework.web.filter.CorsFilter@7668edd7, org.springframework.security.web.authentication.logout.LogoutFilter@1272f6d9, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter@7e544223, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@167da81d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1d1a706, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@10374cae, org.springframework.security.web.session.SessionManagementFilter@3b4a77be, org.springframework.security.web.access.ExceptionTranslationFilter@20dc2df1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@10f7bc42]
+2568-10-05 01:27:27.443  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:27:27.463  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2568-10-05 01:27:27.662  WARN [dxc-qm-moi-linkage2-service,,] 21340 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2568-10-05 01:27:27.774  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2568-10-05 01:27:29.468  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-05 01:27:29.508  INFO [dxc-qm-moi-linkage2-service,,] 21340 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Started DxcQmMoiLinkage2ServiceApplication in 16.224 seconds (JVM running for 16.858)
+2568-10-05 01:27:31.763  INFO [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2568-10-05 01:27:31.764  INFO [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2568-10-05 01:27:31.765 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2568-10-05 01:27:31.765 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2568-10-05 01:27:31.766 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2568-10-05 01:27:31.769 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@58052571
+2568-10-05 01:27:31.770 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@7b3d3d3d
+2568-10-05 01:27:31.770 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2568-10-05 01:27:31.771  INFO [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2568-10-05 01:27:31.786 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2568-10-05 01:27:31.801 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-05 01:27:31.946 DEBUG [dxc-qm-moi-linkage2-service,adbb80d2fd301014,adbb80d2fd301014] 21340 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 304 NOT_MODIFIED
+2568-10-05 01:27:32.116 DEBUG [dxc-qm-moi-linkage2-service,97ab93f8e175942c,97ab93f8e175942c] 21340 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2568-10-05 01:27:32.119 DEBUG [dxc-qm-moi-linkage2-service,97ab93f8e175942c,97ab93f8e175942c] 21340 --- [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2568-10-05 01:27:32.137 DEBUG [dxc-qm-moi-linkage2-service,97ab93f8e175942c,97ab93f8e175942c] 21340 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2568-10-05 01:27:32.138 DEBUG [dxc-qm-moi-linkage2-service,97ab93f8e175942c,97ab93f8e175942c] 21340 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, filter=true, oauth2RedirectUrl=http://localhost:8081/swagger (truncated)...]
+2568-10-05 01:27:32.146 DEBUG [dxc-qm-moi-linkage2-service,97ab93f8e175942c,97ab93f8e175942c] 21340 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-05 01:27:32.174 DEBUG [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2568-10-05 01:27:32.175 DEBUG [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2568-10-05 01:27:32.548  INFO [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 355 ms
+2568-10-05 01:27:32.560 DEBUG [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2568-10-05 01:27:32.561 DEBUG [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"ฐานข้อมูลกรมกา (truncated)..."]
+2568-10-05 01:27:32.562 DEBUG [dxc-qm-moi-linkage2-service,e95a584fee883a86,e95a584fee883a86] 21340 --- [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
