@@ -14,6 +14,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.nimbusds.jose.jwk.JWKSet;
+
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -32,7 +34,8 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 	private static final String THAID_TOKEN_PATH = "/api/v2/oauth2/token/";
 	private static final String THAID_INTROSPECT_PATH = "/api/v2/oauth2/introspect/";
 	private static final String THAID_REVOKE_PATH = "/api/v2/oauth2/revoke/";
-
+	private static final String THAID_JWKS_PATH = "/jwks/";
+	
 	private final WebClient webClient;
 	private final ThaidProperties properties;
 
@@ -52,6 +55,10 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 		this.webClient = webClientBuilder.baseUrl(properties.getBaseUrl())
 				.defaultHeader(HttpHeaders.AUTHORIZATION, properties.getAuthorization()) // Basic xxxxx
 				.clientConnector(new ReactorClientHttpConnector(httpClient)).build();
+		
+//		this.getJwkSet().subscribe(
+//				jwkSet -> log.info("JWKS keys loaded: {}", jwkSet.getKeys().get(0)),
+//				error -> log.error("Failed to load JWKS", error));
 	}
 
 	@Override
@@ -148,6 +155,32 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 														: "Unknown error from ThaID")))))
 				.bodyToMono(TokenRevokeResponse.class)
 				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+	}
+	
+	// -------------------- เช็ค JWKS -------------------- 
+	public Mono<JWKSet> getJwkSet() {
+		return webClient.get()
+				.uri(THAID_JWKS_PATH)
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+						clientResponse -> clientResponse.bodyToMono(String.class)
+							.flatMap(errorBody -> {
+								log.error("❌ Failed to fetch JWKS. Response: {}", errorBody);
+								return Mono.error(new ResponseStatusException(clientResponse.statusCode(),
+										"Failed to fetch JWKS from ThaID"));
+				}))
+				.bodyToMono(String.class)
+				.flatMap(jwksJson -> {
+					try {
+						JWKSet jwkSet = JWKSet.parse(jwksJson);
+						log.info("✅ Successfully fetched JWKS ({} keys)", jwkSet.getKeys().size());
+						return Mono.just(jwkSet);
+					} catch (Exception e) {
+						log.error("❌ Failed to parse JWKS JSON", e);
+						return Mono.error(new IllegalStateException("Invalid JWKS JSON format", e));
+					}
+				})
+				.timeout(Duration.ofSeconds(5)); // เผื่อ timeout ป้องกันค้างนานเกินไป
 	}
 	
 	
