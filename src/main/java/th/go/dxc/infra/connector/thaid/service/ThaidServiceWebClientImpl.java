@@ -1,5 +1,6 @@
 package th.go.dxc.infra.connector.thaid.service;
 
+import java.text.ParseException;
 import java.time.Duration;
 import java.util.List;
 
@@ -14,7 +15,15 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.crypto.ECDSAVerifier;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.ECKey;
+import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
@@ -183,5 +192,130 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.timeout(Duration.ofSeconds(5)); // เผื่อ timeout ป้องกันค้างนานเกินไป
 	}
 	
+	// ====== Token Validation ======
+	// เช็คเองเมื่อไม่ใช้ Keycloak
+	// -------------------- ตรวจสอบความถูกต้อง idToken ThaiD Signature -------------------- 
+	public Mono<Boolean> validateIdTokenSignature(String idToken) {
+//			{
+//			  "alg": "ES256",
+//			  "kid": "18ba1879282d4686b47dfe3a2183ec2e",
+//			  "typ": "JWT"
+//			}
+		SignedJWT signedJWT;
+		try {
+			signedJWT = SignedJWT.parse(idToken);
+		} catch (ParseException e) {
+			log.error("Failed to parse id_token", e);
+			return Mono.just(false);
+		}
+
+		// step 1: อ่าน header
+		String kidFromToken = signedJWT.getHeader().getKeyID();
+		String algFromToken = signedJWT.getHeader().getAlgorithm().getName();
+		
+		return getJwkSet()
+				.flatMap(jwkSet -> {
+					// step 2: โหลด JWKS
+					// ดึง JWKS จาก ThaiD
+					if (jwkSet == null || jwkSet.getKeys().isEmpty()) {
+						log.warn("JWKS not found or empty");
+						return Mono.just(false);
+					}
+					// หา JWK ที่ตรงกับ kid
+					JWK jwk = jwkSet.getKeyByKeyId(kidFromToken);
+					if (jwk == null) {
+						log.warn("No matching JWK found for kid: {}", kidFromToken);
+						return Mono.just(false);
+					}
+					// step 3: ตรวจว่า alg ตรงกัน
+					String algFromJwk = jwk.getAlgorithm() != null ? jwk.getAlgorithm().getName() : null;
+					if (algFromJwk == null || !algFromJwk.equals(algFromToken)) {
+						log.warn("Algorithm mismatch: token={}, jwk={}", algFromToken, algFromJwk);
+						return Mono.just(false);
+					}
+
+					try {
+						JWSVerifier verifier;
+						if (jwk instanceof ECKey) {
+							verifier = new ECDSAVerifier(((ECKey) jwk).toECPublicKey());
+						} else if (jwk instanceof RSAKey) {
+							verifier = new RSASSAVerifier(((RSAKey) jwk).toRSAPublicKey());
+						} else {
+							log.warn("Unsupported key type: {}", jwk.getKeyType());
+							return Mono.just(false);
+						}
+						if (!signedJWT.verify(verifier)) {
+							log.warn("Invalid signature for ID token");
+							return Mono.just(false);
+						}
+					} catch (Exception e) {
+						log.error("Failed to verify signature", e);
+						return Mono.just(false);
+					}
+
+					JWTClaimsSet claims;
+					try {
+						claims = signedJWT.getJWTClaimsSet();
+						logTokenPayload(claims);
+					} catch (ParseException e) {
+						log.error("Failed to parse JWT claims", e);
+						return Mono.just(false);
+					}
+
+					// ตรวจ issuer
+					if (!properties.getBaseUrl().equals(claims.getIssuer())) {
+						log.warn("Invalid issuer: {}", claims.getIssuer());
+						return Mono.just(false);
+					}
+
+					// ตรวจ audience
+					if (claims.getAudience() == null || !claims.getAudience().contains(properties.getClientId())) {
+						log.warn("Invalid audience: {}", claims.getAudience());
+						return Mono.just(false);
+					}
+
+					// ตรวจ expiration
+					if (System.currentTimeMillis() > claims.getExpirationTime().getTime()) {
+						log.warn("ID token expired at {}", claims.getExpirationTime());
+						return Mono.just(false);
+					}
+					
+					// ตรวจ iat ว่าไม่ห่างจาก expiration เกิน 15 นาที
+					long diff = claims.getExpirationTime().getTime() - claims.getIssueTime().getTime();
+					if (diff > 15 * 60 * 1000) {
+						log.warn("ID token lifetime too long: {} ms", diff);
+						return Mono.just(false);
+					}
+
+				return Mono.just(true);
+		})
+		.timeout(Duration.ofSeconds(5)) // เผื่อ JWKS fetch ช้า
+		.onErrorResume(ex -> {
+			log.error("Error validating id_token signature", ex);
+			return Mono.just(false);
+		});
+		
+	}
 	
+	// --------------------  Log ค่า Payload แบบละเอียด --------------------
+	private Mono<Void> logTokenPayload(JWTClaimsSet claims) {
+		return Mono.fromRunnable(() -> {
+			try {
+				log.info("✅ ID Token Payload:");
+				log.info(" - iss (issuer): {}", claims.getIssuer());
+				log.info(" - aud (audience): {}", claims.getAudience());
+				log.info(" - sub (subject): {}", claims.getSubject());
+				log.info(" - exp (expires): {}", claims.getExpirationTime());
+				log.info(" - iat (issued at): {}", claims.getIssueTime());
+				log.info(" - auth_time: {}", claims.getClaim("auth_time"));
+				log.info(" - pid: {}", claims.getStringClaim("pid"));
+				log.info(" - given_name: {}", claims.getStringClaim("given_name"));
+				log.info(" - family_name: {}", claims.getStringClaim("family_name"));
+				log.info(" - version: {}", claims.getClaim("version"));
+				log.info(" - at_hash: {}", claims.getStringClaim("at_hash"));
+			} catch (ParseException e) {
+				log.error("❌ Failed to read JWT claim", e);
+			}
+		});
+	}
 }

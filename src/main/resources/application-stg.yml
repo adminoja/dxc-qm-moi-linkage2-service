@@ -68,6 +68,7 @@ spring.security.oauth2.resourceserver:
 # ThaID Api Connector
 infra.connector.thaid:
    base_url: "https://imauth.bora.dopa.go.th"
+   client_id: "d3E5WUNxNWZqQWtWWThOcmRGb3ZPSVVFMjFhOWRBM04"
    authorization: "Basic ZDNFNVdVTnhOV1pxUVd0V1dUaE9jbVJHYjNaUFNWVkZNakZoT1dSQk0wNDpTMngyTXpSdFUyNXdOMEZvZEhwWVFrTkZVVzFHT0VReU1HRnJWVlpQZG5oWmJYUXpSbXR1WWc="
    authorization_code: "authorization_code"
    refresh_token: "refresh_token"

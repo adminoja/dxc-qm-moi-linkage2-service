@@ -8,6 +8,7 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "infra.connector.thaid")
 public class ThaidProperties {
 	private String baseUrl;
+	private String clientId;
 	private String authorization;
 	private String authorizationCode;
 	private String refreshToken;
