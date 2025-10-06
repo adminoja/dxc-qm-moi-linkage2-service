@@ -10,6 +10,7 @@ public class ThaidProperties {
 	private String baseUrl;
 	private String authorization;
 	private String authorizationCode;
+	private String refreshToken;
 	private String redirectUri;
 	private boolean enableWiretap; // เปิดใช้งานการดักฟัง
 }

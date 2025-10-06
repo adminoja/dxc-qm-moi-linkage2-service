@@ -80,6 +80,31 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 	}
 
 	@Override
+	public Mono<TokenResponse> freshToken(String freshToken) {
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("refresh_token", freshToken);
+		formData.add("grant_type", properties.getRefreshToken());
+		formData.add("redirect_uri", properties.getRedirectUri());
+
+		return webClient.post()
+				.uri(THAID_TOKEN_PATH)
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.body(BodyInserters.fromFormData(formData))
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
+								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
+								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+										clientResponse.statusCode(),
+										errorResponseBody.getErrorDescription() != null
+												? errorResponseBody.getErrorDescription()
+												: (errorResponseBody.getError() != null ? errorResponseBody.getError()
+														: "Unknown error from ThaID")))))
+				.bodyToMono(TokenResponse.class)
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+	}
+
+	@Override
 	public Mono<TokenIntrospectResponse> introspectToken(String accessToken) {
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 		formData.add("token", accessToken);

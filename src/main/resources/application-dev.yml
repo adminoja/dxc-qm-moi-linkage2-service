@@ -76,6 +76,7 @@ infra.connector.thaid:
    base_url: "https://imauth.bora.dopa.go.th"
    authorization: "Basic ZDNFNVdVTnhOV1pxUVd0V1dUaE9jbVJHYjNaUFNWVkZNakZoT1dSQk0wNDpTMngyTXpSdFUyNXdOMEZvZEhwWVFrTkZVVzFHT0VReU1HRnJWVlpQZG5oWmJYUXpSbXR1WWc="
    authorization_code: "authorization_code"
+   refresh_token: "refresh_token"
    redirect_uri: "https://search.dxc.go.th/secured/v2/index.html#/loginThaiD"
    enable-wiretap: true  # ใช้ true เฉพาะ dev เพื่อ log request/response headers + body
    

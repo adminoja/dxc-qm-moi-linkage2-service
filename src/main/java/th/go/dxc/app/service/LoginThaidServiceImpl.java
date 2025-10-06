@@ -37,6 +37,19 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 	}
 
 	@Override
+	public Mono<ThaidToken> freshToken(String refreshToken) {
+		return service.freshToken(refreshToken).flatMap(res -> {
+			// ตรวจ null แบบ reactive
+			if (res.getAccessToken() == null) {
+				log.error("Mapped ThaidToken has null accessToken: {}", res);
+				return Mono.error(new IllegalStateException("Token is null after mapping response"));
+			}
+			// map ต่อแบบ non-blocking
+			return Mono.just(mapper.map(res, ThaidToken.class));
+		});
+	}
+
+	@Override
 	public Mono<IntrospectToken> introspectToken(String accessToken) {
 		return service.introspectToken(accessToken).flatMap(res -> {
 			if (res.getActive() == null) {
