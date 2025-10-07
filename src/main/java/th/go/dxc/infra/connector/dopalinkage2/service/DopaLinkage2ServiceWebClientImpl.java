@@ -21,8 +21,9 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
 import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.ConfirmLoginLinkage2Response;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2TokenResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.DopaLinkage2ErrorResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
@@ -70,7 +71,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	}
 
 	@Override
-	public Mono<ConfirmLoginLinkage2Response> confirmLoginLinkage2(ConfirmLoginLinkage2Request request) {
+	public Mono<LoginLinkage2TokenResponse> confirmLoginLinkage2(ConfirmLoginLinkage2Request request) {
 		Map<String, Object> body = new HashMap<>();
 		body.put("loginType", parseNumberOrString(request.getLoginType(), Integer::parseInt));
 		body.put("officeID", parseNumberOrString(request.getOfficeID(), Long::parseLong));
@@ -80,9 +81,29 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 		return postToLinkage2(
 				LINKAGE2_LOGIN_CONFIRM, 
 				body, 
-				ConfirmLoginLinkage2Response.class, 
+				LoginLinkage2TokenResponse.class, 
 				10
 				);
+	}
+
+	@Override
+	public Mono<LoginLinkage2TokenResponse> renewLoginLinkage2(LoginLinkage2RenewRequest request) {
+		return webClient.post()
+				.uri(LINKAGE2_LOGIN_RENEW)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer " + request.getToken())
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
+						.doOnNext(err -> log.error("DOPA Linkage2 error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
+						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+							clientResponse.statusCode(),
+							errorResponseBody.getErrorMessage() != null
+								? errorResponseBody.getErrorMessage()
+								: "Unknown error from DOPA Linkage2"))))
+				.bodyToMono(LoginLinkage2TokenResponse.class)
+				.doOnNext(resp -> log.debug("[DOPA Linkage2] Response: {}", resp))
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
 	}
 	
 	// -------------------- ส่งคำขอ POST ไปยัง Linkage2 --------------------

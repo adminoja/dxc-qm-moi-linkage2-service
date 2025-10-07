@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConfirmLoginLinkage2Response {
+public class LoginLinkage2TokenResponse {
 	private String token;
 }

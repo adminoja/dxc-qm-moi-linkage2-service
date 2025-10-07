@@ -16,11 +16,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
-import th.go.dxc.app.model.ConfirmLoginLinkage2;
+import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.app.model.ThaidToken;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
@@ -69,7 +70,7 @@ public class LoginLinkage2ApiController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = ConfirmLoginLinkage2.class))),
+				, schema = @Schema(implementation = LoginLinkage2Token.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"
@@ -89,8 +90,36 @@ public class LoginLinkage2ApiController {
 	})
 	@RequestMapping(method = RequestMethod.POST, value = "/confirm")
 	@ResponseBody
-	public Mono<ConfirmLoginLinkage2> confirmLoginLinkage2(@RequestBody ConfirmLoginLinkage2Request request) {
+	public Mono<LoginLinkage2Token> confirmLoginLinkage2(@RequestBody ConfirmLoginLinkage2Request request) {
 		return service.confirmLoginLinkage2(request);
+	}
+	
+	@Operation(summary = "ต่ออายุการใช้งาน",security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = LoginLinkage2Token.class))),
+		
+		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+
+		@ApiResponse(responseCode = "401",description = "การยืนยันตัวตนไม่ถูกต้อง Token หรือ รหัสยืนยันตัวตนมีปัญหา"
+		,headers = {@Header(name = "www-authenticate",description = "รายละเอียดข้อผิดพลาด (ถ้ามี)")}
+		,content = @Content(schema = @Schema(hidden=true))),
+
+		@ApiResponse(responseCode = "403",description = "ไม่มีสิทธิในการใช้บริการ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+		
+		@ApiResponse(responseCode = "500",description = "ระบบทำงานผิดพลาด กรุณาติดต่อผู้ดูแลระบบ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class)))
+	})
+	@RequestMapping(method = RequestMethod.POST, value = "/renew")
+	@ResponseBody
+	public Mono<LoginLinkage2Token> renewLoginLinkage2(@RequestBody LoginLinkage2RenewRequest request) {
+		return service.renewLoginLinkage2(request);
 	}
 	
 }

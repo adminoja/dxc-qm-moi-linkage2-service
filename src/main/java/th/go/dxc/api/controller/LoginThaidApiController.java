@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
-import th.go.dxc.app.model.ConfirmLoginLinkage2;
+import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.app.model.RevokeToken;
 import th.go.dxc.app.model.ThaidToken;
@@ -60,7 +60,7 @@ public class LoginThaidApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/request")
+	@RequestMapping(method = RequestMethod.POST, value = "/login/request")
 	@ResponseBody
 	public Mono<ThaidToken> exchangeToken(@RequestBody AuthorizationCodeRequest request) {
 		return service.exchangeToken(request.getCode());
@@ -88,7 +88,7 @@ public class LoginThaidApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/freshToken")
+	@RequestMapping(method = RequestMethod.POST, value = "/login/freshToken")
 	@ResponseBody
 	public Mono<ThaidToken> freshToken(@RequestBody FreshTokenRequest request) {
 		return service.freshToken(request.getRefreshToken());
@@ -116,7 +116,7 @@ public class LoginThaidApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/introspect")
+	@RequestMapping(method = RequestMethod.POST, value = "/login/introspect")
 	@ResponseBody
 	public Mono<IntrospectToken> introspectToken(@RequestBody TokenRequest request) {
 		return service.introspectToken(request.getAccessToken());
@@ -144,7 +144,7 @@ public class LoginThaidApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/revoke")
+	@RequestMapping(method = RequestMethod.POST, value = "/logout")
 	@ResponseBody
 	public Mono<RevokeToken> revokeToken(@RequestBody TokenRequest request) {
 		return service.revokeToken(request.getAccessToken());
