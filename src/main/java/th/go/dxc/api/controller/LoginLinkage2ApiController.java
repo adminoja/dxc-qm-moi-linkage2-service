@@ -23,6 +23,7 @@ import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
 
@@ -120,6 +121,32 @@ public class LoginLinkage2ApiController {
 	@ResponseBody
 	public Mono<LoginLinkage2Token> renewLoginLinkage2(@RequestBody LoginLinkage2RenewRequest request) {
 		return service.renewLoginLinkage2(request);
+	}
+	
+	@Operation(summary = "ออกจากระบบ",security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
+		
+		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+
+		@ApiResponse(responseCode = "401",description = "การยืนยันตัวตนไม่ถูกต้อง Token หรือ รหัสยืนยันตัวตนมีปัญหา"
+		,headers = {@Header(name = "www-authenticate",description = "รายละเอียดข้อผิดพลาด (ถ้ามี)")}
+		,content = @Content(schema = @Schema(hidden=true))),
+
+		@ApiResponse(responseCode = "403",description = "ไม่มีสิทธิในการใช้บริการ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+		
+		@ApiResponse(responseCode = "500",description = "ระบบทำงานผิดพลาด กรุณาติดต่อผู้ดูแลระบบ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class)))
+	})
+//	@RequestMapping(method = RequestMethod.DELETE, value = "/logout")
+	@ResponseBody
+	public Mono<Void> logoutLinkage2(@RequestBody UsernameRequest request) {
+		return service.logoutLinkage2(request);
 	}
 	
 }

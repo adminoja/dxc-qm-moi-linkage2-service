@@ -973,3 +973,195 @@
 2568-10-07 11:52:02.272 DEBUG [dxc-qm-moi-linkage2-service,afa3314f115e4851,afa3314f115e4851] 11960 --- [http-nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
 2568-10-07 11:52:02.272 DEBUG [dxc-qm-moi-linkage2-service,afa3314f115e4851,afa3314f115e4851] 11960 --- [http-nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"กรมการปกครอง", (truncated)..."]
 2568-10-07 11:52:02.274 DEBUG [dxc-qm-moi-linkage2-service,afa3314f115e4851,afa3314f115e4851] 11960 --- [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-07 13:46:24.631  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 2532 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-07 13:46:24.634 DEBUG [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-07 13:46:24.635  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-07 13:46:26.523  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=c88bb7e4-1b72-3ec5-8ac2-49af04b7d576
+2568-10-07 13:46:27.137  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:46:27.140  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:46:27.144  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:46:28.043  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-07 13:46:28.060  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-07 13:46:28.061  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-07 13:46:28.311  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-07 13:46:28.312  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3625 ms
+2568-10-07 13:46:28.525  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-07 13:46:28.778  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-07 13:46:28.792  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:9c9d3560-b5ef-434d-8fe9-71b3a19dea46'
+2568-10-07 13:46:28.957 DEBUG [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-07 13:46:30.176  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-07 13:46:30.252  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-07 13:46:30.427  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-07 13:46:30.576  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-07 13:46:30.846  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-07 13:46:30.857  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-07 13:46:30.885  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-07 13:46:32.268 DEBUG [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@671561b9]
+2568-10-07 13:46:32.299 DEBUG [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@411e567e]
+2568-10-07 13:46:32.346 DEBUG [dxc-qm-moi-linkage2-service,,] 2532 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@c8d20bb]
+2568-10-07 13:46:32.361  WARN [dxc-qm-moi-linkage2-service,,] 2532 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginLinkage2ApiController' defined in file [C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes\th\go\dxc\api\controller\LoginLinkage2ApiController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'linkage2Service' defined in class path resource [th/go/dxc/config/DevAppConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [th.go.dxc.app.service.Linkage2Service]: Factory method 'linkage2Service' threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method flatMap(Function<? super Void,? extends Mono<? extends R>>) in the type Mono<Void> is not applicable for the arguments ((<no type> res) -> {})
+	Syntax error, insert ")" to complete Expression
+	Syntax error, insert ";" to complete BlockStatements
+	Syntax error, insert "}" to complete ClassBody
+
+2568-10-07 13:46:34.442  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2568-10-07 13:46:34.443  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2568-10-07 13:46:34.456  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2568-10-07 13:46:34.464  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2568-10-07 13:46:34.467  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2568-10-07 13:46:34.506  INFO [dxc-qm-moi-linkage2-service,,] 2532 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2568-10-07 13:46:34.538 ERROR [dxc-qm-moi-linkage2-service,,] 2532 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginLinkage2ApiController' defined in file [C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes\th\go\dxc\api\controller\LoginLinkage2ApiController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'linkage2Service' defined in class path resource [th/go/dxc/config/DevAppConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [th.go.dxc.app.service.Linkage2Service]: Factory method 'linkage2Service' threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method flatMap(Function<? super Void,? extends Mono<? extends R>>) in the type Mono<Void> is not applicable for the arguments ((<no type> res) -> {})
+	Syntax error, insert ")" to complete Expression
+	Syntax error, insert ";" to complete BlockStatements
+	Syntax error, insert "}" to complete ClassBody
+
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:953) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) ~[spring-context-5.3.19.jar:5.3.19]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.19.jar:5.3.19]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:740) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:415) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[spring-boot-2.6.7.jar:2.6.7]
+	at th.go.dxc.DxcQmMoiLinkage2ServiceApplication.main(DxcQmMoiLinkage2ServiceApplication.java:12) ~[classes/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'linkage2Service' defined in class path resource [th/go/dxc/config/DevAppConfig.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [th.go.dxc.app.service.Linkage2Service]: Factory method 'linkage2Service' threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method flatMap(Function<? super Void,? extends Mono<? extends R>>) in the type Mono<Void> is not applicable for the arguments ((<no type> res) -> {})
+	Syntax error, insert ")" to complete Expression
+	Syntax error, insert ";" to complete BlockStatements
+	Syntax error, insert "}" to complete ClassBody
+
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1389) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1309) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-5.3.19.jar:5.3.19]
+	... 19 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [th.go.dxc.app.service.Linkage2Service]: Factory method 'linkage2Service' threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method flatMap(Function<? super Void,? extends Mono<? extends R>>) in the type Mono<Void> is not applicable for the arguments ((<no type> res) -> {})
+	Syntax error, insert ")" to complete Expression
+	Syntax error, insert ";" to complete BlockStatements
+	Syntax error, insert "}" to complete ClassBody
+
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653) ~[spring-beans-5.3.19.jar:5.3.19]
+	... 33 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problems: 
+	The method flatMap(Function<? super Void,? extends Mono<? extends R>>) in the type Mono<Void> is not applicable for the arguments ((<no type> res) -> {})
+	Syntax error, insert ")" to complete Expression
+	Syntax error, insert ";" to complete BlockStatements
+	Syntax error, insert "}" to complete ClassBody
+
+	at th.go.dxc.app.service.Linkage2ServiceImpl.<init>(Linkage2ServiceImpl.java:67) ~[classes/:na]
+	at th.go.dxc.config.DevAppConfig.linkage2Service(DevAppConfig.java:68) ~[classes/:na]
+	at th.go.dxc.config.DevAppConfig$$EnhancerBySpringCGLIB$$e209eae5.CGLIB$linkage2Service$4(<generated>) ~[classes/:na]
+	at th.go.dxc.config.DevAppConfig$$EnhancerBySpringCGLIB$$e209eae5$$FastClassBySpringCGLIB$$f67ae4c.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:244) ~[spring-core-5.3.19.jar:5.3.19]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331) ~[spring-context-5.3.19.jar:5.3.19]
+	at th.go.dxc.config.DevAppConfig$$EnhancerBySpringCGLIB$$e209eae5.linkage2Service(<generated>) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154) ~[spring-beans-5.3.19.jar:5.3.19]
+	... 34 common frames omitted
+
+2568-10-07 13:57:19.468  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Starting DxcQmMoiLinkage2ServiceApplication using Java 11.0.2 on TSI-02 with PID 1632 (C:\Mickey\qm-service\dxc-qm-moi-linkage2-service\target\classes started by TSI-02 in C:\Mickey\qm-service\dxc-qm-moi-linkage2-service)
+2568-10-07 13:57:19.472 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Running with Spring Boot v2.6.7, Spring v5.3.19
+2568-10-07 13:57:19.474  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : The following 1 profile is active: "dev"
+2568-10-07 13:57:21.476  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=c88bb7e4-1b72-3ec5-8ac2-49af04b7d576
+2568-10-07 13:57:22.114  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:57:22.117  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:57:22.120  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2568-10-07 13:57:23.005  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2568-10-07 13:57:23.017  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2568-10-07 13:57:23.018  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2568-10-07 13:57:23.275  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2568-10-07 13:57:23.275  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3745 ms
+2568-10-07 13:57:23.489  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2568-10-07 13:57:23.750  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2568-10-07 13:57:23.762  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:4c868fdb-0dba-474b-b145-23fbd6af056a'
+2568-10-07 13:57:23.931 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.w.s.r.ResourceUrlEncodingFilter      : Filter 'resourceUrlEncodingFilter' configured for use
+2568-10-07 13:57:25.132  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2568-10-07 13:57:25.195  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2568-10-07 13:57:25.380  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2568-10-07 13:57:25.538  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2568-10-07 13:57:25.811  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2568-10-07 13:57:25.822  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2568-10-07 13:57:25.850  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] th.go.dxc.config.DevAppConfig            : Init th.go.dxc.config.DevAppConfig
+2568-10-07 13:57:27.254 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactoryBuilder: [ma.glasnost.orika.impl.DefaultMapperFactory$Builder@40dcbf7]
+2568-10-07 13:57:27.287 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFactory: [ma.glasnost.orika.impl.DefaultMapperFactory@13563e64]
+2568-10-07 13:57:27.326 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.go.dxc.share.config.OrikaMapperConfig  : Created a MapperFacade: [ma.glasnost.orika.impl.MapperFacadeImpl@18bab95b]
+2568-10-07 13:57:27.380  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] th.go.dxc.config.DevApiConfig            : Init th.go.dxc.config.DevApiConfig
+2568-10-07 13:57:27.385  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] th.go.dxc.config.DevSecurityConfig       : Init th.go.dxc.config.DevSecurityConfig
+2568-10-07 13:57:27.429  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] th.go.dxc.config.DevWebConfig            : Init th.go.dxc.config.DevWebConfig$$EnhancerBySpringCGLIB$$4cc852a0
+2568-10-07 13:57:27.531  WARN [dxc-qm-moi-linkage2-service,,] 1632 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2568-10-07 13:57:27.887 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2568-10-07 13:57:28.011 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 13 mappings in 'requestMappingHandlerMapping'
+2568-10-07 13:57:28.030  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2568-10-07 13:57:28.887 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/**] in 'resourceHandlerMapping'
+2568-10-07 13:57:28.907 DEBUG [dxc-qm-moi-linkage2-service,,] 1632 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2568-10-07 13:57:29.003  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] i.g.p.r.RSQLQueryDSLAutoConfiguration    : RSQLQueryDSLAutoConfiguration.rsqlCommonSupport(entityManagerMap:0)
+2568-10-07 13:57:29.005  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : 0 EntityManager bean is found: {}
+2568-10-07 13:57:29.009  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] i.g.perplexhub.rsql.RSQLCommonSupport    : RSQLCommonSupport [5.0.19]  is initialized
+2568-10-07 13:57:29.552  WARN [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-07 13:57:29.553  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2568-10-07 13:57:29.554  WARN [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/mock/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2568-10-07 13:57:29.554  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/mock/**']
+2568-10-07 13:57:29.620  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 17 endpoint(s) beneath base path '/actuator'
+2568-10-07 13:57:29.662  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Or [Ant [pattern='/services/**'], Ant [pattern='/api/**']] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4d099a37, org.springframework.security.web.context.SecurityContextPersistenceFilter@4fa2991, org.springframework.security.web.header.HeaderWriterFilter@63fcbf75, org.springframework.web.filter.CorsFilter@398a27e, org.springframework.security.web.authentication.logout.LogoutFilter@8cc5602, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter@4d20d8e6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@136a2e3b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@774b798, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7beb2bc2, org.springframework.security.web.session.SessionManagementFilter@77510da, org.springframework.security.web.access.ExceptionTranslationFilter@665fb1d8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@139862ca]
+2568-10-07 13:57:31.416  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-07 13:57:31.436  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2568-10-07 13:57:31.668  WARN [dxc-qm-moi-linkage2-service,,] 1632 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2568-10-07 13:57:31.788  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2568-10-07 13:57:33.516  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2568-10-07 13:57:33.553  INFO [dxc-qm-moi-linkage2-service,,] 1632 --- [main] t.g.d.DxcQmMoiLinkage2ServiceApplication : Started DxcQmMoiLinkage2ServiceApplication in 16.493 seconds (JVM running for 17.153)
+2568-10-07 13:57:43.562  INFO [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2568-10-07 13:57:43.563  INFO [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2568-10-07 13:57:43.563 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2568-10-07 13:57:43.563 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2568-10-07 13:57:43.564 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2568-10-07 13:57:43.565 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5e8633da
+2568-10-07 13:57:43.566 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@502f6f6a
+2568-10-07 13:57:43.567 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2568-10-07 13:57:43.567  INFO [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2568-10-07 13:57:43.584 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2568-10-07 13:57:43.599 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2568-10-07 13:57:43.756 DEBUG [dxc-qm-moi-linkage2-service,8c5c68e2c4eae042,8c5c68e2c4eae042] 1632 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 304 NOT_MODIFIED
+2568-10-07 13:57:43.939 DEBUG [dxc-qm-moi-linkage2-service,77ed4762b1fa8e45,77ed4762b1fa8e45] 1632 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2568-10-07 13:57:43.941 DEBUG [dxc-qm-moi-linkage2-service,77ed4762b1fa8e45,77ed4762b1fa8e45] 1632 --- [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2568-10-07 13:57:43.960 DEBUG [dxc-qm-moi-linkage2-service,77ed4762b1fa8e45,77ed4762b1fa8e45] 1632 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2568-10-07 13:57:43.961 DEBUG [dxc-qm-moi-linkage2-service,77ed4762b1fa8e45,77ed4762b1fa8e45] 1632 --- [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, filter=true, oauth2RedirectUrl=http://localhost:8081/swagger (truncated)...]
+2568-10-07 13:57:43.970 DEBUG [dxc-qm-moi-linkage2-service,77ed4762b1fa8e45,77ed4762b1fa8e45] 1632 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2568-10-07 13:57:43.996 DEBUG [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2568-10-07 13:57:43.997 DEBUG [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2568-10-07 13:57:44.519  INFO [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 498 ms
+2568-10-07 13:57:44.534 DEBUG [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2568-10-07 13:57:44.534 DEBUG [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing ["{"openapi":"3.0.1","info":{"title":"dxc-qm-moi-linkage2-service [dev]","description":"กรมการปกครอง", (truncated)..."]
+2568-10-07 13:57:44.536 DEBUG [dxc-qm-moi-linkage2-service,46ff9a71e555872e,46ff9a71e555872e] 1632 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

@@ -8,6 +8,7 @@ import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 
 @Slf4j
@@ -59,6 +60,12 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 			// map ต่อแบบ non-blocking
 			return Mono.just(mapper.map(res, LoginLinkage2Token.class));
 		});
+	}
+
+	@Override
+	public Mono<Void> logoutLinkage2(UsernameRequest request) {
+		return service.logoutLinkage2(request)
+				.then();
 	}
 	
 }

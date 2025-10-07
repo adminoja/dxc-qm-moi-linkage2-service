@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +24,7 @@ import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2TokenResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.DopaLinkage2ErrorResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
@@ -103,6 +105,36 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 								: "Unknown error from DOPA Linkage2"))))
 				.bodyToMono(LoginLinkage2TokenResponse.class)
 				.doOnNext(resp -> log.debug("[DOPA Linkage2] Response: {}", resp))
+				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
+	}
+
+	@Override
+	public Mono<Void> logoutLinkage2(UsernameRequest request) {
+		
+		// ตรวจสอบ Usrename
+		if (request == null || !StringUtils.hasText(request.getUsername()) || "string".equalsIgnoreCase(request.getUsername())) {
+			throw new IllegalArgumentException("Invalid username.");
+		}
+		
+		// ดึง token linkage2 จาก Table (ยังไม่ได้ทำ Table)
+		String token = null;
+		
+		return webClient.delete()
+				.uri(LINKAGE2_LOGIN_PATH)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.retrieve()
+				.onStatus(HttpStatus::isError,
+					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
+						.doOnNext(err -> log.error("DOPA Linkage2 error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
+						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+							clientResponse.statusCode(),
+							errorResponseBody.getErrorMessage() != null
+								? errorResponseBody.getErrorMessage()
+								: "Unknown error from DOPA Linkage2"))))
+				.toBodilessEntity() // ไม่แสดง body
+				.doOnNext(resp -> log.debug("[DOPA Linkage2] Response: {}", resp))
+				.then() // แปลงเป็น Mono<Void>
 				.timeout(Duration.ofSeconds(10)); // สำหรับ slow request
 	}
 	
