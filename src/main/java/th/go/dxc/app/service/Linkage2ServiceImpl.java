@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.LoginLinkage2Token;
+import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
@@ -50,7 +51,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	}
 
 	@Override
-	public Mono<LoginLinkage2Token> renewLoginLinkage2(LoginLinkage2RenewRequest request) {
+	public Mono<LoginLinkage2Token> renewLoginLinkage2(Linkage2TokenRequest request) {
 		return service.renewLoginLinkage2(request).flatMap(res -> {
 			// ตรวจ null แบบ reactive
 			if (res.getToken()== null) {
@@ -66,6 +67,19 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	public Mono<Void> logoutLinkage2(UsernameRequest request) {
 		return service.logoutLinkage2(request)
 				.then();
+	}
+
+	@Override
+	public Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request) {
+		return service.jobLinkage2(request).flatMap(res -> {
+			// ตรวจ null แบบ reactive
+			if (res.getJob() == null) {
+				log.error("Mapped Linkage2 has null Job: {}", res);
+				return Mono.error(new IllegalStateException("Job is null after mapping response"));
+			}
+			// map ต่อแบบ non-blocking
+			return Mono.just(mapper.map(res, JobLinkage2.class));
+		});
 	}
 	
 }

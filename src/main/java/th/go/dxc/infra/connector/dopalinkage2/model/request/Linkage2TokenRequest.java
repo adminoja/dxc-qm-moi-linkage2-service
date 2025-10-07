@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginLinkage2RenewRequest {
+public class Linkage2TokenRequest {
 	private String token;
 }

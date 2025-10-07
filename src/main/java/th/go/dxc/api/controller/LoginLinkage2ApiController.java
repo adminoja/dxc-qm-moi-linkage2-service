@@ -21,7 +21,7 @@ import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.app.model.ThaidToken;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2RenewRequest;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
@@ -29,7 +29,7 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 
 @Tags(value = { @Tag(name = "บริการ Login Linkage2") })
 @RestController
-@RequestMapping("/api/v2/linkage2/login")
+@RequestMapping("/api/v2/linkage2")
 public class LoginLinkage2ApiController {
 	
 	private Linkage2Service service;
@@ -61,7 +61,7 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "")
+	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
 	public Mono<LoginLinkage2> loginLinkage2(@RequestBody LoginLinkage2Request request) {
 		return service.loginLinkage2(request);
@@ -89,7 +89,7 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/confirm")
+	@RequestMapping(method = RequestMethod.POST, value = "/login/confirm")
 	@ResponseBody
 	public Mono<LoginLinkage2Token> confirmLoginLinkage2(@RequestBody ConfirmLoginLinkage2Request request) {
 		return service.confirmLoginLinkage2(request);
@@ -117,9 +117,9 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/renew")
+	@RequestMapping(method = RequestMethod.POST, value = "/login/renew")
 	@ResponseBody
-	public Mono<LoginLinkage2Token> renewLoginLinkage2(@RequestBody LoginLinkage2RenewRequest request) {
+	public Mono<LoginLinkage2Token> renewLoginLinkage2(@RequestBody Linkage2TokenRequest request) {
 		return service.renewLoginLinkage2(request);
 	}
 	

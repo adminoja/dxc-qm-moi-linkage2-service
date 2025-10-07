@@ -26,7 +26,7 @@ import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.infra.connector.thaid.model.request.FreshTokenRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
 
-@Tags(value = { @Tag(name = "บริการ ThaID") })
+@Tags(value = { @Tag(name = "บริการ Login ThaID") })
 @RestController
 @RequestMapping("/api/v2/thaid")
 public class LoginThaidApiController {
