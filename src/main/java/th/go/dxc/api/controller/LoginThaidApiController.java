@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
+import th.go.dxc.app.model.ConfirmLoginLinkage2;
 import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.app.model.RevokeToken;
 import th.go.dxc.app.model.ThaidToken;
@@ -39,7 +40,9 @@ public class LoginThaidApiController {
 	
 	@Operation(summary = "ขอ Token ThaID",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
-		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = ThaidToken.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"
@@ -65,7 +68,9 @@ public class LoginThaidApiController {
 	
 	@Operation(summary = "ขอ Token ThaID ใหม่",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
-		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = ThaidToken.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"
@@ -91,7 +96,9 @@ public class LoginThaidApiController {
 	
 	@Operation(summary = "ตรวจสอบ Token ThaID",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
-		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = IntrospectToken.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"
@@ -117,7 +124,9 @@ public class LoginThaidApiController {
 	
 	@Operation(summary = "ออกจากระบบ ThaID",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
-		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"),
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = RevokeToken.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"

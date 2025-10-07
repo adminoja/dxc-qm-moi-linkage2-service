@@ -20,7 +20,9 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
 import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.ConfirmLoginLinkage2Response;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.DopaLinkage2ErrorResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
@@ -66,6 +68,22 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 				10
 				);
 	}
+
+	@Override
+	public Mono<ConfirmLoginLinkage2Response> confirmLoginLinkage2(ConfirmLoginLinkage2Request request) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("loginType", parseNumberOrString(request.getLoginType(), Integer::parseInt));
+		body.put("officeID", parseNumberOrString(request.getOfficeID(), Long::parseLong));
+		body.put("personalID", parseNumberOrString(request.getPersonalID(), BigInteger::new));
+		body.put("accessToken", request.getAccessToken());
+		
+		return postToLinkage2(
+				LINKAGE2_LOGIN_CONFIRM, 
+				body, 
+				ConfirmLoginLinkage2Response.class, 
+				10
+				);
+	}
 	
 	// -------------------- ส่งคำขอ POST ไปยัง Linkage2 --------------------
 	private <T> Mono<T> postToLinkage2(String url, Map<String, Object> body, Class<T> responseClass, Integer timeout) {
@@ -99,7 +117,5 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 			return value;
 		}
 	}
-
-	
 	
 }
