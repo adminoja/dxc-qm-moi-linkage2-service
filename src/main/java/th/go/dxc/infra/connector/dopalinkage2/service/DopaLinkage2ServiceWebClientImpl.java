@@ -4,9 +4,17 @@ import java.math.BigInteger;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +22,10 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +36,12 @@ import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2TokenResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.DopaLinkage2ErrorResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.JobLinkage2Response;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
 import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
@@ -35,12 +50,14 @@ import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
 public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	
 	private static final String  LINKAGE2_LOGIN_PATH = "/api/center/login/"; // login กับ logout ใช้ path เดียวกัน
-	private static final String LINKAGE2_LOGIN_CONFIRM = "/api/center/login/confirm";
-	private static final String LINKAGE2_LOGIN_RENEW = "/api/center/login/renew";
-	private static final String LINKAGE2_USER_JOB = "/api/center/user/job";
+	private static final String LINKAGE2_LOGIN_CONFIRM_PATH = "/api/center/login/confirm";
+	private static final String LINKAGE2_LOGIN_RENEW_PATH = "/api/center/login/renew";
+	private static final String LINKAGE2_USER_JOB_PATH = "/api/center/user/job";
+	private static final String LINKAGE2_REQUEST_PATH = "/api/center/request/";
 	
 	private final DopaLinkage2Properties properties;
 	private final WebClient webClient;
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	public DopaLinkage2ServiceWebClientImpl(WebClient.Builder webClientBuilder, DopaLinkage2Properties properties) {
 		super();
@@ -82,7 +99,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 		body.put("accessToken", request.getAccessToken());
 		
 		return postToLinkage2(
-				LINKAGE2_LOGIN_CONFIRM, 
+				LINKAGE2_LOGIN_CONFIRM_PATH, 
 				body, 
 				LoginLinkage2TokenResponse.class, 
 				10
@@ -92,7 +109,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	@Override
 	public Mono<LoginLinkage2TokenResponse> renewLoginLinkage2(Linkage2TokenRequest request) {
 		return webClient.post()
-				.uri(LINKAGE2_LOGIN_RENEW)
+				.uri(LINKAGE2_LOGIN_RENEW_PATH)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + request.getToken())
 				.retrieve()
@@ -142,7 +159,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	@Override
 	public Mono<JobLinkage2Response> jobLinkage2(Linkage2TokenRequest request) {
 		return webClient.get()
-				.uri(LINKAGE2_USER_JOB)
+				.uri(LINKAGE2_USER_JOB_PATH)
 				.accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + request.getToken())
 				.retrieve()
@@ -191,5 +208,66 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 			return value;
 		}
 	}
+
+	// -------------------- Generic callService method -------------------- 
+	@Override
+	public <TRequest> Mono<Page<GenericResponse.ResponseItem<Object>>> callService(TRequest req, String token, Map<Integer, Class<?>> responseMap) {
+		// เรียก WebClient
+		return webClient.post()
+			.uri(LINKAGE2_REQUEST_PATH)
+			.header("Authorization", "Bearer " + token)
+			.bodyValue(req)
+			.retrieve()
+			.onStatus(HttpStatus::isError,
+					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
+						.doOnNext(err -> log.error("DOPA Linkage2 Request error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
+						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
+							clientResponse.statusCode(),
+							errorResponseBody.getErrorMessage() != null
+								? errorResponseBody.getErrorMessage()
+								: "Request unknown error from DOPA Linkage2"))))
+			.bodyToMono(new ParameterizedTypeReference<GenericResponse<Object>>() {})
+//			.block();
+			.map(response -> {	
+		//		// map responseData เป็น Object ตาม serviceID
+				List<GenericResponse.ResponseItem<Object>> items = response.getData().stream()
+						.map(item -> {
+							Object rawData = item.getResponseData();
+							Object data;
+							if (item.getResponseStatus() != 200 || item.getResponseData() instanceof Map) {
+								// ถ้าไม่สำเร็จ หรือ response เป็นข้อความ/404 → เก็บ JsonNode ดิบ
+								data = objectMapper.convertValue(item.getResponseData(), JsonNode.class);
+							} else {
+		//						// ถ้า 200 → map เป็น class ของ service
+								Class<?> clazz = responseMap.getOrDefault(item.getServiceID(), JsonNode.class);
+		//						
+								if (rawData instanceof List) {
+									// ถ้า responseData เป็น array → map เป็น List ของ clazz
+									CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class,
+											clazz);
+									data = objectMapper.convertValue(rawData, listType);
+								} else if (rawData instanceof Map) {
+									// ถ้าเป็น object เดี่ยว → map เป็น clazz
+									data = objectMapper.convertValue(rawData, clazz);
+								} else {
+									// fallback → เก็บ rawData ดิบ
+									data = rawData;
+								}
+							}
+							
+							GenericResponse.ResponseItem<Object> newItem = new GenericResponse.ResponseItem<>();
+							newItem.setServiceID(item.getServiceID());
+							newItem.setResponseData(data);
+							newItem.setResponseStatus(item.getResponseStatus());
+							newItem.setResponseError(item.getResponseError());
+							newItem.setResponseTimeMs(item.getResponseTimeMs());
+							return newItem;
+						}).collect(Collectors.toList());
+		
+				return new PageImpl<>(items);
+		
+		});
+	}
+	
 	
 }

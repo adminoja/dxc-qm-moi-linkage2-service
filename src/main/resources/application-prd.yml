@@ -72,3 +72,33 @@ infra.connector.thaid:
 # Dopa Linkage2 Api Connector
 infra.connector.dopalinkage2:
    base_url: "http://10.14.33.9"
+   
+# DXC SAM DB Datasource
+infra.datasource.dxc-sam-db:
+  jdbc:
+    url: jdbc:sqlserver://10.14.33.22;databaseName=SAM
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: dxc_user
+    password: patiwat
+  hikari:
+    connection-timeout: 20000 #maximum number of milliseconds that a client will wait for a connection
+    minimum-idle: 5 #minimum number of idle connections maintained by HikariCP in a connection pool
+    maximum-pool-size: 10 #maximum pool size
+    idle-timeout: 10000 #maximum idle time for connection
+    max-lifetime: 30000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+  jpa:
+    show-sql: false # Attention Required!!
+    database-platform: org.hibernate.dialect.SQLServer2008Dialect
+    open-in-view: true  # have the same EntityManager until the web request is finished
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
+      # Naming Convention Properties      
+      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      hibernate.implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+#      hibernate.hbm2ddl.import_files: sql/dxc_sam_db/dxc_user_search_log_v1-insert.sql # Attention Required!!
+      # DDL Auto Properties (database)
+      javax.persistence.schema-generation.database.action: none # Attention Required!!
+      # Extra config
+      javax.persistence.schema-generation.scripts.action: none # Attention Required!!
+#      javax.persistence.schema-generation.scripts.create-target: sqls/create-schema.sql # Attention Required!!
+#      javax.persistence.schema-generation.scripts.drop-target: sqls/drop-schema.sql # Attention Required!!

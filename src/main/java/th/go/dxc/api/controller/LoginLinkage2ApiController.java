@@ -29,7 +29,7 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 
 @Tags(value = { @Tag(name = "บริการ Login Linkage2") })
 @RestController
-@RequestMapping("/api/v2/linkage2")
+@RequestMapping("/api/v2/moi/linkage2")
 public class LoginLinkage2ApiController {
 	
 	private Linkage2Service service;

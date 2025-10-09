@@ -22,6 +22,7 @@ import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2ServiceWebClie
 import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.service.ThaidService;
 import th.go.dxc.infra.connector.thaid.service.ThaidServiceWebClientImpl;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.share.commons.util.ObjectMapperService;
 import th.go.dxc.share.security.service.SecurityService;
 import th.go.dxc.share.security.service.SecurityServiceJwtImpl;
@@ -64,8 +65,8 @@ public class StgAppConfig {
 	}
 	
 	@Bean
-	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapper) {
-		return new Linkage2ServiceImpl(service, mapper);
+	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapper, Lk2ServiceRepository lk2ServiceRepository) {
+		return new Linkage2ServiceImpl(service, mapper, lk2ServiceRepository);
 	}
 	
 }
