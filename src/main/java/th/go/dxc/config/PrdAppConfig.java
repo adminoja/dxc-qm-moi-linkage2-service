@@ -16,6 +16,7 @@ import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.Linkage2ServiceImpl;
 import th.go.dxc.app.service.LoginThaidService;
 import th.go.dxc.app.service.LoginThaidServiceImpl;
+import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2ServiceWebClientImpl;
@@ -65,8 +66,9 @@ public class PrdAppConfig {
 	}
 	
 	@Bean
-	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapper, Lk2ServiceRepository lk2ServiceRepository) {
-		return new Linkage2ServiceImpl(service, mapper, lk2ServiceRepository);
+	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
+			Linkage2ServiceImplMapper mapper) {
+		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper);
 	}
 	
 }

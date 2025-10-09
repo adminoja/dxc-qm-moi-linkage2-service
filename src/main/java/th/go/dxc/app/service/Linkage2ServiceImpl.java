@@ -12,8 +12,10 @@ import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.MoiDopaPerson;
+import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
+import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
@@ -24,20 +26,24 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 
 @Slf4j
 public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	private final DopaLinkage2Service service;
-	private final MapperFacade mapper;
-	private final Lk2ServiceRepository lk2ServiceRepository;
+	private final MapperFacade mapperFacade;
+	private final Lk2ServiceRepository repository;
+	private final Linkage2ServiceImplMapper mapper;
 	
-	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapper, Lk2ServiceRepository lk2ServiceRepository) {
+	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
+			Linkage2ServiceImplMapper mapper) {
 		super();
 		this.service = service;
+		this.mapperFacade = mapperFacade;
+		this.repository = repository;
 		this.mapper = mapper;
-		this.lk2ServiceRepository = lk2ServiceRepository;
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				return Mono.error(new IllegalStateException("Office is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, LoginLinkage2.class));
+			return Mono.just(mapperFacade.map(res, LoginLinkage2.class));
 		});
 	}
 
@@ -62,7 +68,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				return Mono.error(new IllegalStateException("Token is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, LoginLinkage2Token.class));
+			return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
 		});
 	}
 
@@ -75,7 +81,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				return Mono.error(new IllegalStateException("Token is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, LoginLinkage2Token.class));
+			return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
 		});
 	}
 
@@ -94,10 +100,19 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				return Mono.error(new IllegalStateException("Job is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, JobLinkage2.class));
+			return Mono.just(mapperFacade.map(res, JobLinkage2.class));
 		});
 	}
 
+	@Override
+	public Page<Lk2Service> findAllLk2Service(Lk2ServiceFilter filter, Pageable pageable) {
+		Lk2ServiceEntityFilter entityFilter = mapper.mapEntityFilter(filter);
+		Pageable entityPageable = mapper.mapEntityPageable(pageable);
+		Page<Lk2ServiceEntity> entityPage = repository.findByFilterNative(entityFilter, entityPageable);
+		Page<Lk2Service> resultPage = mapper.mapModelPage(entityPage);
+		if (log.isDebugEnabled()) log.debug("lk2Service findAll: {}", entityPage);
+		return resultPage;
+	}
 	
 	// -------------------- ค้นหา linkage2 Token -------------------- 
 //	private Lk2TokenService linkage2Token(String cid) {
@@ -108,7 +123,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// -------------------- ค้นหา linkage2 Service -------------------- 
 	private List<Lk2ServiceEntity> linkage2Service(String jobId) {
-		List<Lk2ServiceEntity> lk2List = lk2ServiceRepository.findByJobId(jobId);
+		List<Lk2ServiceEntity> lk2List = repository.findByJobId(jobId);
 //		if (lk2List.isEmpty()) {
 //			throw new DopaLinkage2Exception("ไม่พบ service ของ jobId: " + jobId);
 //		}

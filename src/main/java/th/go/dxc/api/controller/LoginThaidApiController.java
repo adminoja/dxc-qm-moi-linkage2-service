@@ -28,7 +28,7 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 
 @Tags(value = { @Tag(name = "บริการ Login ThaID") })
 @RestController
-@RequestMapping("/api/v2/thaid")
+@RequestMapping("/api/thaid")
 public class LoginThaidApiController {
 	
 	private final LoginThaidService service;

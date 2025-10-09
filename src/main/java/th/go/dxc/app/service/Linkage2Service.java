@@ -7,6 +7,8 @@ import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.JobLinkage2;
+import th.go.dxc.app.model.Lk2Service;
+import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.model.LoginLinkage2;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
@@ -27,7 +29,8 @@ public interface Linkage2Service {
 
 	Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request);
 
-//	Page<GenericResponse.ResponseItem<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, Pageable pageable);
 	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
+
+	Page<Lk2Service> findAllLk2Service(Lk2ServiceFilter filter, Pageable pageable);
 
 }
