@@ -54,7 +54,7 @@ public class PrdSecurityConfig extends WebSecurityConfigurerAdapter {
 		.requestMatchers().antMatchers("/services/**","/api/**").and()
 		.authorizeRequests(authz ->
 			authz
-			.antMatchers("/services/**/v2/api-docs").permitAll()
+			.antMatchers("/services/**/v3/api-docs").permitAll()
 			.antMatchers("/api/**").authenticated()
 			.anyRequest().permitAll()
 		)
@@ -63,13 +63,4 @@ public class PrdSecurityConfig extends WebSecurityConfigurerAdapter {
 		);
 	}
 	
-//	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        clients.inMemory()
-//                .withClient("dxc-search-server")
-////                .secret("{noop}your-client-secret")
-//                .authorizedGrantTypes("refresh_token")
-////                .scopes("read", "write")
-//                .accessTokenValiditySeconds(30) // อายุของ Access Token 1 ชั่วโมง
-//                .refreshTokenValiditySeconds(86400); // อายุของ Refresh Token 1 วัน
-//    }
 }

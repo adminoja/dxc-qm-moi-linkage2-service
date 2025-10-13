@@ -14,9 +14,12 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.Linkage2ServiceImpl;
+import th.go.dxc.app.service.Lk2ThaidLogService;
+import th.go.dxc.app.service.Lk2ThaidLogServiceImpl;
 import th.go.dxc.app.service.LoginThaidService;
 import th.go.dxc.app.service.LoginThaidServiceImpl;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
+import th.go.dxc.app.util.Lk2ThaidLogServiceImplMapper;
 import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2ServiceWebClientImpl;
@@ -24,6 +27,7 @@ import th.go.dxc.infra.connector.thaid.config.ThaidProperties;
 import th.go.dxc.infra.connector.thaid.service.ThaidService;
 import th.go.dxc.infra.connector.thaid.service.ThaidServiceWebClientImpl;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
 import th.go.dxc.share.commons.util.ObjectMapperService;
 import th.go.dxc.share.security.service.SecurityService;
 import th.go.dxc.share.security.service.SecurityServiceJwtImpl;
@@ -56,8 +60,8 @@ public class DevAppConfig {
 	}
 	
 	@Bean
-	public LoginThaidService loginThaidService(ThaidService service, MapperFacade mapper) {
-		return new LoginThaidServiceImpl(service, mapper);
+	public LoginThaidService loginThaidService(ThaidService service, MapperFacade mapper, Lk2ThaidLogService lk2ThaidLogService) {
+		return new LoginThaidServiceImpl(service, mapper, lk2ThaidLogService);
 	}
 	
 	@Bean
@@ -69,6 +73,11 @@ public class DevAppConfig {
 	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
 			Linkage2ServiceImplMapper mapper) {
 		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper);
+	}
+	
+	@Bean
+	public Lk2ThaidLogService lk2ThaidLogService(Lk2ThaidLogRepository repository, Lk2ThaidLogServiceImplMapper mapper) {
+		return new Lk2ThaidLogServiceImpl(repository, mapper);
 	}
 	
 }

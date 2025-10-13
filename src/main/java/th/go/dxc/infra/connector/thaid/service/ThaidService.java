@@ -15,4 +15,6 @@ public interface ThaidService {
 
 	Mono<TokenRevokeResponse> revokeToken(String accessToken);
 
+	Mono<Boolean> validateIdTokenSignature(String idToken);
+
 }

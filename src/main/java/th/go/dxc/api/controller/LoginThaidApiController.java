@@ -1,5 +1,9 @@
 package th.go.dxc.api.controller;
 
+import java.util.Map;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,8 +20,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.LoginLinkage2Token;
+import th.go.dxc.app.model.Result;
 import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.app.model.RevokeToken;
 import th.go.dxc.app.model.ThaidToken;
@@ -26,6 +33,7 @@ import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.infra.connector.thaid.model.request.FreshTokenRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
 
+@Slf4j
 @Tags(value = { @Tag(name = "บริการ Login ThaID") })
 @RestController
 @RequestMapping("/api/thaid")
@@ -38,7 +46,7 @@ public class LoginThaidApiController {
 		this.service = service;
 	}
 	
-	@Operation(summary = "ขอ Token ThaID",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "ขอ ThaID Token",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
@@ -66,7 +74,7 @@ public class LoginThaidApiController {
 		return service.exchangeToken(request.getCode());
 	}
 	
-	@Operation(summary = "ขอ Token ThaID ใหม่",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "ขอ ThaID Token ใหม่",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
@@ -94,7 +102,7 @@ public class LoginThaidApiController {
 		return service.freshToken(request.getRefreshToken());
 	}
 	
-	@Operation(summary = "ตรวจสอบ Token ThaID",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "ตรวจสอบ ThaID Token",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
@@ -150,4 +158,32 @@ public class LoginThaidApiController {
 		return service.revokeToken(request.getAccessToken());
 	}
 	
+	@Operation(summary = "บันทึก ThaID Token",security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = Result.class))),
+		
+		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+
+		@ApiResponse(responseCode = "401",description = "การยืนยันตัวตนไม่ถูกต้อง Token หรือ รหัสยืนยันตัวตนมีปัญหา"
+		,headers = {@Header(name = "www-authenticate",description = "รายละเอียดข้อผิดพลาด (ถ้ามี)")}
+		,content = @Content(schema = @Schema(hidden=true))),
+
+		@ApiResponse(responseCode = "403",description = "ไม่มีสิทธิในการใช้บริการ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class))),
+		
+		@ApiResponse(responseCode = "500",description = "ระบบทำงานผิดพลาด กรุณาติดต่อผู้ดูแลระบบ"
+		,content = @Content(mediaType = "application/json"
+		, schema = @Schema(implementation = ErrorDto.class)))
+	})
+	@RequestMapping(method = RequestMethod.POST, value = "/login/inset")
+	@ResponseBody
+	public Mono<Result> saveThaidToken(@RequestBody AuthorizationCodeRequest code) {
+		String sessionKc = service.sessionKeycloakFromToken();
+		return service.saveThaidToken(code, sessionKc);
+	}
 }

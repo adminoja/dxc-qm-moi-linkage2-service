@@ -20,27 +20,29 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
-import th.go.dxc.app.service.Linkage2Service;
+import th.go.dxc.app.model.Lk2ThaidLog;
+import th.go.dxc.app.model.Lk2ThaidLogFilter;
+import th.go.dxc.app.service.Lk2ThaidLogService;
 import th.go.dxc.share.commons.dto.ErrorDto;
 import th.go.dxc.share.commons.dto.PageDto;
 import th.go.dxc.share.commons.dto.PageRequestDto;
 import th.go.dxc.share.commons.util.ObjectMapperService;
 
-@Tags(value = { @Tag(name = "บริการค้นหาข้อมูล Lk2Service") })
+@Tags(value = { @Tag(name = "บริการ Lk2ThaidLog") })
 @RestController
-@RequestMapping("/api/qm/dxc/lk2service")
-public class Lk2ServiceApiController {
-
-	private Linkage2Service service;
+@RequestMapping("/api/qm/dxc/lk2thaidLog")
+public class Lk2ThaidLogApiController {
+	
+	private Lk2ThaidLogService service;
 	private final ObjectMapperService mapper;
 	
-	public Lk2ServiceApiController(Linkage2Service service, ObjectMapperService mapper) {
+	public Lk2ThaidLogApiController(Lk2ThaidLogService service, ObjectMapperService mapper) {
 		super();
 		this.service = service;
 		this.mapper = mapper;
 	}
 	
-	@Operation(summary = "บริการค้นหาข้อมูล ฐานข้อมูล linkage2",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "บริการค้นหาข้อมูล Log ThaID Token",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
@@ -63,9 +65,9 @@ public class Lk2ServiceApiController {
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
 	@GetMapping("/findAll")
-	public PageDto<Lk2Service> findAll(@Valid @ParameterObject Lk2ServiceFilter filter, @Valid @ParameterObject PageRequestDto pageableDto) {
+	public PageDto<Lk2ThaidLog> findAll(@Valid @ParameterObject Lk2ThaidLogFilter filter, @Valid @ParameterObject PageRequestDto pageableDto) {
 		Pageable pageable = mapper.mapPageable(pageableDto);
-		Page<Lk2Service> resultPage = service.findAll(filter, pageable);
+		Page<Lk2ThaidLog> resultPage = service.findAll(filter, pageable);
 		return mapper.mapPageDto(resultPage);
 	}
 }

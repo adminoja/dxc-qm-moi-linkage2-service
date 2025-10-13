@@ -105,7 +105,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	}
 
 	@Override
-	public Page<Lk2Service> findAllLk2Service(Lk2ServiceFilter filter, Pageable pageable) {
+	public Page<Lk2Service> findAll(Lk2ServiceFilter filter, Pageable pageable) {
 		Lk2ServiceEntityFilter entityFilter = mapper.mapEntityFilter(filter);
 		Pageable entityPageable = mapper.mapEntityPageable(pageable);
 		Page<Lk2ServiceEntity> entityPage = repository.findByFilterNative(entityFilter, entityPageable);

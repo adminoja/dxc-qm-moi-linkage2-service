@@ -49,17 +49,18 @@ public class StgSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()		
 		.authorizeRequests(authz -> 
 			authz
-			.antMatchers("/api/**").hasRole(DxcUserStatusType.ACCOUNT_ACTIVE.name())
-//			.antMatchers("/api/**").authenticated()
+//			.antMatchers("/api/**").hasRole(DxcUserStatusType.ACCOUNT_ACTIVE.name())
+			.antMatchers("/api/**").authenticated()
 			.anyRequest().permitAll()
 		)
 		.oauth2ResourceServer(oauth2 -> oauth2
 				.jwt()
-				.jwtAuthenticationConverter(new DxcJwtAuthenticationConverter())
+//				.jwtAuthenticationConverter(new DxcJwtAuthenticationConverter())
 				);
 	}
 }

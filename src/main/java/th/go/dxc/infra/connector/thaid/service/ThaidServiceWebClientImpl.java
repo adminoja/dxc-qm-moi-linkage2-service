@@ -192,6 +192,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 	// ====== Token Validation ======
 	// เช็คเองเมื่อไม่ใช้ Keycloak
 	// -------------------- ตรวจสอบความถูกต้อง idToken ThaiD Signature -------------------- 
+	@Override
 	public Mono<Boolean> validateIdTokenSignature(String idToken) {
 //			{
 //			  "alg": "ES256",
@@ -295,24 +296,23 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 	}
 	
 	// --------------------  Log ค่า Payload แบบละเอียด --------------------
-	private Mono<Void> logTokenPayload(JWTClaimsSet claims) {
-		return Mono.fromRunnable(() -> {
-			try {
-				log.info("✅ ID Token Payload:");
-				log.info(" - iss (issuer): {}", claims.getIssuer());
-				log.info(" - aud (audience): {}", claims.getAudience());
-				log.info(" - sub (subject): {}", claims.getSubject());
-				log.info(" - exp (expires): {}", claims.getExpirationTime());
-				log.info(" - iat (issued at): {}", claims.getIssueTime());
-				log.info(" - auth_time: {}", claims.getClaim("auth_time"));
-				log.info(" - pid: {}", claims.getStringClaim("pid"));
-				log.info(" - given_name: {}", claims.getStringClaim("given_name"));
-				log.info(" - family_name: {}", claims.getStringClaim("family_name"));
-				log.info(" - version: {}", claims.getClaim("version"));
-				log.info(" - at_hash: {}", claims.getStringClaim("at_hash"));
-			} catch (ParseException e) {
-				log.error("❌ Failed to read JWT claim", e);
-			}
-		});
+	private void logTokenPayload(JWTClaimsSet claims) {
+		try {
+			log.debug("✅ ID Token Payload:");
+			log.debug(" - iss (issuer): {}", claims.getIssuer());
+			log.debug(" - aud (audience): {}", claims.getAudience());
+			log.debug(" - sub (subject): {}", claims.getSubject());
+			log.debug(" - exp (expires): {}", claims.getExpirationTime());
+			log.debug(" - iat (issued at): {}", claims.getIssueTime());
+			log.debug(" - auth_time: {}", claims.getClaim("auth_time"));
+			log.debug(" - pid: {}", claims.getStringClaim("pid"));
+			log.debug(" - given_name: {}", claims.getStringClaim("given_name"));
+			log.debug(" - family_name: {}", claims.getStringClaim("family_name"));
+			log.debug(" - version: {}", claims.getClaim("version"));
+			log.debug(" - at_hash: {}", claims.getStringClaim("at_hash"));
+		} catch (ParseException e) {
+			log.error("❌ Failed to read JWT claim", e);
+		}
 	}
+	
 }

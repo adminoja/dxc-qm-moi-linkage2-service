@@ -71,7 +71,7 @@ public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 		.requestMatchers().antMatchers("/services/**","/api/**").and()
 		.authorizeRequests(authz ->
 			authz
-			.antMatchers("/services/**/v2/api-docs").permitAll()
+			.antMatchers("/services/**/v3/api-docs").permitAll()
 			.antMatchers("/api/**").authenticated()
 			.anyRequest().permitAll()
 		)

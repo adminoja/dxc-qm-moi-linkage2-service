@@ -2,8 +2,10 @@ package th.go.dxc.app.service;
 
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.IntrospectToken;
+import th.go.dxc.app.model.Result;
 import th.go.dxc.app.model.RevokeToken;
 import th.go.dxc.app.model.ThaidToken;
+import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 
 public interface LoginThaidService {
 
@@ -14,4 +16,8 @@ public interface LoginThaidService {
 	Mono<IntrospectToken> introspectToken(String accessToken);
 
 	Mono<RevokeToken> revokeToken(String accessToken);
+
+	Mono<Result> saveThaidToken(AuthorizationCodeRequest code, String sessionKc);
+
+	String sessionKeycloakFromToken();
 }

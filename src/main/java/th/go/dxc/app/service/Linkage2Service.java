@@ -31,6 +31,6 @@ public interface Linkage2Service {
 
 	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
 
-	Page<Lk2Service> findAllLk2Service(Lk2ServiceFilter filter, Pageable pageable);
+	Page<Lk2Service> findAll(Lk2ServiceFilter filter, Pageable pageable);
 
 }
