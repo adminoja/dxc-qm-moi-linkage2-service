@@ -26,9 +26,10 @@ public class Lk2ServiceEntity {
 	private String serviceNameUnderDXC;
 	private String jobName;
 	private String serviceId;
-	private String departmentJob;
-	private String ipproxy;
+	private String departmentCode;
+	private String ipProxy;
 	private LocalDateTime lastUpdate;
 	private String jobId;
+	private String officeId;
 
 }

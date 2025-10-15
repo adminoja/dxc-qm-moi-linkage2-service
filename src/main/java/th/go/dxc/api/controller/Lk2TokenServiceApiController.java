@@ -1,9 +1,12 @@
 package th.go.dxc.api.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
+import javax.validation.Valid;
+
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,29 +18,33 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import reactor.core.publisher.Mono;
-import th.go.dxc.app.model.JobLinkage2;
-import th.go.dxc.app.service.Linkage2Service;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
+import th.go.dxc.app.model.Lk2TokenService;
+import th.go.dxc.app.model.Lk2TokenServiceFilter;
+import th.go.dxc.app.service.Lk2TokenServiceService;
 import th.go.dxc.share.commons.dto.ErrorDto;
+import th.go.dxc.share.commons.dto.PageDto;
+import th.go.dxc.share.commons.dto.PageRequestDto;
+import th.go.dxc.share.commons.util.ObjectMapperService;
 
-@Tags(value = { @Tag(name = "บริการค้นหาข้อมูล Job Linkage2") })
+@Tags(value = { @Tag(name = "บริการ Lk2TokenService") })
 @RestController
-@RequestMapping("/api/moi/linkage2/user")
-public class Linkage2JobApiController {
-
-	private Linkage2Service service;
+@RequestMapping("/api/qm/dxc/lk2TokenService")
+public class Lk2TokenServiceApiController {
 	
-	public Linkage2JobApiController(Linkage2Service service) {
+	private final Lk2TokenServiceService service;
+	private final ObjectMapperService mapper;
+	
+	public Lk2TokenServiceApiController(Lk2TokenServiceService service, ObjectMapperService mapper) {
 		super();
 		this.service = service;
+		this.mapper = mapper;
 	}
 	
-	@Operation(summary = "ข้อมูลกระบวนงานที่มีสิทธิ",security = @SecurityRequirement(name="bearerAuth"))
+	@Operation(summary = "บริการค้นหาข้อมูล Log Linkage2 Token",security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = JobLinkage2.class))),
+				, schema = @Schema(implementation = Lk2TokenService.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"
@@ -55,10 +62,11 @@ public class Linkage2JobApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.POST, value = "/job")
-	@ResponseBody
-	public Mono<JobLinkage2> jobLinkage2(@RequestBody Linkage2TokenRequest request) {
-		String departmentCode = service.departmentCodeKeycloakFromToken();
-		return service.jobLinkage2(request, departmentCode);
+	@GetMapping("/findAll")
+	public PageDto<Lk2TokenService> findAll(@Valid @ParameterObject Lk2TokenServiceFilter filter, @Valid @ParameterObject PageRequestDto pageableDto) {
+		Pageable pageable = mapper.mapPageable(pageableDto);
+		Page<Lk2TokenService> resultPage = service.findAll(filter, pageable);
+		return mapper.mapPageDto(resultPage);
 	}
+	
 }

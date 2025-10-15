@@ -1,0 +1,330 @@
+package th.go.dxc.app.service;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.util.StringUtils;
+
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+
+import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+import th.go.dxc.app.model.Lk2TokenService;
+import th.go.dxc.app.model.LoginLinkage2;
+import th.go.dxc.app.model.LoginLinkage2Token;
+import th.go.dxc.app.model.Result;
+import th.go.dxc.app.model.LoginLinkage2.Office;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
+import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
+
+@Slf4j
+public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
+	
+	private final DopaLinkage2Service service;
+	private final MapperFacade mapperFacade;
+	private final Lk2ThaidLogRepository lk2ThaidLogRepository;
+	private final Lk2TokenServiceService lk2TokenServiceService;
+	private final Linkage2Service linkage2Service;
+	
+	public LoginLinkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, 
+			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
+			Linkage2Service linkage2Service) {
+		super();
+		this.service = service;
+		this.mapperFacade = mapperFacade;
+		this.lk2ThaidLogRepository = lk2ThaidLogRepository;
+		this.lk2TokenServiceService = lk2TokenServiceService;
+		this.linkage2Service = linkage2Service;
+	}
+	
+	private Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode) {
+		Mono<List<Lk2ServiceEntity>> services = linkage2Service.findByDepartmentCodeLk2Service(departmentCode);
+		return services;
+	}
+	
+	@Override
+	public Mono<LoginLinkage2> loginLinkage2(LoginLinkage2Request request, String departmentCode) {
+		return findByDepartmentCodeLk2Service(departmentCode)
+				.flatMap(lk2Service -> lk2Service.stream().findFirst()
+						.map(Mono::just)
+						.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
+				)
+				.flatMap(lk2ServiceEntity -> {
+					if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
+						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+					}
+					// ดึง ipProxy
+					String ipProxy = lk2ServiceEntity.getIpProxy();
+					// log ดูเพื่อความชัวร์
+					log.debug("Using ipProxy [{}] for departmentCode [{}]", ipProxy, departmentCode);
+					
+					return service.loginLinkage2(request, ipProxy).
+							flatMap(res -> {
+								// ตรวจ null แบบ reactive
+								if (res.getOffice() == null) {
+									log.error("Mapped LoginLinkage2 has null Office: {}", res);
+									return Mono.error(new IllegalStateException("Office is null after mapping response"));
+								}
+								// map ต่อแบบ non-blocking
+								return Mono.just(mapperFacade.map(res, LoginLinkage2.class));
+					});
+				});
+	}
+
+	@Override
+	public Mono<LoginLinkage2Token> confirmLoginLinkage2(ConfirmLoginLinkage2Request request, String departmentCode) {
+		return findByDepartmentCodeLk2Service(departmentCode)
+				.flatMap(lk2Service -> lk2Service.stream().findFirst()
+						.map(Mono::just)
+						.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
+				)
+				.flatMap(lk2ServiceEntity -> {
+					if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
+						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+					}
+					// ดึง ipProxy
+					String ipProxy = lk2ServiceEntity.getIpProxy();
+					// log ดูเพื่อความชัวร์
+					log.debug("Using ipProxy [{}] for departmentCode [{}]", ipProxy, departmentCode);
+					
+					return service.confirmLoginLinkage2(request, ipProxy).flatMap(res -> {
+						// ตรวจ null แบบ reactive
+						if (res.getToken()== null) {
+							log.error("Mapped LoginLinkage2 has null Token: {}", res);
+							return Mono.error(new IllegalStateException("Token is null after mapping response"));
+						}
+						// map ต่อแบบ non-blocking
+						return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
+					});
+				});
+	}
+
+	@Override
+	public Mono<LoginLinkage2Token> renewLoginLinkage2(Linkage2TokenRequest request, String departmentCode) {
+		return findByDepartmentCodeLk2Service(departmentCode)
+				.flatMap(lk2Service -> lk2Service.stream().findFirst()
+						.map(Mono::just)
+						.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
+				)
+				.flatMap(lk2ServiceEntity -> {
+					if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
+						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+					}
+					// ดึง ipProxy
+					String ipProxy = lk2ServiceEntity.getIpProxy();
+					// log ดูเพื่อความชัวร์
+					log.debug("Using ipProxy [{}] for departmentCode [{}]", ipProxy, departmentCode);
+		
+					return service.renewLoginLinkage2(request, ipProxy)
+							.flatMap(res -> {
+								// ตรวจ null แบบ reactive
+								if (res.getToken()== null) {
+									log.error("Mapped LoginLinkage2 has null Token: {}", res);
+									return Mono.error(new IllegalStateException("Token is null after mapping response"));
+								}
+								// map ต่อแบบ non-blocking
+								return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
+							});
+				});
+	}
+
+	@Override
+	public Mono<Void> logoutLinkage2(UsernameRequest request, String departmentCode) {
+		return findByDepartmentCodeLk2Service(departmentCode)
+				.flatMap(lk2Service -> lk2Service.stream().findFirst()
+						.map(Mono::just)
+						.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
+				)
+				.flatMap(lk2ServiceEntity -> {
+					if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
+						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+					}
+					// ดึง ipProxy
+					String ipProxy = lk2ServiceEntity.getIpProxy();
+					// log ดูเพื่อความชัวร์
+					log.debug("Using ipProxy [{}] for departmentCode [{}]", ipProxy, departmentCode);
+		
+					return service.logoutLinkage2(request, ipProxy)
+							.then();
+				});
+	}
+
+	@Override
+	public Mono<Result> saveLinkage2Token(LoginLinkage2Request request, String departmentCode, String sessionKc) {
+		if (!StringUtils.hasText(request.getPersonalID()) || "string".equals(request.getPersonalID())) {
+			log.error("PersonalID must not be empty");
+			return Mono.error(new IllegalStateException("PersonalID must not be empty"));
+		}
+		
+		if (!StringUtils.hasText(request.getLoginType()) || "string".equals(request.getLoginType())) {
+			log.error("LoginType must not be empty");
+			return Mono.error(new IllegalStateException("LoginType must not be empty"));
+		}
+		
+		if (!"2".equals(request.getLoginType())) {
+			log.error("LoginType must be 2");
+			return Mono.error(new IllegalStateException("LoginType must be 2"));
+		}
+		
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
+		// เรียก loginLinkage2 เพื่อหาข้อมูล office
+		return loginLinkage2(request, departmentCode)
+				.flatMap(resLoginLk2 -> {
+					if (resLoginLk2.getOffice() == null || resLoginLk2.getOffice().isEmpty()) {
+						return Mono.error(new IllegalStateException("Office is null or empty"));
+					}
+					
+					// เรียกหา Lk2Service ตาม departmentCode เพื่อหาข้อมูล officeId ของหน่วยงาน
+					return findByDepartmentCodeLk2Service(departmentCode)
+							.flatMap(lk2Service -> lk2Service.stream().findFirst()
+									.map(Mono::just)
+									.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
+							)
+							.flatMap(lk2ServiceEntity -> {
+								if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
+									return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+								}
+								// ดึง officeId
+								String officeId = lk2ServiceEntity.getOfficeId();
+								
+								return processOffice(request, officeId, departmentCode, sessionKc);
+							});
+				});
+	}
+	
+	// แยก logic ย่อยออกมาให้อ่านง่าย
+	private Mono<Result> processOffice(LoginLinkage2Request request, String officeId, String departmentCode, String sessionKc) {
+		return Mono.fromCallable(() -> lk2ThaidLogRepository.findByUsername(request.getPersonalID()))
+				.flatMap(lk2ThaidLogList -> Mono.justOrEmpty(lk2ThaidLogList.stream().findFirst()))
+				.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 log found for user")))
+				.flatMap(logEntry -> {
+					ConfirmLoginLinkage2Request confirmReq = new ConfirmLoginLinkage2Request();
+					confirmReq.setLoginType(request.getLoginType());
+					confirmReq.setOfficeID(officeId);
+					confirmReq.setPersonalID(request.getPersonalID());
+					confirmReq.setAccessToken(logEntry.getAccessToken());
+
+					return confirmLoginLinkage2(confirmReq, departmentCode)
+							.flatMap(token -> saveNewLinkage2Token(token, sessionKc));
+				})
+				.subscribeOn(Schedulers.boundedElastic());
+	}
+
+	// บันทึก token ใหม่
+	private Mono<Result> saveNewLinkage2Token(LoginLinkage2Token token, String sessionKc) {
+		try {
+			SignedJWT signedJWT = SignedJWT.parse(token.getToken());
+			JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
+			
+			// ดึงค่า userPersonalID จาก token แบบรองรับทุกประเภท
+			Object userPersonalIDObj = claims.getClaim("userPersonalID");
+			String userPersonalID = (userPersonalIDObj != null) ? userPersonalIDObj.toString() : null;
+
+			// เช่นเดียวกับ loginType
+			Object loginTypeObj = claims.getClaim("loginType");
+			String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : null;
+
+			LocalDateTime issuedAt = LocalDateTime.now();
+
+			Lk2TokenService entity = createLk2TokenService(
+					token, 
+					userPersonalID,
+					loginType, 
+					issuedAt, 
+					sessionKc);
+
+			return Mono.fromCallable(() -> lk2TokenServiceService.insert(entity))
+					.thenReturn(new Result("Success"))
+					.subscribeOn(Schedulers.boundedElastic());
+
+		} catch (ParseException e) {
+			log.error("JWT parsing error", e);
+			return Mono.error(new IllegalArgumentException("Invalid token format: " + e));
+		}
+	}
+	
+	private Lk2TokenService createLk2TokenService(LoginLinkage2Token res, String username, String loginType, 
+			LocalDateTime issuedAt, String sessionKc) {
+		Lk2TokenService entity = new Lk2TokenService();
+		entity.setUsername(username);
+		entity.setToken(res.getToken());
+		entity.setInsertTime(issuedAt);
+		entity.setChannel(loginType);
+		entity.setSessionState(sessionKc);
+		entity.setLastActiveTime(LocalDateTime.now());
+		return entity;
+	}
+	
+	private LocalDateTime toLocalDateTime(Instant instant) {
+		return instant.atZone(ZoneId.of("Asia/Bangkok")).toLocalDateTime();
+	}
+	
+	private LocalDateTime expToLocalDateTime(Object expClaim) {
+		if (expClaim == null) return null;
+
+		Instant instant;
+		if (expClaim instanceof Number) {
+			instant = Instant.ofEpochSecond(((Number) expClaim).longValue());
+		} else if (expClaim instanceof Date) {
+			instant = ((Date) expClaim).toInstant();
+		} else {
+			// fallback: แปลงจาก String
+			instant = Instant.ofEpochSecond(Long.parseLong(expClaim.toString()));
+		}
+
+		return LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Bangkok"));
+	}
+	
+	// เอามา log ดู Keycloak
+	@Override
+	public String departmentCodeKeycloakFromToken() {
+		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+				.filter(auth -> auth instanceof JwtAuthenticationToken)
+				.map(auth -> (JwtAuthenticationToken) auth)
+				.map(jwtAuth -> {
+					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
+					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
+					return String.valueOf(attributes.get("departmentCode"));
+				})
+				.orElseThrow(() -> new AuthenticationServiceException("Missing departmentCode in token"));
+	}
+	
+	@Override
+	public String sessionKeycloakFromToken() {
+		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+				.filter(auth -> auth instanceof JwtAuthenticationToken)
+				.map(auth -> (JwtAuthenticationToken) auth)
+				.map(jwtAuth -> {
+					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
+					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
+					return String.valueOf(attributes.get("session_state"));
+				})
+				.orElseThrow(() -> new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID"));
+	}
+}

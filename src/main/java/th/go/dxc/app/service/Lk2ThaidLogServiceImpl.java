@@ -57,7 +57,7 @@ public class Lk2ThaidLogServiceImpl implements Lk2ThaidLogService {
 		entity = createLk2ThaidLogEntity(lk2ThaidLog);
 		if (log.isDebugEnabled()) log.debug("lk2ThaidLog insert: {}", entity);
 		repository.save(entity);
-		log.info("✅ บันทึก ThaID Log เรียบร้อย");
+		log.info("✅ บันทึก ThaID Token Log เรียบร้อย");
 		return entity;
 	}
 }

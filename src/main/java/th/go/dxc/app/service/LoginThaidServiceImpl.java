@@ -41,6 +41,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		this.lk2ThaidLogService = lk2ThaidLogService;
 	}
 
+	// --------------------  ขอ ThaID Token --------------------
 	@Override
 	public Mono<ThaidToken> exchangeToken(String code) {
 		return service.exchangeToken(code).flatMap(res -> {
@@ -54,6 +55,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		});
 	}
 
+	// --------------------  ขอ ThaID Token ใหม่ --------------------
 	@Override
 	public Mono<ThaidToken> freshToken(String refreshToken) {
 		return service.freshToken(refreshToken).flatMap(res -> {
@@ -67,6 +69,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		});
 	}
 
+	// --------------------  ตรวจสอบ ThaID Token --------------------
 	@Override
 	public Mono<IntrospectToken> introspectToken(String accessToken) {
 		return service.introspectToken(accessToken).flatMap(res -> {
@@ -78,6 +81,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		});
 	}
 
+	// --------------------  ออกจากระบบ ThaID --------------------
 	@Override
 	public Mono<RevokeToken> revokeToken(String accessToken) {
 		return service.revokeToken(accessToken).flatMap(res -> {
@@ -89,6 +93,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		});
 	}
 	
+	// --------------------  บันทึก ThaID Token --------------------
 	@Override
 	public Mono<Result> saveThaidToken(AuthorizationCodeRequest request, String sessionKc) {
 		// ตรวจว่า Code ไม่ว่าง
@@ -150,7 +155,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 //				});
 	}
 	
-	// ตรวจสอบความถูกต้องของ Response ThaID
+	// ตรวจสอบความถูกต้องของ Response ThaID --------------------
 	private Mono<TokenResponse> validateResThaid(TokenResponse resThaid) {
 		if (resThaid.getAccessToken() == null) {
 			log.error("Token mapping failed: null accessToken");
@@ -165,7 +170,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 					: Mono.error(new SecurityException("Invalid ID Token signature")));
 	}
 	
-	// แยกวิเคราะห์และบันทึก
+	// แยกวิเคราะห์และบันทึก --------------------
 	private Mono<Result> parseAndSaveLog(TokenResponse resThaid, String sessionKc) {
 		try {
 			SignedJWT signedJWT = SignedJWT.parse(resThaid.getIdToken());
@@ -214,7 +219,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		return instant.atZone(ZoneId.of("Asia/Bangkok")).toLocalDateTime();
 	}
 	
-	// ไม่ดู log Keycloak
+	// -------------------- ไม่ดู log Keycloak --------------------
 //	public String getSidFromToken() {
 //	return Optional.of(SecurityContextHolder.getContext().getAuthentication())
 //			.filter(auth -> auth instanceof JwtAuthenticationToken)
@@ -222,7 +227,8 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 //			.map(m -> String.valueOf(m.get("session_state")))
 //			.orElseThrow(() -> new AuthenticationServiceException(ErrorConstant.UNAUTHORIZED_MSG));
 //}
-	// เอามา log ดู Keycloak
+	
+	// -------------------- เอามา log ดู Keycloak --------------------
 	@Override
 	public String sessionKeycloakFromToken() {
 		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())

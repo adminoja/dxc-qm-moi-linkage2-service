@@ -16,10 +16,15 @@ import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.Linkage2ServiceImpl;
 import th.go.dxc.app.service.Lk2ThaidLogService;
 import th.go.dxc.app.service.Lk2ThaidLogServiceImpl;
+import th.go.dxc.app.service.Lk2TokenServiceImpl;
+import th.go.dxc.app.service.Lk2TokenServiceService;
+import th.go.dxc.app.service.LoginLinkage2Service;
+import th.go.dxc.app.service.LoginLinkage2ServiceImpl;
 import th.go.dxc.app.service.LoginThaidService;
 import th.go.dxc.app.service.LoginThaidServiceImpl;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.util.Lk2ThaidLogServiceImplMapper;
+import th.go.dxc.app.util.Lk2TokenServiceServiceImplMapper;
 import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2ServiceWebClientImpl;
@@ -28,6 +33,7 @@ import th.go.dxc.infra.connector.thaid.service.ThaidService;
 import th.go.dxc.infra.connector.thaid.service.ThaidServiceWebClientImpl;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.share.commons.util.ObjectMapperService;
 import th.go.dxc.share.security.service.SecurityService;
 import th.go.dxc.share.security.service.SecurityServiceJwtImpl;
@@ -65,19 +71,31 @@ public class DevAppConfig {
 	}
 	
 	@Bean
+	public Lk2ThaidLogService lk2ThaidLogService(Lk2ThaidLogRepository repository, Lk2ThaidLogServiceImplMapper mapper) {
+		return new Lk2ThaidLogServiceImpl(repository, mapper);
+	}
+	
+	@Bean
 	public DopaLinkage2Service dopaLinkage2Service(WebClient.Builder webClientBuilder, DopaLinkage2Properties properties) {
 		return new DopaLinkage2ServiceWebClientImpl(webClientBuilder, properties);
 	}
 	
 	@Bean
-	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper) {
-		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper);
+	public LoginLinkage2Service loginLinkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, 
+			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
+			Linkage2Service linkage2Service) {
+		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service);
 	}
 	
 	@Bean
-	public Lk2ThaidLogService lk2ThaidLogService(Lk2ThaidLogRepository repository, Lk2ThaidLogServiceImplMapper mapper) {
-		return new Lk2ThaidLogServiceImpl(repository, mapper);
+	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository) {
+		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository);
+	}
+	
+	@Bean
+	public Lk2TokenServiceService lk2TokenServiceService(Lk2TokenServiceRepository repository, Lk2TokenServiceServiceImplMapper mapper) {
+		return new Lk2TokenServiceImpl(repository, mapper);
 	}
 	
 }

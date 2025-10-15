@@ -27,14 +27,16 @@ public class Lk2ServiceFilter {
 	private String jobName;
 	@Parameter(description = "รหัสฐานข้อมูล")
 	private String serviceId;
-	@Schema(description = "รหัสหน่วยงาน Job")
-	private String departmentJob;
+	@Schema(description = "รหัสหน่วยงาน")
+	private String departmentCode;
 	@JsonIgnore
 	@Parameter(description = "IP proxy")
-	private String ipproxy;
+	private String ipProxy;
 	@JsonIgnore
 	@Parameter(description = "วันเวลาล่าสุด")
 	private LocalDateTime lastUpdate;
 	@Parameter(description = "รหัส Job")
 	private String jobId;
+	@Parameter(description = "รหัส Office ตามหน่วยงาน")
+	private String officeId;
 }

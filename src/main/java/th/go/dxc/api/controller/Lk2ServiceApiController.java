@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.service.Linkage2Service;
@@ -63,9 +64,9 @@ public class Lk2ServiceApiController {
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
 	@GetMapping("/findAll")
-	public PageDto<Lk2Service> findAll(@Valid @ParameterObject Lk2ServiceFilter filter, @Valid @ParameterObject PageRequestDto pageableDto) {
+	public Mono<PageDto<Lk2Service>> findAll(@Valid @ParameterObject Lk2ServiceFilter filter, @Valid @ParameterObject PageRequestDto pageableDto) {
 		Pageable pageable = mapper.mapPageable(pageableDto);
-		Page<Lk2Service> resultPage = service.findAll(filter, pageable);
-		return mapper.mapPageDto(resultPage);
+		return service.findAll(filter, pageable) // Mono<Page<Lk2Service>>
+				.map(resultPage -> mapper.mapPageDto(resultPage));
 	}
 }

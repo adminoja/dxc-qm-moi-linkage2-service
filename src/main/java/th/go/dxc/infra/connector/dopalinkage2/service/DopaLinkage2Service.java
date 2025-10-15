@@ -19,16 +19,16 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Respon
 
 public interface DopaLinkage2Service {
 
-	Mono<LoginLinkage2Response> loginLinkage2(LoginLinkage2Request request);
+	Mono<LoginLinkage2Response> loginLinkage2(LoginLinkage2Request request, String ipProxy);
 
-	Mono<LoginLinkage2TokenResponse> confirmLoginLinkage2(ConfirmLoginLinkage2Request request);
+	Mono<LoginLinkage2TokenResponse> confirmLoginLinkage2(ConfirmLoginLinkage2Request request, String ipProxy);
 
-	Mono<LoginLinkage2TokenResponse> renewLoginLinkage2(Linkage2TokenRequest request);
+	Mono<LoginLinkage2TokenResponse> renewLoginLinkage2(Linkage2TokenRequest request, String ipProxy);
 
-	Mono<Void> logoutLinkage2(UsernameRequest request);
+	Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy);
 
-	Mono<JobLinkage2Response> jobLinkage2(Linkage2TokenRequest request);
+	Mono<JobLinkage2Response> jobLinkage2(Linkage2TokenRequest request, String ipProxy);
 
-	<TRequest> Mono<Page<ResponseItem<Object>>> callService(TRequest req, String token, Map<Integer, Class<?>> responseMap);
+	<TRequest> Mono<Page<ResponseItem<Object>>> callService(TRequest req, String token, Map<Integer, Class<?>> responseMap, String ipProxy);
 
 }

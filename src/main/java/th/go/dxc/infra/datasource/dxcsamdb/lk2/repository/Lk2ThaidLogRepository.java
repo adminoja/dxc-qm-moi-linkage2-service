@@ -1,5 +1,7 @@
 package th.go.dxc.infra.datasource.dxcsamdb.lk2.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -7,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
+import reactor.core.publisher.Flux;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntityFilter;
 
@@ -37,4 +40,9 @@ public interface Lk2ThaidLogRepository extends PagingAndSortingRepository<Lk2Tha
 					+ "and (:#{#filter.sessionStateKeycloak} is null or a.session_state_keycloak = :#{#filter.sessionStateKeycloak})"
 			)
 	public Page<Lk2ThaidLogEntity> findByFilterNative(Lk2ThaidLogEntityFilter filter, Pageable pageable);
+	
+	@Query("SELECT s FROM Lk2ThaidLogEntity s WHERE s.username = ?1 ORDER BY s.id DESC")
+	List<Lk2ThaidLogEntity> findByUsername(String username);
+	
+//	Lk2ThaidLogEntity findTopByUsernameOrderByIdDesc(String username);
 }

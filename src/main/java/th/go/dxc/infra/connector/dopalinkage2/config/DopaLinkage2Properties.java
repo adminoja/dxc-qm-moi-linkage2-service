@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 @ConfigurationProperties(prefix = "infra.connector.dopalinkage2")
 public class DopaLinkage2Properties {
-	private String baseUrl;
 	private boolean enableWiretap; // เปิดใช้งานการดักฟัง
 }

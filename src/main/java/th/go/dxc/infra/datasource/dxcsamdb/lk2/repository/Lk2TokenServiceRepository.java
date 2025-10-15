@@ -1,0 +1,37 @@
+package th.go.dxc.infra.datasource.dxcsamdb.lk2.repository;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
+
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntityFilter;
+
+public interface Lk2TokenServiceRepository extends PagingAndSortingRepository<Lk2TokenServiceEntity, Integer>,
+		QueryByExampleExecutor<Lk2TokenServiceEntity>, JpaSpecificationExecutor<Lk2TokenServiceEntity> {
+	
+	@Query(nativeQuery = true, 
+			countQuery = "SELECT COUNT(*) FROM " + Lk2TokenServiceEntity.ENTITY_TABLE_NAME + " a "
+				+ "where (:#{#filter.id} is null or a.id = :#{#filter.id})"
+				+ "and (:#{#filter.username} is null or a.username = :#{#filter.username})"
+				+ "and (:#{#filter.token} is null or a.token = :#{#filter.token})"
+				+ "and (:#{#filter.channel} is null or a.channel = :#{#filter.channel})"
+				+ "and (:#{#filter.sessionState} is null or a.sessionState = :#{#filter.sessionState})"
+			, value = "SELECT * FROM " + Lk2TokenServiceEntity.ENTITY_TABLE_NAME + " a "
+					+ "where (:#{#filter.id} is null or a.id = :#{#filter.id})"
+					+ "and (:#{#filter.username} is null or a.username = :#{#filter.username})"
+					+ "and (:#{#filter.token} is null or a.token = :#{#filter.token})"
+					+ "and (:#{#filter.channel} is null or a.channel = :#{#filter.channel})"
+					+ "and (:#{#filter.sessionState} is null or a.sessionState = :#{#filter.sessionState})"
+			)
+	public Page<Lk2TokenServiceEntity> findByFilterNative(Lk2TokenServiceEntityFilter filter, Pageable pageable);
+	
+	@Query("SELECT s FROM Lk2TokenServiceEntity s WHERE s.username = ?1 ORDER BY s.id DESC")
+	public List<Lk2TokenServiceEntity> findByUsername(String username);
+}

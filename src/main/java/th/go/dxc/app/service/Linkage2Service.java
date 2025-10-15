@@ -1,5 +1,7 @@
 package th.go.dxc.app.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,21 +18,18 @@ import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 
 public interface Linkage2Service {
 
-	Mono<LoginLinkage2> loginLinkage2(LoginLinkage2Request request);
+	String departmentCodeKeycloakFromToken();
 
-	Mono<LoginLinkage2Token> confirmLoginLinkage2(ConfirmLoginLinkage2Request request);
+	Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode);
 
-	Mono<LoginLinkage2Token> renewLoginLinkage2(Linkage2TokenRequest request);
+	Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request, String departmentCode);
 
-	Mono<Void> logoutLinkage2(UsernameRequest request);
+	Mono<Page<Lk2Service>> findAll(Lk2ServiceFilter filter, Pageable pageable);
 
-	Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request);
-
-	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
-
-	Page<Lk2Service> findAll(Lk2ServiceFilter filter, Pageable pageable);
+	Mono<Page<GenericResponse.ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
 
 }
