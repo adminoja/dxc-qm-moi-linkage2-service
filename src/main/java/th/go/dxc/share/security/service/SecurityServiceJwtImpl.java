@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.model.DxcUserDetailsAuthentication;
 import th.go.dxc.share.security.model.NinAuthentication;
@@ -23,7 +24,8 @@ public class SecurityServiceJwtImpl implements SecurityService{
 	public static final String JWT_FAMILY_NAME_KEY = "family_name";
 	public static final String JWT_USERNAME_KEY = "preferred_username";
 	public static final String JWT_USER_STATUS_KEY = "userStatus";
-
+	public static final String JWT_SESSION_STATE_KEY = "session_state";
+	
 	public Object getCurrentPrincipal() {
 		Object principal = null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,55 +66,103 @@ public class SecurityServiceJwtImpl implements SecurityService{
 		return nin;
 	}
 	
-	public String getCurrentUserName() {
-		log.trace("getCurrentUserNin");
-		DxcUserDetails userDetails=this.getCurrentUser();
-		return userDetails.getUsername();
+//	public String getCurrentUserName() {
+//		log.trace("getCurrentUserNin");
+//		DxcUserDetails userDetails=this.getCurrentUser();
+//		return userDetails.getUsername();
+//	}
+	public Mono<String> getCurrentUserName() {
+		return this.getCurrentUser()
+				.map(DxcUserDetails::getUsername);
 	}
-	
 
-	@Override
-	public Boolean isLogin() {		
-		String currentUserName = this.getCurrentUserName();		
-		return !ANONYMOUS_USER.contentEquals(currentUserName);
+//	@Override
+//	public Boolean isLogin() {		
+//		String currentUserName = this.getCurrentUserName();		
+//		return !ANONYMOUS_USER.contentEquals(currentUserName);
+//	}
+	public Mono<Boolean> isLogin() {
+		return this.getCurrentUser()
+				.map(user -> !ANONYMOUS_USER.equals(user.getUsername()))
+				.defaultIfEmpty(false);
 	}
+
 	
-	@Override
-	public DxcUserDetails getCurrentUser() {
+//	@Override
+//	public DxcUserDetails getCurrentUser() {
+//		log.trace("getCurrentUser");
+//		DxcUserDetails userDetails = new DxcUserDetails();
+//		userDetails.setUsername(ANONYMOUS_USER);
+//		userDetails.setClientId(ANONYMOUS_CLIENT);
+//		userDetails.setPrincipalName(getCurrentPrincipalName());
+//		userDetails.setUserGroupId(null);
+//		userDetails.setUserId("0");
+//		userDetails.setUserIpAddress(HttpUtils.getCurrentRemoteAddress());
+//		Object principal = getCurrentPrincipal();
+//		log.trace("principal: "+principal);
+//		if(principal!=null)
+//		{
+//			if(principal instanceof Jwt)
+//			{
+//				Jwt jwt = (Jwt)principal;
+//				log.trace("jwt: {}",jwt);
+//				log.trace("all claims: ",jwt.getClaims());
+//				userDetails.setClientId(jwt.getClaimAsString(JWT_CLIENT_ID_KEY));
+//				userDetails.setUserGroupId(jwt.getClaimAsString(JWT_GROUP_ID_KEY));
+//				userDetails.setUserOrganizationId(jwt.getClaimAsString(JWT_ORGANIZATION_ID_KEY));
+//				userDetails.setUserId(jwt.getClaimAsString(JWT_USER_ID_KEY));
+//				userDetails.setUsername(jwt.getClaimAsString(JWT_USERNAME_KEY));
+//				userDetails.setUserNin(jwt.getClaimAsString(JWT_USER_NIN_KEY));
+//				userDetails.setUserGivenName(jwt.getClaimAsString(JWT_GIVEN_NAME_KEY));
+//				userDetails.setUserFamilyName(jwt.getClaimAsString(JWT_FAMILY_NAME_KEY));
+//			}else if(principal instanceof String) {
+//				log.trace("Principal String: "+principal);
+//				String username = (String)principal;
+//				userDetails.setUsername(username);
+//			}
+//		}
+//		log.debug("current userDetails={}",userDetails);
+//		return userDetails;
+//	}@Override
+	public Mono<DxcUserDetails> getCurrentUser() {
 		log.trace("getCurrentUser");
-		DxcUserDetails userDetails = new DxcUserDetails();
-		userDetails.setUsername(ANONYMOUS_USER);
-		userDetails.setClientId(ANONYMOUS_CLIENT);
-		userDetails.setPrincipalName(getCurrentPrincipalName());
-		userDetails.setUserGroupId(null);
-		userDetails.setUserId("0");
-		userDetails.setUserIpAddress(HttpUtils.getCurrentRemoteAddress());
-		Object principal = getCurrentPrincipal();
-		log.trace("principal: "+principal);
-		if(principal!=null)
-		{
-			if(principal instanceof Jwt)
-			{
-				Jwt jwt = (Jwt)principal;
-				log.trace("jwt: {}",jwt);
-				log.trace("all claims: ",jwt.getClaims());
-				userDetails.setClientId(jwt.getClaimAsString(JWT_CLIENT_ID_KEY));
-				userDetails.setUserGroupId(jwt.getClaimAsString(JWT_GROUP_ID_KEY));
-				userDetails.setUserOrganizationId(jwt.getClaimAsString(JWT_ORGANIZATION_ID_KEY));
-				userDetails.setUserId(jwt.getClaimAsString(JWT_USER_ID_KEY));
-				userDetails.setUsername(jwt.getClaimAsString(JWT_USERNAME_KEY));
-				userDetails.setUserNin(jwt.getClaimAsString(JWT_USER_NIN_KEY));
-				userDetails.setUserGivenName(jwt.getClaimAsString(JWT_GIVEN_NAME_KEY));
-				userDetails.setUserFamilyName(jwt.getClaimAsString(JWT_FAMILY_NAME_KEY));
-			}else if(principal instanceof String) {
-				log.trace("Principal String: "+principal);
-				String username = (String)principal;
-				userDetails.setUsername(username);
+		return Mono.defer(() -> {
+			DxcUserDetails userDetails = new DxcUserDetails();
+			userDetails.setUsername(ANONYMOUS_USER);
+			userDetails.setClientId(ANONYMOUS_CLIENT);
+			userDetails.setPrincipalName(getCurrentPrincipalName());
+			userDetails.setUserGroupId(null);
+			userDetails.setUserId("0");
+			userDetails.setUserIpAddress(HttpUtils.getCurrentRemoteAddress());
+
+			Object principal = getCurrentPrincipal();
+			log.trace("principal: {}", principal);
+
+			if (principal != null) {
+				if (principal instanceof Jwt) {
+					Jwt jwt = (Jwt) principal;
+					log.trace("jwt: {}", jwt);
+					log.trace("all claims: {}", jwt.getClaims());
+
+					userDetails.setClientId(jwt.getClaimAsString(JWT_CLIENT_ID_KEY));
+					userDetails.setUserGroupId(jwt.getClaimAsString(JWT_GROUP_ID_KEY));
+					userDetails.setUserOrganizationId(jwt.getClaimAsString(JWT_ORGANIZATION_ID_KEY));
+					userDetails.setUserId(jwt.getClaimAsString(JWT_USER_ID_KEY));
+					userDetails.setUsername(jwt.getClaimAsString(JWT_USERNAME_KEY));
+					userDetails.setUserNin(jwt.getClaimAsString(JWT_USER_NIN_KEY));
+					userDetails.setUserGivenName(jwt.getClaimAsString(JWT_GIVEN_NAME_KEY));
+					userDetails.setUserFamilyName(jwt.getClaimAsString(JWT_FAMILY_NAME_KEY));
+					userDetails.setSessionState(jwt.getClaimAsString(JWT_SESSION_STATE_KEY));
+				} else if (principal instanceof String) {
+					log.trace("Principal String: {}", principal);
+					userDetails.setUsername((String) principal);
+				}
 			}
-		}
-		log.debug("current userDetails={}",userDetails);
-		return userDetails;
+			log.debug("current userDetails={}", userDetails);
+			return Mono.just(userDetails);
+		});
 	}
+
 
 	@Override
 	public DxcUserDetailsAuthentication loginWithUserDetails(DxcUserDetails dxcUserDetails) {

@@ -85,14 +85,15 @@ public class PrdAppConfig {
 	@Bean
 	public LoginLinkage2Service loginLinkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, 
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service) {
-		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service);
+			Linkage2Service linkage2Service, SecurityService securityService) {
+		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service, 
+				securityService);
 	}
 	
 	@Bean
 	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository) {
-		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository);
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService) {
+		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository, securityService);
 	}
 	
 	@Bean

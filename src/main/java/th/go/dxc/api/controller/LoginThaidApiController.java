@@ -32,6 +32,7 @@ import th.go.dxc.infra.connector.thaid.model.request.TokenRequest;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.infra.connector.thaid.model.request.FreshTokenRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
+import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
 @Tags(value = { @Tag(name = "บริการ Login ThaID") })
@@ -40,10 +41,12 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 public class LoginThaidApiController {
 	
 	private final LoginThaidService service;
+	private final SecurityService securityService;
 	
-	public LoginThaidApiController(LoginThaidService service) {
+	public LoginThaidApiController(LoginThaidService service, SecurityService securityService) {
 		super();
 		this.service = service;
+		this.securityService = securityService;
 	}
 	
 	@Operation(summary = "ขอ ThaID Token",security = @SecurityRequirement(name="bearerAuth"))
@@ -183,7 +186,14 @@ public class LoginThaidApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login/inset")
 	@ResponseBody
 	public Mono<Result> saveThaidToken(@RequestBody AuthorizationCodeRequest code) {
-		String sessionKc = service.sessionKeycloakFromToken();
-		return service.saveThaidToken(code, sessionKc);
+//		String sessionKc = service.sessionKeycloakFromToken();
+//		return service.saveThaidToken(code, sessionKc);
+		
+		// ใช้แบบ reactive
+//		return securityService.getCurrentUser()
+//				.flatMap(currentUser -> service.sessionKeycloakFromToken().flatMap(sessionKc -> service
+//						.saveThaidToken(code, sessionKc)));
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> service.saveThaidToken(code, currentUser.getSessionState()));
 	}
 }

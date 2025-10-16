@@ -17,4 +17,5 @@ public class DxcUserDetails {
 	private String userGivenName;
 	private String userFamilyName;
 	private String userIpAddress;
+	private String sessionState;
 }

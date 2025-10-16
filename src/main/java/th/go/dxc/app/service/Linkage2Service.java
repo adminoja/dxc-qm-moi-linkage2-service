@@ -22,8 +22,6 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 
 public interface Linkage2Service {
 
-	String departmentCodeKeycloakFromToken();
-
 	Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode);
 
 	Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request, String departmentCode);

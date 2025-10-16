@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
@@ -38,6 +39,8 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
+import th.go.dxc.share.security.model.DxcUserDetails;
+import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
 public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
@@ -47,16 +50,18 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	private final Lk2ThaidLogRepository lk2ThaidLogRepository;
 	private final Lk2TokenServiceService lk2TokenServiceService;
 	private final Linkage2Service linkage2Service;
+	private final SecurityService securityService;
 	
 	public LoginLinkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, 
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service) {
+			Linkage2Service linkage2Service, SecurityService securityService) {
 		super();
 		this.service = service;
 		this.mapperFacade = mapperFacade;
 		this.lk2ThaidLogRepository = lk2ThaidLogRepository;
 		this.lk2TokenServiceService = lk2TokenServiceService;
 		this.linkage2Service = linkage2Service;
+		this.securityService = securityService;
 	}
 	
 	private Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode) {
@@ -67,6 +72,16 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	// -------------------- ขอเข้าใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2> loginLinkage2(LoginLinkage2Request request, String departmentCode) {
+//		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
+		// ตรวจสอบค่าเบื้องต้น
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
 						.map(Mono::just)
@@ -97,6 +112,16 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	// -------------------- ยืนยันเข้าใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2Token> confirmLoginLinkage2(ConfirmLoginLinkage2Request request, String departmentCode) {
+//		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
+		// ตรวจสอบค่าเบื้องต้น
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
 						.map(Mono::just)
@@ -126,6 +151,16 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	// -------------------- ต่ออายุการใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2Token> renewLoginLinkage2(Linkage2TokenRequest request, String departmentCode) {
+		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
+		// ตรวจสอบค่าเบื้องต้น
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
 						.map(Mono::just)
@@ -156,6 +191,16 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	// -------------------- ออกจากระบบ -------------------- 
 	@Override
 	public Mono<Void> logoutLinkage2(UsernameRequest request, String departmentCode) {
+		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
+		// ตรวจสอบค่าเบื้องต้น
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
 						.map(Mono::just)
@@ -174,10 +219,17 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 							.then();
 				});
 	}
-
+	
 	// -------------------- บันทึก Linkage2 Token -------------------- 
 	@Override
 	public Mono<Result> saveLinkage2Token(LoginLinkage2Request request, String departmentCode, String sessionKc) {
+//		return securityService.getCurrentUser()
+//			.flatMap(currentUser -> {
+
+		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
 		if (!StringUtils.hasText(request.getPersonalID()) || "string".equals(request.getPersonalID())) {
 			log.error("PersonalID must not be empty");
 			return Mono.error(new IllegalStateException("PersonalID must not be empty"));
@@ -220,7 +272,8 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 								
 								return processOffice(request, officeId, departmentCode, sessionKc);
 							});
-				});
+		});
+//		});
 	}
 	
 	// -------------------- แยก logic ย่อยออกมาให้อ่านง่าย -------------------- 
@@ -286,31 +339,29 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		return entity;
 	}
 	
-	// -------------------- เรียก departmentCode จาก Keycloak Token --------------------
-	@Override
-	public String departmentCodeKeycloakFromToken() {
-		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-				.filter(auth -> auth instanceof JwtAuthenticationToken)
-				.map(auth -> (JwtAuthenticationToken) auth)
-				.map(jwtAuth -> {
-					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
-					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
-					return String.valueOf(attributes.get("departmentCode"));
-				})
-				.orElseThrow(() -> new AuthenticationServiceException("Missing departmentCode in token"));
-	}
-	
 	// -------------------- เรียก session_state จาก Keycloak Token (มี log ออกมาทั้ง Map) --------------------
+//	@Override
+//	public String sessionKeycloakFromToken() {
+//		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+//				.filter(auth -> auth instanceof JwtAuthenticationToken)
+//				.map(auth -> (JwtAuthenticationToken) auth)
+//				.map(jwtAuth -> {
+//					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
+//					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
+//					return String.valueOf(attributes.get("session_state"));
+//				})
+//				.orElseThrow(() -> new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID"));
+//	}
+	// ใช้แบบ reactive
 	@Override
-	public String sessionKeycloakFromToken() {
-		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+	public Mono<String> sessionKeycloakFromToken() {
+		return ReactiveSecurityContextHolder.getContext()
+				.map(ctx -> ctx.getAuthentication())
 				.filter(auth -> auth instanceof JwtAuthenticationToken)
-				.map(auth -> (JwtAuthenticationToken) auth)
-				.map(jwtAuth -> {
-					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
-					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
+				.map(auth -> {
+					Map<String, Object> attributes = ((JwtAuthenticationToken) auth).getTokenAttributes();
+					log.debug("Token attributes: {}", attributes);
 					return String.valueOf(attributes.get("session_state"));
-				})
-				.orElseThrow(() -> new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID"));
+				}).switchIfEmpty(Mono.error(new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID")));
 	}
 }

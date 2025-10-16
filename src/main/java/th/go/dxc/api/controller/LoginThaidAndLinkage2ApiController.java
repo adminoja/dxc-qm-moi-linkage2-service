@@ -21,6 +21,8 @@ import th.go.dxc.app.model.Result;
 import th.go.dxc.app.service.LoginThaidAndLinkage2Service;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
+import th.go.dxc.share.security.model.DxcUserDetails;
+import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
 @Tags(value = { @Tag(name = "บริการ Login ThaID และ Linkage2") })
@@ -29,10 +31,12 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 public class LoginThaidAndLinkage2ApiController {
 	
 	private final LoginThaidAndLinkage2Service service;
+	private final SecurityService securityService;
 	
-	public LoginThaidAndLinkage2ApiController(LoginThaidAndLinkage2Service service) {
+	public LoginThaidAndLinkage2ApiController(LoginThaidAndLinkage2Service service, SecurityService securityService) {
 		super();
 		this.service = service;
+		this.securityService = securityService;
 	}
 	
 	@Operation(summary = "บันทึก ThaID Token และ Linkage2 Token",security = @SecurityRequirement(name="bearerAuth"))
@@ -60,9 +64,23 @@ public class LoginThaidAndLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/inset")
 	@ResponseBody
 	public Mono<Result> saveThaidAndLinkage2Token(@RequestBody AuthorizationCodeRequest code) {
-		String departmentCode = service.departmentCodeKeycloakFromToken();
-		String sessionKc = service.sessionKeycloakFromToken();
-		return service.saveThaidAndLinkage2Token(code, departmentCode, sessionKc);
+//		String departmentCode = departmentCode();
+//		String sessionKc = service.sessionKeycloakFromToken();
+//		return service.saveThaidAndLinkage2Token(code, departmentCode, sessionKc);
+		
+		// ใช้แบบ reactive
+//		return securityService.getCurrentUser()
+//				.flatMap(currentUser -> service.sessionKeycloakFromToken().flatMap(sessionKc -> service
+//						.saveThaidAndLinkage2Token(code, currentUser.getUserOrganizationId(), sessionKc)));
+//		String sessionKc = ""; // ใส่ไปก่อนไม่รู้จำเป็นไหม
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> service.saveThaidAndLinkage2Token(code, currentUser.getUserOrganizationId(), currentUser.getSessionState()));
 	}
+	
+//	public String departmentCode() {
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+//		return departmentCode;
+//	}
 	
 }

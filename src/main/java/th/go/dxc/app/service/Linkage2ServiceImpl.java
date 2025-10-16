@@ -37,6 +37,8 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
+import th.go.dxc.share.security.model.DxcUserDetails;
+import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
 public class Linkage2ServiceImpl implements Linkage2Service {
@@ -46,20 +48,32 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	private final Lk2ServiceRepository repository;
 	private final Linkage2ServiceImplMapper mapper;
 	private final Lk2TokenServiceRepository lk2TokenServiceRepository;
+	private final SecurityService securityService;
 	
 	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository) {
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService) {
 		super();
 		this.service = service;
 		this.mapperFacade = mapperFacade;
 		this.repository = repository;
 		this.mapper = mapper;
 		this.lk2TokenServiceRepository = lk2TokenServiceRepository;
+		this.securityService = securityService;
 	}
 
 	// -------------------- ค้นหา JobLinkage2 -------------------- 
 	@Override
 	public Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request, String departmentCode) {
+		// ดึง user แบบ synchronous ก่อน
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+		
+		// ตรวจสอบค่าเบื้องต้น
+		if (!StringUtils.hasText(departmentCode)) {
+			log.error("DepartmentCode must not be empty");
+			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
+		}
+		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
 						.map(Mono::just)
@@ -175,20 +189,6 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 			}
 			return lk2Service;
 		}).subscribeOn(Schedulers.boundedElastic()); // ✅ ป้องกัน block event loop
-	}
-	
-	//  -------------------- เอามา log ดู Keycloak -------------------- 
-	@Override
-	public String departmentCodeKeycloakFromToken() {
-		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-				.filter(auth -> auth instanceof JwtAuthenticationToken)
-				.map(auth -> (JwtAuthenticationToken) auth)
-				.map(jwtAuth -> {
-					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
-					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
-					return String.valueOf(attributes.get("departmentCode"));
-				})
-				.orElseThrow(() -> new AuthenticationServiceException("Missing departmentCode in token"));
 	}
 	
 }

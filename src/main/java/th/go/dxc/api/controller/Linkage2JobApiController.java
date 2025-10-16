@@ -20,6 +20,8 @@ import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
+import th.go.dxc.share.security.model.DxcUserDetails;
+import th.go.dxc.share.security.service.SecurityService;
 
 @Tags(value = { @Tag(name = "บริการค้นหาข้อมูล Job Linkage2") })
 @RestController
@@ -27,10 +29,12 @@ import th.go.dxc.share.commons.dto.ErrorDto;
 public class Linkage2JobApiController {
 
 	private Linkage2Service service;
+	private final SecurityService securityService;
 	
-	public Linkage2JobApiController(Linkage2Service service) {
+	public Linkage2JobApiController(Linkage2Service service, SecurityService securityService) {
 		super();
 		this.service = service;
+		this.securityService = securityService;
 	}
 	
 	@Operation(summary = "ข้อมูลกระบวนงานที่มีสิทธิ",security = @SecurityRequirement(name="bearerAuth"))
@@ -58,7 +62,17 @@ public class Linkage2JobApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/job")
 	@ResponseBody
 	public Mono<JobLinkage2> jobLinkage2(@RequestBody Linkage2TokenRequest request) {
-		String departmentCode = service.departmentCodeKeycloakFromToken();
-		return service.jobLinkage2(request, departmentCode);
+//		String departmentCode = departmentCode();
+//		return service.jobLinkage2(request, departmentCode);
+		
+		// ใช้แบบ reactive
+		return securityService.getCurrentUser()
+				.flatMap(currentUser ->  service.jobLinkage2(request, currentUser.getUserOrganizationId()));
 	}
+	
+//	public String departmentCode() {
+//		DxcUserDetails currentUser = securityService.getCurrentUser();
+//		String departmentCode = currentUser.getUserOrganizationId();
+//		return departmentCode;
+//	}
 }

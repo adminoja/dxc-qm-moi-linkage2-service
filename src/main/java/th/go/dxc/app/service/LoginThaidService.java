@@ -22,5 +22,7 @@ public interface LoginThaidService {
 
 	Mono<Lk2ThaidLogEntity> saveThaidTokenReturnData(AuthorizationCodeRequest request, String sessionKc);
 
-	String sessionKeycloakFromToken();
+//	String sessionKeycloakFromToken();
+	
+	Mono<String> sessionKeycloakFromToken();
 }

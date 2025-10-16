@@ -8,6 +8,7 @@ import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
+import th.go.dxc.share.security.model.DxcUserDetails;
 
 public interface LoginLinkage2Service {
 
@@ -21,8 +22,7 @@ public interface LoginLinkage2Service {
 
 	Mono<Result> saveLinkage2Token(LoginLinkage2Request request, String departmentCode, String sessionKc);
 
-	String departmentCodeKeycloakFromToken();
+//	String sessionKeycloakFromToken();
 
-	String sessionKeycloakFromToken();
-
+	Mono<String> sessionKeycloakFromToken();
 }

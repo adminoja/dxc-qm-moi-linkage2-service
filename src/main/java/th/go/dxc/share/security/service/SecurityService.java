@@ -1,5 +1,6 @@
 package th.go.dxc.share.security.service;
 
+import reactor.core.publisher.Mono;
 import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.model.DxcUserDetailsAuthentication;
 import th.go.dxc.share.security.model.NinAuthentication;
@@ -10,9 +11,12 @@ public interface SecurityService {
 	public Object getCurrentPrincipal();
 	public String getCurrentPrincipalName();
 	public String getCurrentUserNin();
-	public String getCurrentUserName();	
-	public Boolean isLogin();
-	public DxcUserDetails getCurrentUser();
+//	public String getCurrentUserName();	
+	public Mono<String> getCurrentUserName();	
+//	public Boolean isLogin();
+	public Mono<Boolean> isLogin();
+//	public DxcUserDetails getCurrentUser();
+	public Mono<DxcUserDetails> getCurrentUser();
 	public NinAuthentication loginWithNin(String nin);
 	public DxcUserDetailsAuthentication loginWithUserDetails(DxcUserDetails dxcUserDetails);
 
