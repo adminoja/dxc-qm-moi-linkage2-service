@@ -64,6 +64,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		return services;
 	}
 	
+	// -------------------- ขอเข้าใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2> loginLinkage2(LoginLinkage2Request request, String departmentCode) {
 		return findByDepartmentCodeLk2Service(departmentCode)
@@ -93,6 +94,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				});
 	}
 
+	// -------------------- ยืนยันเข้าใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2Token> confirmLoginLinkage2(ConfirmLoginLinkage2Request request, String departmentCode) {
 		return findByDepartmentCodeLk2Service(departmentCode)
@@ -121,6 +123,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				});
 	}
 
+	// -------------------- ต่ออายุการใช้งาน --------------------
 	@Override
 	public Mono<LoginLinkage2Token> renewLoginLinkage2(Linkage2TokenRequest request, String departmentCode) {
 		return findByDepartmentCodeLk2Service(departmentCode)
@@ -150,6 +153,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				});
 	}
 
+	// -------------------- ออกจากระบบ -------------------- 
 	@Override
 	public Mono<Void> logoutLinkage2(UsernameRequest request, String departmentCode) {
 		return findByDepartmentCodeLk2Service(departmentCode)
@@ -171,6 +175,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				});
 	}
 
+	// -------------------- บันทึก Linkage2 Token -------------------- 
 	@Override
 	public Mono<Result> saveLinkage2Token(LoginLinkage2Request request, String departmentCode, String sessionKc) {
 		if (!StringUtils.hasText(request.getPersonalID()) || "string".equals(request.getPersonalID())) {
@@ -218,7 +223,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				});
 	}
 	
-	// แยก logic ย่อยออกมาให้อ่านง่าย
+	// -------------------- แยก logic ย่อยออกมาให้อ่านง่าย -------------------- 
 	private Mono<Result> processOffice(LoginLinkage2Request request, String officeId, String departmentCode, String sessionKc) {
 		return Mono.fromCallable(() -> lk2ThaidLogRepository.findByUsername(request.getPersonalID()))
 				.flatMap(lk2ThaidLogList -> Mono.justOrEmpty(lk2ThaidLogList.stream().findFirst()))
@@ -236,7 +241,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				.subscribeOn(Schedulers.boundedElastic());
 	}
 
-	// บันทึก token ใหม่
+	// -------------------- บันทึก token -------------------- 
 	private Mono<Result> saveNewLinkage2Token(LoginLinkage2Token token, String sessionKc) {
 		try {
 			SignedJWT signedJWT = SignedJWT.parse(token.getToken());
@@ -281,27 +286,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		return entity;
 	}
 	
-	private LocalDateTime toLocalDateTime(Instant instant) {
-		return instant.atZone(ZoneId.of("Asia/Bangkok")).toLocalDateTime();
-	}
-	
-	private LocalDateTime expToLocalDateTime(Object expClaim) {
-		if (expClaim == null) return null;
-
-		Instant instant;
-		if (expClaim instanceof Number) {
-			instant = Instant.ofEpochSecond(((Number) expClaim).longValue());
-		} else if (expClaim instanceof Date) {
-			instant = ((Date) expClaim).toInstant();
-		} else {
-			// fallback: แปลงจาก String
-			instant = Instant.ofEpochSecond(Long.parseLong(expClaim.toString()));
-		}
-
-		return LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Bangkok"));
-	}
-	
-	// เอามา log ดู Keycloak
+	// -------------------- เรียก departmentCode จาก Keycloak Token --------------------
 	@Override
 	public String departmentCodeKeycloakFromToken() {
 		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
@@ -315,6 +300,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 				.orElseThrow(() -> new AuthenticationServiceException("Missing departmentCode in token"));
 	}
 	
+	// -------------------- เรียก session_state จาก Keycloak Token (มี log ออกมาทั้ง Map) --------------------
 	@Override
 	public String sessionKeycloakFromToken() {
 		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())

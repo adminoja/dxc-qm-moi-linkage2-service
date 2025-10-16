@@ -28,6 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import io.netty.handler.logging.LogLevel;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
@@ -64,15 +67,22 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 		super();
 		this.properties = properties;
 		this.webClientBuilder = webClientBuilder; // ✅ เก็บ builder ไว้ใช้อีกที
-		
-//		HttpClient httpClient;
-		if (properties.isEnableWiretap()) {
-			// Dev: log headers + body
-			this.httpClient = HttpClient.create().wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL);
-		} else {
-			// Prod: log headers/status only
-			this.httpClient = HttpClient.create()
-				.wiretap(true);
+		try {
+			// สร้าง SSL context แบบไม่ตรวจสอบใบรับรอง
+			SslContext sslContext = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE)
+					.build();
+
+			HttpClient baseClient = HttpClient.create().secure(spec -> spec.sslContext(sslContext));
+
+			if (properties.isEnableWiretap()) {
+				this.httpClient = baseClient.wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG,
+						AdvancedByteBufFormat.TEXTUAL);
+			} else {
+				this.httpClient = baseClient.wiretap(true);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException("Error initializing SSL context", e);
 		}
 	}
 	

@@ -20,6 +20,8 @@ import th.go.dxc.app.service.Lk2TokenServiceImpl;
 import th.go.dxc.app.service.Lk2TokenServiceService;
 import th.go.dxc.app.service.LoginLinkage2Service;
 import th.go.dxc.app.service.LoginLinkage2ServiceImpl;
+import th.go.dxc.app.service.LoginThaidAndLinkage2Service;
+import th.go.dxc.app.service.LoginThaidAndLinkage2ServiceImpl;
 import th.go.dxc.app.service.LoginThaidService;
 import th.go.dxc.app.service.LoginThaidServiceImpl;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
@@ -96,6 +98,11 @@ public class PrdAppConfig {
 	@Bean
 	public Lk2TokenServiceService lk2TokenServiceService(Lk2TokenServiceRepository repository, Lk2TokenServiceServiceImplMapper mapper) {
 		return new Lk2TokenServiceImpl(repository, mapper);
+	}
+	
+	@Bean
+	public LoginThaidAndLinkage2Service loginThaidAndLinkage2Service(LoginThaidService loginThaidService, LoginLinkage2Service loginLinkage2Service) {
+		return new LoginThaidAndLinkage2ServiceImpl(loginThaidService, loginLinkage2Service);
 	}
 	
 }
