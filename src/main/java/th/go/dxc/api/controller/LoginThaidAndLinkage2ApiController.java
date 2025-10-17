@@ -21,7 +21,6 @@ import th.go.dxc.app.model.Result;
 import th.go.dxc.app.service.LoginThaidAndLinkage2Service;
 import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
-import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -64,23 +63,8 @@ public class LoginThaidAndLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/inset")
 	@ResponseBody
 	public Mono<Result> saveThaidAndLinkage2Token(@RequestBody AuthorizationCodeRequest code) {
-//		String departmentCode = departmentCode();
-//		String sessionKc = service.sessionKeycloakFromToken();
-//		return service.saveThaidAndLinkage2Token(code, departmentCode, sessionKc);
-		
-		// ใช้แบบ reactive
-//		return securityService.getCurrentUser()
-//				.flatMap(currentUser -> service.sessionKeycloakFromToken().flatMap(sessionKc -> service
-//						.saveThaidAndLinkage2Token(code, currentUser.getUserOrganizationId(), sessionKc)));
-//		String sessionKc = ""; // ใส่ไปก่อนไม่รู้จำเป็นไหม
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> service.saveThaidAndLinkage2Token(code, currentUser.getUserOrganizationId(), currentUser.getSessionState()));
 	}
-	
-//	public String departmentCode() {
-//		DxcUserDetails currentUser = securityService.getCurrentUser();
-//		String departmentCode = currentUser.getUserOrganizationId();
-//		return departmentCode;
-//	}
 	
 }

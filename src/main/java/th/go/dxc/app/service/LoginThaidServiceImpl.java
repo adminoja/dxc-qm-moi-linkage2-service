@@ -5,11 +5,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 
@@ -209,38 +207,4 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 		return instant.atZone(ZoneId.of("Asia/Bangkok")).toLocalDateTime();
 	}
 	
-	// -------------------- เรียก session_state จาก Keycloak Token (ไม่มี log ออกมาทั้ง Map)  --------------------
-//	public String getSidFromToken() {
-//	return Optional.of(SecurityContextHolder.getContext().getAuthentication())
-//			.filter(auth -> auth instanceof JwtAuthenticationToken)
-//			.map(m -> ((JwtAuthenticationToken) m).getTokenAttributes())
-//			.map(m -> String.valueOf(m.get("session_state")))
-//			.orElseThrow(() -> new AuthenticationServiceException(ErrorConstant.UNAUTHORIZED_MSG));
-//}
-	
-	// -------------------- เรียก session_state จาก Keycloak Token (มี log ออกมาทั้ง Map)  --------------------
-//	@Override
-//	public String sessionKeycloakFromToken() {
-//		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-//				.filter(auth -> auth instanceof JwtAuthenticationToken)
-//				.map(auth -> (JwtAuthenticationToken) auth)
-//				.map(jwtAuth -> {
-//					Map<String, Object> attributes = jwtAuth.getTokenAttributes();
-//					log.debug("Token attributes: {}", attributes); // 👉 log ออกมาทั้ง Map
-//					return String.valueOf(attributes.get("session_state"));
-//				})
-//				.orElseThrow(() -> new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID"));
-//	}
-	// ใช้แบบ reactive
-		@Override
-		public Mono<String> sessionKeycloakFromToken() {
-			return ReactiveSecurityContextHolder.getContext()
-					.map(ctx -> ctx.getAuthentication())
-					.filter(auth -> auth instanceof JwtAuthenticationToken)
-					.map(auth -> {
-						Map<String, Object> attributes = ((JwtAuthenticationToken) auth).getTokenAttributes();
-						log.debug("Token attributes: {}", attributes);
-						return String.valueOf(attributes.get("session_state"));
-					}).switchIfEmpty(Mono.error(new AuthenticationServiceException("กรุณายืนยันตัวตนด้วย ThaID")));
-		}
 }

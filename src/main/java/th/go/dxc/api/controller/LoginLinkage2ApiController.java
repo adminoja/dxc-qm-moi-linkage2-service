@@ -19,16 +19,12 @@ import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.Result;
 import th.go.dxc.app.model.LoginLinkage2;
-import th.go.dxc.app.model.ThaidToken;
-import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.LoginLinkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
-import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.share.commons.dto.ErrorDto;
-import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Tags(value = { @Tag(name = "บริการ Login Linkage2") })
@@ -70,11 +66,8 @@ public class LoginLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
 	public Mono<LoginLinkage2> loginLinkage2(@RequestBody LoginLinkage2Request request) {
-//		String departmentCode = departmentCode();
-//		return service.loginLinkage2(request, departmentCode);
 		return securityService.getCurrentUser()
-				.flatMap(currentUser -> service
-						.loginLinkage2(request, currentUser.getUserOrganizationId()));
+				.flatMap(currentUser -> service.loginLinkage2(request, currentUser.getUserOrganizationId()));
 	}
 	
 	@Operation(summary = "ยืนยันเข้าใช้งาน",security = @SecurityRequirement(name="bearerAuth"))
@@ -102,11 +95,8 @@ public class LoginLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login/confirm")
 	@ResponseBody
 	public Mono<LoginLinkage2Token> confirmLoginLinkage2(@RequestBody ConfirmLoginLinkage2Request request) {
-//		String departmentCode = departmentCode();
-//		return service.confirmLoginLinkage2(request, departmentCode);
 		return securityService.getCurrentUser()
-				.flatMap(currentUser -> service
-						.confirmLoginLinkage2(request, currentUser.getUserOrganizationId()));
+				.flatMap(currentUser -> service.confirmLoginLinkage2(request, currentUser.getUserOrganizationId()));
 	}
 	
 	@Operation(summary = "ต่ออายุการใช้งาน",security = @SecurityRequirement(name="bearerAuth"))
@@ -134,11 +124,8 @@ public class LoginLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login/renew")
 	@ResponseBody
 	public Mono<LoginLinkage2Token> renewLoginLinkage2(@RequestBody Linkage2TokenRequest request) {
-//		String departmentCode = departmentCode();
-//		return service.renewLoginLinkage2(request, departmentCode);
 		return securityService.getCurrentUser()
-				.flatMap(currentUser -> service
-						.renewLoginLinkage2(request, currentUser.getUserOrganizationId()));
+				.flatMap(currentUser -> service.renewLoginLinkage2(request, currentUser.getUserOrganizationId()));
 	}
 	
 	@Operation(summary = "ออกจากระบบ",security = @SecurityRequirement(name="bearerAuth"))
@@ -161,14 +148,11 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-//	@RequestMapping(method = RequestMethod.DELETE, value = "/logout")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/logout")
 	@ResponseBody
 	public Mono<Void> logoutLinkage2(@RequestBody UsernameRequest request) {
-//		String departmentCode = departmentCode();
-//		return service.logoutLinkage2(request, departmentCode);
 		return securityService.getCurrentUser()
-				.flatMap(currentUser -> service
-						.logoutLinkage2(request, currentUser.getUserOrganizationId()));
+				.flatMap(currentUser -> service.logoutLinkage2(request, currentUser.getUserOrganizationId()));
 	}
 	
 	@Operation(summary = "บันทึก Linkage2 Token",security = @SecurityRequirement(name="bearerAuth"))
@@ -196,23 +180,8 @@ public class LoginLinkage2ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login/inset")
 	@ResponseBody
 	public Mono<Result> saveLinkage2Token(@RequestBody LoginLinkage2Request request) {
-//		String departmentCode = departmentCode();
-//		String sessionKc = service.sessionKeycloakFromToken();
-//		return service.saveLinkage2Token(request, departmentCode, sessionKc);
-		
-		// ใช้แบบ reactive
-//		return securityService.getCurrentUser()
-//				.flatMap(currentUser -> service.sessionKeycloakFromToken().flatMap(sessionKc -> service
-//						.saveLinkage2Token(request, currentUser.getUserOrganizationId(), sessionKc)));
-//		String sessionKc = ""; // ใส่ไปก่อนไม่รู้จำเป็นไหม
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> service.saveLinkage2Token(request, currentUser.getUserOrganizationId(), currentUser.getSessionState()));
 	}
-	
-//	public String departmentCode() {
-//		DxcUserDetails currentUser = securityService.getCurrentUser();
-//		String departmentCode = currentUser.getUserOrganizationId();
-//		return departmentCode;
-//	}
 	
 }

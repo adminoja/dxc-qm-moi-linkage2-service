@@ -2,42 +2,31 @@ package th.go.dxc.app.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
-import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
-import th.go.dxc.app.model.Lk2TokenService;
-import th.go.dxc.app.model.LoginLinkage2;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
-import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -48,7 +37,6 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	private final Lk2ServiceRepository repository;
 	private final Linkage2ServiceImplMapper mapper;
 	private final Lk2TokenServiceRepository lk2TokenServiceRepository;
-	private final SecurityService securityService;
 	
 	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
 			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService) {
@@ -58,16 +46,11 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		this.repository = repository;
 		this.mapper = mapper;
 		this.lk2TokenServiceRepository = lk2TokenServiceRepository;
-		this.securityService = securityService;
 	}
 
 	// -------------------- ค้นหา JobLinkage2 -------------------- 
 	@Override
 	public Mono<JobLinkage2> jobLinkage2(Linkage2TokenRequest request, String departmentCode) {
-		// ดึง user แบบ synchronous ก่อน
-//		DxcUserDetails currentUser = securityService.getCurrentUser();
-//		String departmentCode = currentUser.getUserOrganizationId();
-		
 		// ตรวจสอบค่าเบื้องต้น
 		if (!StringUtils.hasText(departmentCode)) {
 			log.error("DepartmentCode must not be empty");
@@ -117,43 +100,50 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนราษฎร (เลขบัตร)
 	@Override
-	public Mono<Page<GenericResponse.ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
+//	public Mono<Page<GenericResponse.ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
+	public Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
 		// ดึง Token ล่าสุดของผู้ใช้งาน
 		return linkage2Token(userNin)
 				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
 						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
 				.flatMap(lk2TokenEntity -> {
 					String lk2Token = lk2TokenEntity.getToken();
-					
-					// ดึง Service ตาม jobId
-					return findByJobIdLk2Service(jobId)
-							.flatMap(lk2ServiceList -> Mono.justOrEmpty(lk2ServiceList.stream().findFirst())
-									.switchIfEmpty(Mono.error(new IllegalStateException("No Lk2Service found for jobId: " + jobId)))
-									.flatMap(firstService -> {
-										String ipProxy = firstService.getIpProxy();
-										PersonProfileRequest req = personProfileRequest(lk2ServiceList, jobId, thaiNin); // เตรียม Request
-										Map<Integer, Class<?>> responseMap = lk2ServiceList.stream() // map serviceID -> response class แบบ lambda
-												.collect(Collectors.toMap(
-													lk2 -> Integer.parseInt(lk2.getServiceId()), 
-													lk2 -> MoiDopaPerson.class,
-													(existing, replacement) -> existing  // ต้องใส่ merge function
-												));
-										return service.callService(req, lk2Token, responseMap, ipProxy)
-												.subscribeOn(Schedulers.boundedElastic()); // เรียกใช้งาน Generic callService;
-							}));
+					// ดึง Service ตาม serviceId และ departmentCode
+					return findByJobId(jobId).flatMap(lk2Service -> {
+						String ipProxy = lk2Service.getIpProxy();
+						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
+						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
+								Integer.parseInt(lk2Service.getServiceId()), MoiDopaPerson.class);
+						return service.callService(req, lk2Token, responseMap, ipProxy)
+								// ดึงเฉพาะ responseData ออกจาก Page<GenericResponse.ResponseItem<Object>>
+								.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
+									List<Object> content = page.getContent().stream()
+											.map(GenericResponse.ResponseItem::getResponseData)
+											.collect(Collectors.toList()); // <-- แก้ตรงนี้
+									return new PageImpl<>(content);
+								}).subscribeOn(Schedulers.boundedElastic());
+					});
 				});
 	}
 	
 	// -------------------- Request เลขบัตรประจำตัวประชาชน -------------------- 
 	private PersonProfileRequest personProfileRequest(List<Lk2ServiceEntity> lk2ServiceList, String jobId, String thaiNin) {
-		PersonProfileRequest req = new PersonProfileRequest();
-		req.setJobID(jobId);
-		req.setData(lk2ServiceList.stream()
-				.map(lk2 -> new PersonProfileRequest.DataReq(
-						Integer.parseInt(lk2.getServiceId()),
+//		PersonProfileRequest req = new PersonProfileRequest();
+//		req.setJobID(jobId);
+//		req.setData(lk2ServiceList.stream()
+//				.map(lk2 -> new PersonProfileRequest.DataReq(
+//						Integer.parseInt(lk2.getServiceId()),
+//						new PersonProfileRequest.QueryReq(thaiNin)))
+//				.collect(Collectors.toList()));
+//		return req;
+		return new PersonProfileRequest(
+				jobId,
+				lk2ServiceList.stream()
+					.map(s -> new PersonProfileRequest.DataReq(
+							Integer.parseInt(s.getServiceId()),
 						new PersonProfileRequest.QueryReq(thaiNin)))
-				.collect(Collectors.toList()));
-		return req;
+					.collect(Collectors.toList())
+		);
 	}
 	
 	
@@ -169,14 +159,19 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	}
 	
 	// -------------------- ค้นหา Lk2Service โดย jobId -------------------- 
-	private Mono<List<Lk2ServiceEntity>> findByJobIdLk2Service(String jobId) {
-		return Mono.fromCallable(() -> {
-			List<Lk2ServiceEntity> lk2List = repository.findByJobId(jobId);
-			if (lk2List.isEmpty()) {
-				throw new IllegalArgumentException("Lk2Service data not found for jobId: " + jobId);
-			}
-			return lk2List;
-		}).subscribeOn(Schedulers.boundedElastic()); // ✅ ป้องกัน block event loop
+	public Mono<Lk2ServiceEntity> findByJobId(String jobId) {
+		return Mono.fromCallable(() -> repository.findByJobId(jobId)
+				.orElseThrow(() -> new IllegalArgumentException("Lk2Service data not found for jobId: " + jobId))
+				).subscribeOn(Schedulers.boundedElastic());
+	}
+	
+	// -------------------- ค้นหา Lk2Service โดย serviceId และ departmentCode -------------------- 
+	@Override
+	public Mono<Lk2ServiceEntity> findByServiceIdAndDepartmentCode(String serviceId, String departmentCode) {
+		return Mono.fromCallable(() -> repository.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+				.orElseThrow(() -> new IllegalArgumentException("Lk2Service data not found for serviceId: " + serviceId 
+						+ " and departmentCode: " + departmentCode))
+				).subscribeOn(Schedulers.boundedElastic());
 	}
 	
 	// -------------------- ค้นหา Lk2Service โดย DepartmentCode -------------------- 

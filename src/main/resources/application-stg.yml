@@ -67,13 +67,20 @@ spring.security.oauth2.resourceserver:
 
 # ThaID Api Connector
 infra.connector.thaid:
+   enable-wiretap: false  # ใช้ false เฉพาะ stg กับ prd เพื่อ log headers/status only
    base_url: "https://imauth.bora.dopa.go.th"
-   client_id: "d3E5WUNxNWZqQWtWWThOcmRGb3ZPSVVFMjFhOWRBM04"
-   authorization: "Basic ZDNFNVdVTnhOV1pxUVd0V1dUaE9jbVJHYjNaUFNWVkZNakZoT1dSQk0wNDpTMngyTXpSdFUyNXdOMEZvZEhwWVFrTkZVVzFHT0VReU1HRnJWVlpQZG5oWmJYUXpSbXR1WWc="
    authorization_code: "authorization_code"
    refresh_token: "refresh_token"
-   redirect_uri: "https://search.dxc.go.th/secured/v2/index.html#/loginThaiD"
-   enable-wiretap: false  # ใช้ false เฉพาะ stg กับ prd เพื่อ log headers/status only
+   # Prd (พร้อมใช้ค่อยเปิด)
+   authorization: "Basic ZDNFNVdVTnhOV1pxUVd0V1dUaE9jbVJHYjNaUFNWVkZNakZoT1dSQk0wNDpTMngyTXpSdFUyNXdOMEZvZEhwWVFrTkZVVzFHT0VReU1HRnJWVlpQZG5oWmJYUXpSbXR1WWc="
+   client_id: "d3E5WUNxNWZqQWtWWThOcmRGb3ZPSVVFMjFhOWRBM04"
+   #redirect_uri: "https://search.dxc.go.th/secured/v2/index.html#/loginThaiD"
+   redirect_uri: "https://search-linkage2.dxc.go.th/secured/v2/index.html#/loginThaiD"
+   
+   # Sanbox (ทดสอบ ยังไม่พร้อมใช้)
+   #authorization: "Basic Ykdabk9UZEZhVXA0TUhVd1VIVmpiRGM1Y2tkcFRYVnNWRUpTZG5BNFJXNDphbTlrYms1RlNXMXRkbFE1WkRkNllWYzVVRWs1V0ZkNFJIWmFhekpGT0hSblMzaG9ibVJQV1FhbTlrYms1RlNXMXRkbFE1WkRkNllWYzVVRWs1V0ZkNFJIWmFhekpGT0hSblMzaG9ibVJQV1E="
+   #client_id: "bGZnOTdFaUp4MHUwUHVjbDc5ckdpTXVsVEJSdnA4RW4"
+   #redirect_uri: "https://search-linkage2.dxc.go.th/secured/v2/index.html#/loginThaiD"
    
 infra.connector.dopalinkage2:
    enable-wiretap: false  # ใช้ true เฉพาะ dev เพื่อ log request/response headers + body

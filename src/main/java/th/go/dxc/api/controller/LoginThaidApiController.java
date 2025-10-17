@@ -186,13 +186,6 @@ public class LoginThaidApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login/inset")
 	@ResponseBody
 	public Mono<Result> saveThaidToken(@RequestBody AuthorizationCodeRequest code) {
-//		String sessionKc = service.sessionKeycloakFromToken();
-//		return service.saveThaidToken(code, sessionKc);
-		
-		// ใช้แบบ reactive
-//		return securityService.getCurrentUser()
-//				.flatMap(currentUser -> service.sessionKeycloakFromToken().flatMap(sessionKc -> service
-//						.saveThaidToken(code, sessionKc)));
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> service.saveThaidToken(code, currentUser.getSessionState()));
 	}

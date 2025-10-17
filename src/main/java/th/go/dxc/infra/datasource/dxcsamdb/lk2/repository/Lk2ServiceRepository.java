@@ -1,6 +1,7 @@
 package th.go.dxc.infra.datasource.dxcsamdb.lk2.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,9 +42,12 @@ public interface Lk2ServiceRepository extends PagingAndSortingRepository<Lk2Serv
 				+ "and (:#{#filter.officeId} is null or a.officeId = :#{#filter.officeId})"
 			)
 	public Page<Lk2ServiceEntity> findByFilterNative(Lk2ServiceEntityFilter filter, Pageable pageable);
-
+	
 	@Query(value = "SELECT s FROM Lk2ServiceEntity s WHERE s.jobId = ?1")
-	public List<Lk2ServiceEntity> findByJobId(String jobId);
+	public Optional<Lk2ServiceEntity> findByJobId(String jobId);
+	
+	@Query(value = "SELECT s FROM Lk2ServiceEntity s WHERE s.serviceId = ?1 and s.departmentCode =?2")
+	public Optional<Lk2ServiceEntity> findByServiceIdAndDepartmentCode(String serviceId, String departmentCode);
 	
 	@Query(value = "SELECT s FROM Lk2ServiceEntity s WHERE s.departmentCode = ?1")
 	public List<Lk2ServiceEntity> findByDepartmentCode(String departmentCode);
