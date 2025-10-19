@@ -27,4 +27,6 @@ public interface Linkage2Service {
 //	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
 	Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode);
 
+	Mono<Page<Object>> findMoeStudent(String userNin, String thaiNin, String jobId, String departmentCode);
+
 }

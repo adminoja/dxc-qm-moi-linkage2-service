@@ -25,6 +25,7 @@ import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.LoginLinkage2Token;
+import th.go.dxc.app.model.MoeStudent;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
@@ -204,6 +205,41 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		});
 //		.subscribeOn(Schedulers.boundedElastic());
 	}
+	
+	// ฐานข้อมูลทะเบียนราษฎร (เลขบัตร)
+	@Override
+	public Mono<Page<Object>> findMoeStudent(String userNin, String thaiNin, String jobId, String departmentCode) {
+		// ดึง Token ล่าสุดของผู้ใช้งาน
+		return linkage2Token(userNin)
+				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
+						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
+				.flatMap(lk2TokenEntity -> {
+					String lk2Token = lk2TokenEntity.getToken();
+					String username = lk2TokenEntity.getUsername();
+					String sessionState = lk2TokenEntity.getSessionState();
+					
+					// ดึง Service ตาม serviceId และ departmentCode
+					return findByJobId(jobId).flatMap(lk2Service -> {
+						String ipProxy = lk2Service.getIpProxy();
+						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
+						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
+								Integer.parseInt(lk2Service.getServiceId()), MoeStudent.class);
+						
+						// เช็ค token linkage2 ก่อนค้น
+						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState)
+								.flatMap(validToken ->
+									service.callService(req, validToken, responseMap, ipProxy)
+										.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
+											List<Object> content = page.getContent().stream()
+													.map(GenericResponse.ResponseItem::getResponseData)
+													.collect(Collectors.toList());
+											return new PageImpl<>(content);
+										})
+								);
+					});
+		});
+	}
+	
 	
 	// -------------------- Request เลขบัตรประจำตัวประชาชน -------------------- 
 	private PersonProfileRequest personProfileRequest(List<Lk2ServiceEntity> lk2ServiceList, String jobId, String thaiNin) {

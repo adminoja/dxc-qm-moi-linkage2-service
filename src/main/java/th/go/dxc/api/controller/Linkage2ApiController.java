@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.Lk2TokenService;
+import th.go.dxc.app.model.MoeStudent;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.SearchPersons;
 import th.go.dxc.app.service.Linkage2Service;
@@ -99,4 +100,25 @@ public class Linkage2ApiController {
 //							});
 //				});
 //	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล นักเรียน", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoeStudent.class))),
+	})
+	@GetMapping("/{thaiNin}/moe-student")
+	public Mono<Page<Object>> findMoeStudent (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoeStudent(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
 }
