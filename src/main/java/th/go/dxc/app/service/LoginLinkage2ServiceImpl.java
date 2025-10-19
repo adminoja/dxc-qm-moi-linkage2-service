@@ -11,6 +11,7 @@ import com.nimbusds.jwt.SignedJWT;
 
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import th.go.dxc.app.model.Lk2TokenService;
@@ -132,13 +133,11 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		}
 		
 		return findByDepartmentCodeLk2Service(departmentCode)
-				.flatMap(lk2Service -> lk2Service.stream().findFirst()
-						.map(Mono::just)
-						.orElseGet(() -> Mono.error(new IllegalArgumentException("No lk2Service found for departmentCode: " + departmentCode)))
-				)
+				.flatMapMany(Flux::fromIterable) // แปลง List → Flux
+				.next() // เอาแค่ตัวแรก
 				.flatMap(lk2ServiceEntity -> {
 					if (!StringUtils.hasText(lk2ServiceEntity.getDepartmentCode())) {
-						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2ServiceEntity"));
+						return Mono.error(new IllegalArgumentException("DepartmentCode not set in lk2Service"));
 					}
 					// ดึง ipProxy
 					String ipProxy = lk2ServiceEntity.getIpProxy();
@@ -264,7 +263,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 
 			// เช่นเดียวกับ loginType
 			Object loginTypeObj = claims.getClaim("loginType");
-			String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : null;
+			String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : null; // loginType 2 = login ผ่าน ThaID
 
 			LocalDateTime issuedAt = LocalDateTime.now();
 

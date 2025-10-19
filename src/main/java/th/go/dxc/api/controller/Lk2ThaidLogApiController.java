@@ -46,7 +46,7 @@ public class Lk2ThaidLogApiController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = Lk2Service.class))),
+				, schema = @Schema(implementation = Lk2ThaidLog.class))),
 		
 		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
 		,content = @Content(mediaType = "application/json"

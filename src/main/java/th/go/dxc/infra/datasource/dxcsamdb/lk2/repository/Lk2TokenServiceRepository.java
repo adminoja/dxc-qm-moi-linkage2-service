@@ -33,5 +33,8 @@ public interface Lk2TokenServiceRepository extends PagingAndSortingRepository<Lk
 	public Page<Lk2TokenServiceEntity> findByFilterNative(Lk2TokenServiceEntityFilter filter, Pageable pageable);
 	
 	@Query("SELECT s FROM Lk2TokenServiceEntity s WHERE s.username = ?1 ORDER BY s.id DESC")
-	public List<Lk2TokenServiceEntity> findByUsername(String username);
+	public List<Lk2TokenServiceEntity> findByUsernameOrderByIdDesc(String username);
+	
+	@Query("SELECT s FROM Lk2TokenServiceEntity s WHERE s.username = ?1 and s.sessionState = ?2 ORDER BY s.id DESC")
+	public List<Lk2TokenServiceEntity> findByUsernameAndSessionStateKcOrderByIdDesc(String username, String sessionState);
 }

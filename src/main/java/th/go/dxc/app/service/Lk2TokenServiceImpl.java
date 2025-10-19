@@ -1,9 +1,18 @@
 package th.go.dxc.app.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.Lk2TokenServiceFilter;
 import th.go.dxc.app.util.Lk2TokenServiceServiceImplMapper;
@@ -54,6 +63,22 @@ public class Lk2TokenServiceImpl implements Lk2TokenServiceService {
 		repository.save(entity);
 		log.info("✅ บันทึก Linkage2 Token Log เรียบร้อย");
 		return entity;
+	}
+	
+	// -------------------- Lk2TokenService - อัพเดต lastActiveTime ของ token ล่าสุดสำหรับ user และ sessionState -------------------- 
+	@Override
+	public Mono<Void> updateLastActiveTime(String username, String sessionState) {
+		return Mono.fromCallable(() -> {
+			List<Lk2TokenServiceEntity> tokens = repository.findByUsernameAndSessionStateKcOrderByIdDesc(username,
+					sessionState);
+			if (!tokens.isEmpty()) {
+				Lk2TokenServiceEntity latest = tokens.get(0);
+				latest.setLastActiveTime(LocalDateTime.now());
+				repository.save(latest);
+			}
+			return null;
+		}).subscribeOn(Schedulers.boundedElastic()) // เพราะ repository.save() เป็น blocking JPA
+				.then();
 	}
 	
 }

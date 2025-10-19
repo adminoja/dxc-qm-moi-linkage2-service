@@ -1,12 +1,17 @@
 package th.go.dxc.app.service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +23,8 @@ import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
+import th.go.dxc.app.model.Lk2TokenService;
+import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
@@ -37,15 +44,20 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	private final Lk2ServiceRepository repository;
 	private final Linkage2ServiceImplMapper mapper;
 	private final Lk2TokenServiceRepository lk2TokenServiceRepository;
+	private final LoginLinkage2Service loginLinkage2Service;
+	private final Lk2TokenServiceService lk2TokenServiceService;
 	
 	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService) {
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService,
+			LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService) {
 		super();
 		this.service = service;
 		this.mapperFacade = mapperFacade;
 		this.repository = repository;
 		this.mapper = mapper;
 		this.lk2TokenServiceRepository = lk2TokenServiceRepository;
+		this.loginLinkage2Service = loginLinkage2Service;
+		this.lk2TokenServiceService = lk2TokenServiceService;
 	}
 
 	// -------------------- ค้นหา JobLinkage2 -------------------- 
@@ -98,32 +110,99 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		}).subscribeOn(Schedulers.boundedElastic());
 	}
 	
+	// -------------------- เช็ค linkage2 token หมดอายุ และ ต่ออายุพร้อมบันทึก  -------------------- 
+	private Mono<String> linkage2TokenRenew (String token, String cid, String departmentCode, String sessionStateKc) {
+		return Mono.defer(() -> {
+			if (!StringUtils.hasText(cid)) {
+				throw new IllegalArgumentException("CID must not be empty");
+			}
+			
+			List<Lk2TokenServiceEntity> existingTokenList = lk2TokenServiceRepository
+					.findByUsernameAndSessionStateKcOrderByIdDesc(cid, sessionStateKc);
+			
+			if (existingTokenList == null || existingTokenList.isEmpty()) {
+				return Mono.empty();
+			}
+			
+			Lk2TokenServiceEntity existingToken = existingTokenList.get(0);
+			LocalDateTime now = LocalDateTime.now();
+			LocalDateTime expireTime = existingToken.getExpireTime();
+
+			// ถ้า expireTime ยังเหลือเกิน 10 นาที (เช่น expireTime - now > 10 นาที) →
+			// ถ้ายังเหลือมากกว่า 10 นาที → ใช้ token เดิม
+			if (expireTime != null) {
+				long minutesUntilExpire = Duration.between(now, expireTime).toMinutes();
+				if (minutesUntilExpire > 10) { // หมายถึงยังไม่ถึง 50 นาที
+					// อัพเดต lastActiveTime ของ token เดิม
+					log.info("✅ Token still valid for user: {} (expires in {} min)", cid, minutesUntilExpire);
+					return lk2TokenServiceService.updateLastActiveTime(existingToken.getUsername(), existingToken.getSessionState())
+							.thenReturn(existingToken.getToken());
+				}
+			}
+		
+		
+			// ---------- ถ้าเกิน 50 นาที (เหลือต่ำกว่า 10 นาที) → ต่ออายุ token ----------
+			Linkage2TokenRequest renewReq = new Linkage2TokenRequest();
+			renewReq.setToken(token);
+			
+			return loginLinkage2Service.renewLoginLinkage2(renewReq, departmentCode)
+					.flatMap(res -> {
+						String newToken = res.getToken();
+						if (!StringUtils.hasText(newToken)) {
+							return Mono.error(new IllegalStateException("Renew token failed — empty token"));
+						}
+						
+						// บันทึก token ใหม่
+						Lk2TokenService lk2NewToken = new Lk2TokenService();
+						lk2NewToken.setUsername(cid);
+						lk2NewToken.setToken(newToken);
+						lk2NewToken.setInsertTime(LocalDateTime.now());
+						lk2NewToken.setChannel("9"); // ไม่รู้ยังต้องใช้อยู่ไหม 9 = renew linkage2 token
+						lk2NewToken.setSessionState(sessionStateKc); // อาจไม่ต้องใช้แล้ว
+						lk2NewToken.setLastActiveTime(LocalDateTime.now()); // ไม่รู้ยังต้องใช้อยู่ไหม
+						lk2TokenServiceService.insert(lk2NewToken);
+						
+						log.info("♻️ Renewed new Linkage2 token for user: {}", cid);
+						return Mono.just(newToken);
+					});
+		});
+	}
+	
+	
 	// ฐานข้อมูลทะเบียนราษฎร (เลขบัตร)
 	@Override
 //	public Mono<Page<GenericResponse.ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
-	public Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
+	public Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode) {
 		// ดึง Token ล่าสุดของผู้ใช้งาน
 		return linkage2Token(userNin)
 				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
 						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
 				.flatMap(lk2TokenEntity -> {
 					String lk2Token = lk2TokenEntity.getToken();
+					String username = lk2TokenEntity.getUsername();
+					String sessionState = lk2TokenEntity.getSessionState();
+					
 					// ดึง Service ตาม serviceId และ departmentCode
 					return findByJobId(jobId).flatMap(lk2Service -> {
 						String ipProxy = lk2Service.getIpProxy();
 						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
 						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
 								Integer.parseInt(lk2Service.getServiceId()), MoiDopaPerson.class);
-						return service.callService(req, lk2Token, responseMap, ipProxy)
-								// ดึงเฉพาะ responseData ออกจาก Page<GenericResponse.ResponseItem<Object>>
-								.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
-									List<Object> content = page.getContent().stream()
-											.map(GenericResponse.ResponseItem::getResponseData)
-											.collect(Collectors.toList()); // <-- แก้ตรงนี้
-									return new PageImpl<>(content);
-								}).subscribeOn(Schedulers.boundedElastic());
+						
+						// เช็ค token linkage2 ก่อนค้น
+						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState)
+								.flatMap(validToken ->
+									service.callService(req, validToken, responseMap, ipProxy)
+										.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
+											List<Object> content = page.getContent().stream()
+													.map(GenericResponse.ResponseItem::getResponseData)
+													.collect(Collectors.toList());
+											return new PageImpl<>(content);
+										})
+								);
 					});
-				});
+		});
+//		.subscribeOn(Schedulers.boundedElastic());
 	}
 	
 	// -------------------- Request เลขบัตรประจำตัวประชาชน -------------------- 
@@ -150,7 +229,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// -------------------- ค้นหา Lk2TokenService โดย username(เลขบัตร ปปช) -------------------- 
 	private Mono<List<Lk2TokenServiceEntity>> linkage2Token(String username) {
 		return Mono.fromCallable(() -> {
-			List<Lk2TokenServiceEntity> lk2Token = lk2TokenServiceRepository.findByUsername(username);
+			List<Lk2TokenServiceEntity> lk2Token = lk2TokenServiceRepository.findByUsernameOrderByIdDesc(username);
 			if (lk2Token.isEmpty()) {
 				throw new IllegalArgumentException("Lk2Service token not found for user");
 			}

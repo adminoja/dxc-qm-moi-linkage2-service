@@ -80,7 +80,7 @@ public class Linkage2ApiController {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersons(userNin, thaiNin, lk2Service.getJobId());  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPersons(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
