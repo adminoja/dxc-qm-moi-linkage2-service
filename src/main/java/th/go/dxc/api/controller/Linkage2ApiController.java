@@ -27,9 +27,14 @@ import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAlien;
+import th.go.dxc.app.model.MoiDopaBirthCertificate;
+import th.go.dxc.app.model.MoiDopaDivorceCertificate;
+import th.go.dxc.app.model.MoiDopaMarriageCertificate;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
+import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.SearchPersons;
 import th.go.dxc.app.service.Linkage2Service;
@@ -143,6 +148,111 @@ public class Linkage2ApiController {
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
 								return service.findDopaPersonChangeLastnamePrimary(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนบุคคลต่างด้าว", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaAlien.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-aliens")
+	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaAlien(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนการหย่า", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaDivorceCertificate.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-divorce-certificates")
+	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaDivorceCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ใบสูติบัตร", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaBirthCertificate.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-birth-certificates")
+	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaBirthCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ภาพใบหน้า", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaPersonFacePhoto.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-person-face-photos")
+	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaPersonFacePhoto(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนสมรส", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaMarriageCertificate.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-marriage-certificates")
+	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaMarriageCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}

@@ -11,9 +11,14 @@ import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAlien;
+import th.go.dxc.app.model.MoiDopaBirthCertificate;
+import th.go.dxc.app.model.MoiDopaDivorceCertificate;
+import th.go.dxc.app.model.MoiDopaMarriageCertificate;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
+import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
@@ -42,5 +47,15 @@ public interface Linkage2Service {
 	Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary(String userNin, String thaiNin, String jobId, String departmentCode);
 
 	Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
 
 }

@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "ฐานข้อมูลทะเบียนราษฎร")
 public class MoiDopaPerson {
-
+	
 	@Schema(description = "รหัสคำนำหน้า", example = "3")
 	private Integer titleCode;
 	@Schema(description = "คำนำหน้านาม", example = "นาย")

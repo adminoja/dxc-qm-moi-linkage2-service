@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +26,7 @@ import reactor.core.scheduler.Schedulers;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
+import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.JobLinkage2;
@@ -34,13 +36,22 @@ import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAlien;
+import th.go.dxc.app.model.MoiDopaBirthCertificate;
+import th.go.dxc.app.model.MoiDopaDivorceCertificate;
+import th.go.dxc.app.model.MoiDopaMarriageCertificate;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsStudentResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaAlienResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaBirthCertificateResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaDivorceCertificateResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaMarriageCertificateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeLastnamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeNamePrimaryResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFacePhotoResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MolDsdWorkforceDevelopmentResponse;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
@@ -185,111 +196,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					});
 		});
 	}
-	
-	
-	// ฐานข้อมูลทะเบียนราษฎร (เลขบัตร)
-//	@Override
-////	public Mono<Page<GenericResponse.ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId) {
-//	public Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode) {
-//		// ดึง Token ล่าสุดของผู้ใช้งาน
-//		return linkage2Token(userNin)
-//				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
-//						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
-//				.flatMap(lk2TokenEntity -> {
-//					String lk2Token = lk2TokenEntity.getToken();
-//					String username = lk2TokenEntity.getUsername();
-//					String sessionState = lk2TokenEntity.getSessionState();
-//					
-//					// ดึง Service ตาม serviceId และ departmentCode
-//					return findByJobId(jobId).flatMap(lk2Service -> {
-//						String ipProxy = lk2Service.getIpProxy();
-//						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
-//						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
-//								Integer.parseInt(lk2Service.getServiceId()), MoiDopaPerson.class);
-//						
-//						// เช็ค token linkage2 ก่อนค้น
-//						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState)
-//								.flatMap(validToken ->
-//									service.callService(req, validToken, responseMap, ipProxy)
-//										.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
-//											List<Object> content = page.getContent().stream()
-//													.map(GenericResponse.ResponseItem::getResponseData)
-//													.collect(Collectors.toList());
-//											return new PageImpl<>(content);
-//										})
-//								);
-//					});
-//		});
-////		.subscribeOn(Schedulers.boundedElastic());
-//	}
-	
-	// ฐานข้อมูลนักเรียน
-//	@Override
-//	public Mono<Page<Object>> findMoeStudent(String userNin, String thaiNin, String jobId, String departmentCode) {
-//		// ดึง Token ล่าสุดของผู้ใช้งาน
-//		return linkage2Token(userNin)
-//				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
-//						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
-//				.flatMap(lk2TokenEntity -> {
-//					String lk2Token = lk2TokenEntity.getToken();
-//					String username = lk2TokenEntity.getUsername();
-//					String sessionState = lk2TokenEntity.getSessionState();
-//					
-//					// ดึง Service ตาม serviceId และ departmentCode
-//					return findByJobId(jobId).flatMap(lk2Service -> {
-//						String ipProxy = lk2Service.getIpProxy();
-//						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
-//						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
-//								Integer.parseInt(lk2Service.getServiceId()), MoeStudent.class);
-//						
-//						// เช็ค token linkage2 ก่อนค้น
-//						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState)
-//								.flatMap(validToken ->
-//									service.callService(req, validToken, responseMap, ipProxy)
-//										.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
-//											List<Object> content = page.getContent().stream()
-//													.map(GenericResponse.ResponseItem::getResponseData)
-//													.collect(Collectors.toList());
-//											return new PageImpl<>(content);
-//										})
-//								);
-//					});
-//		});
-//	}
-	
-	// ฐานข้อมูลผู้สำเร็จการศึกษา
-//	@Override
-//	public Mono<Page<Object>> findMoeGraduate(String userNin, String thaiNin, String jobId, String departmentCode) {
-//		// ดึง Token ล่าสุดของผู้ใช้งาน
-//		return linkage2Token(userNin)
-//				.flatMap(lk2TokenList -> Mono.justOrEmpty(lk2TokenList.stream().findFirst())
-//						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
-//				.flatMap(lk2TokenEntity -> {
-//					String lk2Token = lk2TokenEntity.getToken();
-//					String username = lk2TokenEntity.getUsername();
-//					String sessionState = lk2TokenEntity.getSessionState();
-//
-//					// ดึง Service ตาม serviceId และ departmentCode
-//					return findByJobId(jobId).flatMap(lk2Service -> {
-//						String ipProxy = lk2Service.getIpProxy();
-//						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin); // เตรียม Request
-//						Map<Integer, Class<?>> responseMap = Map.of( // map serviceID -> response class แบบ lambda
-//								Integer.parseInt(lk2Service.getServiceId()), MoeGraduate.class);
-//
-//						// เช็ค token linkage2 ก่อนค้น
-//						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState)
-//								.flatMap(validToken -> service.callService(req, validToken, responseMap, ipProxy)
-//										.map((Page<GenericResponse.ResponseItem<Object>> page) -> {
-//											List<Object> content = page.getContent().stream()
-//													.map(GenericResponse.ResponseItem::getResponseData)
-//													.collect(Collectors.toList());
-//											return new PageImpl<>(content);
-//										}));
-//					});
-//				});
-//	}
 
-	// ฐานข้อมูลทะเบียนราษฎร (เลขบัตร)
+	// ฐานข้อมูลทะเบียนราษฎร
 	@Override
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode) {
 //		Mono<Page<Object>> rawPageMono = findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonResponse.class);
@@ -301,7 +209,6 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 							.map(item -> objectMapper.convertValue(item, MoiDopaPerson.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
-
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
 				});
 	}
@@ -336,6 +243,103 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
+	// ฐานข้อมูลทะเบียนบุคคลต่างด้าว
+	@Override
+	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAlienResponse.class)
+				.map(page -> {
+					List<MoiDopaAlien> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MoiDopaAlienResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
+							.map(resp -> {
+								MoiDopaAlien alien = objectMapper.convertValue(resp, MoiDopaAlien.class);
+								// แปลง nested object (Father / Mother / Passport / Visa)
+								if (resp.getFather() != null) {
+									alien.setFatherPersonalID(resp.getFather().getPersonalID());
+									alien.setFatherName(resp.getFather().getName());
+									alien.setFatherNationalityDesc(resp.getFather().getNationalityDesc());
+								}
+								if (resp.getMother() != null) {
+									alien.setMotherPersonalID(resp.getMother().getPersonalID());
+									alien.setMotherName(resp.getMother().getName());
+									alien.setMotherNationalityDesc(resp.getMother().getNationalityDesc());
+								}
+								if (resp.getPassport() != null) {
+									alien.setPassportDocumentType(resp.getPassport().getDocumentType());
+									alien.setPassportDocumentNo(resp.getPassport().getDocumentNo());
+									alien.setPassportIssuePlace(resp.getPassport().getDocumentIssuePlace());
+									alien.setPassportIssueDate(resp.getPassport().getIssueDate());
+									alien.setPassportExpireDate(resp.getPassport().getExpireDate());
+								}
+								if (resp.getVisa() != null) {
+									alien.setVisaDocumentNo(resp.getVisa().getDocumentNo());
+									alien.setVisaIssueDate(resp.getVisa().getIssueDate());
+									alien.setVisaExpireDate(resp.getVisa().getExpireDate());
+									alien.setVisaIssuePlace(resp.getVisa().getDocumentIssuePlace());
+									alien.setVisaType(resp.getVisa().getVisaType());
+									alien.setVisaRequestType(resp.getVisa().getVisaRequestType());
+								}
+								return alien;
+							})
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
+	// ฐานข้อมูลทะเบียนการหย่า
+	@Override
+	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaDivorceCertificateResponse.class)
+				.map(page -> {
+					List<MoiDopaDivorceCertificate> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaDivorceCertificate.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลใบสูติบัตร
+	@Override
+	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaBirthCertificateResponse.class)
+				.map(page -> {
+					List<MoiDopaBirthCertificate> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaBirthCertificate.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลภาพใบหน้า
+	@Override
+	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonFacePhotoResponse.class)
+				.map(page -> {
+					List<MoiDopaPersonFacePhoto> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFacePhoto.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
+	// ฐานข้อมูลทะเบียนสมรส
+	@Override
+	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin,
+			String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaMarriageCertificateResponse.class)
+				.map(page -> {
+					List<MoiDopaMarriageCertificate> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaMarriageCertificate.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
 				});
 	}
@@ -433,6 +437,21 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					.collect(Collectors.toList())
 		);
 	}
+	
+	// -------------------- Generic Mapper กลาง --------------------
+	private <R, M> Mono<Page<M>> mapPage(Mono<Page<Object>> pageMono, Class<R> responseClass,
+			Function<R, Stream<?>> extractor, Function<Object, M> converter) {
+
+		return pageMono.map(page -> {
+			List<M> mappedList = page.getContent().stream().map(obj -> objectMapper.convertValue(obj, responseClass))
+					.flatMap(resp -> extractor.apply(resp)).map(item -> converter.apply(item))
+					.filter(Linkage2ServiceImpl::hasMeaningfulData) // ✅ ฟิลเตอร์ข้อมูลที่ไม่มีค่า
+					.collect(Collectors.toList());
+
+			return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+		});
+	}
+
 	
 	
 	// -------------------- ค้นหา Lk2TokenService โดย username(เลขบัตร ปปช) -------------------- 
