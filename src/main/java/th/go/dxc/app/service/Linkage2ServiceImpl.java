@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +23,8 @@ import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import th.go.dxc.app.model.MoiDopaPerson;
+import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
+import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.JobLinkage2;
@@ -36,6 +39,8 @@ import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsStudentResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeLastnamePrimaryResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeNamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MolDsdWorkforceDevelopmentResponse;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
@@ -301,6 +306,40 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				});
 	}
 
+	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อตัว
+	@Override
+	public Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary(String userNin, String thaiNin,
+			String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeNamePrimaryResponse.class)
+				.map(page -> {
+					List<MoiDopaPersonChangeNamePrimary> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeNamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
+							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
+							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeNamePrimary.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อสกุล
+	@Override
+	public Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary(String userNin,
+			String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeLastnamePrimaryResponse.class)
+				.map(page -> {
+					List<MoiDopaPersonChangeLastnamePrimary> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeLastnamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
+							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
+							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeLastnamePrimary.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
 	// ฐานข้อมูลนักเรียน
 	@Override
 	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode) {
