@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -93,9 +95,9 @@ public class DevAppConfig {
 	@Bean
 	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
 			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService,
-			@Lazy LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService) {
+			@Lazy LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService, ObjectMapper objectMapper) {
 		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository, securityService,
-				loginLinkage2Service, lk2TokenServiceService);
+				loginLinkage2Service, lk2TokenServiceService, objectMapper);
 	}
 	
 	@Bean

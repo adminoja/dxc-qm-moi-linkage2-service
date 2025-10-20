@@ -8,28 +8,29 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoeStudent {
-	@Schema(description = "ปีการศึกษา", example = "")
+@Schema(description = "ฐานข้อมูลผู้สำเร็จการศึกษา")
+public class MoeOpsGraduate {
+	@Schema(description = "ปีที่สำเร็จการศึกษา", example = "")
 	private String academicYear;
 	@Schema(description = "สาขางาน", example = "")
 	private String courseName;
-	@Schema(description = "หลักสูตร", example = "")
-	private String curriculumName;
+	@Schema(description = "วุฒิการศึกษา", example = "")
+	private String degreeName;
 	@Schema(description = "หน่วยงานต้นสังกัด", example = "")
 	private String departmentNameThai;
 	@Schema(description = "ระดับการศึกษา", example = "")
 	private String educationLevelName;
 	@Schema(description = "ชื่อ", example = "")
 	private String firstName;
-	@Schema(description = "ผลการเรียนเฉลียสะสม", example = "")
+	@Schema(description = "ผลการเรียนเฉลี่ยสะสม", example = "")
 	private String gpax;
-	@Schema(description = "ชั้นปี", example = "")
-	private String gradeLevelName;
+	@Schema(description = "วันที่สำเร็จการศึกษา", example = "")
+	private String graduateDate;
 	@Schema(description = "นามสกุล", example = "")
 	private String lastName;
 	@Schema(description = "ประเภทวิชา", example = "")
 	private String majorName;
-	@Schema(description = "เลขประจำตัวประชาชน", example = "")
+	@Schema(description = "เลขบัตรประจำตัวประชาชน", example = "")
 	private String personID;
 	@Schema(description = "คำนำหน้าชื่อ", example = "")
 	private String prefixName;
@@ -41,6 +42,4 @@ public class MoeStudent {
 	private String schoolName;
 	@Schema(description = "ภาคการศึกษา", example = "")
 	private String semester;
-	@Schema(description = "สถานะนักเรียน", example = "")
-	private String studentStatusName;
 }

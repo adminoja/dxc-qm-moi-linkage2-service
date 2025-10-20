@@ -25,8 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.Lk2TokenService;
-import th.go.dxc.app.model.MoeStudent;
+import th.go.dxc.app.model.MoeOpsGraduate;
+import th.go.dxc.app.model.MoeOpsStudent;
 import th.go.dxc.app.model.MoiDopaPerson;
+import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.SearchPersons;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
@@ -71,7 +73,7 @@ public class Linkage2ApiController {
 	})
 	@GetMapping("/{thaiNin}/moi-dopa-persons")
 //	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (
-	public Mono<Page<Object>> findMoiDopaPersons (
+	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
@@ -105,10 +107,10 @@ public class Linkage2ApiController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = MoeStudent.class))),
+				, schema = @Schema(implementation = MoeOpsStudent.class))),
 	})
-	@GetMapping("/{thaiNin}/moe-student")
-	public Mono<Page<Object>> findMoeStudent (
+	@GetMapping("/{thaiNin}/moe-ops-student")
+	public Mono<Page<MoeOpsStudent>> findMoeStudent (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
@@ -117,7 +119,49 @@ public class Linkage2ApiController {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoeStudent(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoeOpsStudent(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ผู้สำเร็จการศึกษา", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoeOpsGraduate.class))),
+	})
+	@GetMapping("/{thaiNin}/moe-ops-graduate")
+	public Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoeOpsGraduate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล การพัฒนาฝีมือแรงงาน", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MolDsdWorkforceDevelopment.class))),
+	})
+	@GetMapping("/{thaiNin}/mol-dsd-workforce-developments")
+	public Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMolDsdWorkforceDevelopment(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}

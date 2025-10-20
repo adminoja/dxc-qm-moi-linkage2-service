@@ -9,6 +9,10 @@ import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
+import th.go.dxc.app.model.MoeOpsGraduate;
+import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaPerson;
+import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
@@ -25,8 +29,12 @@ public interface Linkage2Service {
 	Mono<Lk2ServiceEntity> findByServiceIdAndDepartmentCode(String serviceId, String departmentCode);
 	
 //	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
-	Mono<Page<Object>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPerson>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode);
 
-	Mono<Page<Object>> findMoeStudent(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate(String userNin, String thaiNin, String jobId, String departmentCode);
+
+	Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment(String userNin, String thaiNin, String jobId, String departmentCode);
 
 }

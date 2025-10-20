@@ -262,26 +262,43 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 						.map(item -> {
 							Object rawData = item.getResponseData();
 							Object data;
-							if (item.getResponseStatus() != 200 || item.getResponseData() instanceof Map) {
-								// ถ้าไม่สำเร็จ หรือ response เป็นข้อความ/404 → เก็บ JsonNode ดิบ
-								data = objectMapper.convertValue(item.getResponseData(), JsonNode.class);
-							} else {
-		//						// ถ้า 200 → map เป็น class ของ service
-								Class<?> clazz = responseMap.getOrDefault(item.getServiceID(), JsonNode.class);
-		//						
+//							if (item.getResponseStatus() != 200 || item.getResponseData() instanceof Map) {
+//								// ถ้าไม่สำเร็จ หรือ response เป็นข้อความ/404 → เก็บ JsonNode ดิบ
+//								data = objectMapper.convertValue(item.getResponseData(), JsonNode.class);
+//							} else {
+//		//						// ถ้า 200 → map เป็น class ของ service
+//								Class<?> clazz = responseMap.getOrDefault(item.getServiceID(), JsonNode.class);
+//		//						
+//								if (rawData instanceof List) {
+//									// ถ้า responseData เป็น array → map เป็น List ของ clazz
+//									CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class,
+//											clazz);
+//									data = objectMapper.convertValue(rawData, listType);
+//								} else if (rawData instanceof Map) {
+//									// ถ้าเป็น object เดี่ยว → map เป็น clazz
+//									data = objectMapper.convertValue(rawData, clazz);
+//								} else {
+//									// fallback → เก็บ rawData ดิบ
+//									data = rawData;
+//								}
+//							}
+							
+							// ดึง class จาก responseMap ตาม serviceID
+								Class<?> clazz = responseMap.getOrDefault(item.getServiceID(), Object.class);
+
 								if (rawData instanceof List) {
-									// ถ้า responseData เป็น array → map เป็น List ของ clazz
-									CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class,
-											clazz);
+									// ถ้าเป็น array → map เป็น List ของ clazz
+									CollectionType listType = objectMapper.getTypeFactory()
+											.constructCollectionType(List.class, clazz);
 									data = objectMapper.convertValue(rawData, listType);
-								} else if (rawData instanceof Map) {
-									// ถ้าเป็น object เดี่ยว → map เป็น clazz
+								} else if (rawData instanceof Map
+										|| rawData instanceof com.fasterxml.jackson.databind.JsonNode) {
+									// ถ้าเป็น Map หรือ ObjectNode → map เป็น clazz
 									data = objectMapper.convertValue(rawData, clazz);
 								} else {
 									// fallback → เก็บ rawData ดิบ
 									data = rawData;
 								}
-							}
 							
 							GenericResponse.ResponseItem<Object> newItem = new GenericResponse.ResponseItem<>();
 							newItem.setServiceID(item.getServiceID());
