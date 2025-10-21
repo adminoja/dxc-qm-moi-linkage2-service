@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MolDsdWorkforceDevelopmentResponse {
+	
 	@JsonProperty("CERTIFICATE_DATE")
 	private String certificateDate;
 	@JsonProperty("CERTIFICATE_NO")

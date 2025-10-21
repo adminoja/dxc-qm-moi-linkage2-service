@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.AmloAssetFreezePersons;
+import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
@@ -38,7 +39,9 @@ import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
 import th.go.dxc.app.model.MoiDopaPersonFindByName;
+import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
+import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
 import th.go.dxc.app.model.SearchPersons;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.MoiDopaThaiIdCard;
@@ -83,6 +86,7 @@ public class Linkage2ApiController {
 //		, schema = @Schema(implementation = ErrorDto.class)))
 	})
 	@GetMapping("/{thaiNin}/moi-dopa-lk2-persons")
+//	@GetMapping("moi-dopa-lk2-persons")
 //	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
@@ -309,7 +313,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonFindByName.class))),
 	})
-	@GetMapping("/persons/moi-dopa-lk2-person-by-names")
+	@GetMapping("/moi-dopa-lk2-person-by-names")
 	public Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "ชื่อตัว") @RequestParam(value = "firstName", required = true) String firstName,
@@ -326,13 +330,75 @@ public class Linkage2ApiController {
 				});
 	}
 	
+	@Operation(summary = "บริการค้นหาข้อมูล คนพิการ", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MsdhsDepCripple.class))),
+	})
+	@GetMapping("/{thaiNin}/msdhs-dep-lk2-cripple")
+	public Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = true) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMsdhsDepCripple(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ใบอนุญาตป.4", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaPor4License.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-por4-licenses")
+	public Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = true) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaPor4License(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล สิทธิประกันสุขภาพและการลงทะเบียนกับหน่วยบริการ", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MophNhsoHealthInsuranceRight.class))),
+	})
+	@GetMapping("/{thaiNin}/moph-nhso-lk2-health-insurance-rights")
+	public Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = true) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMophNhsoHealthInsuranceRight(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
 	@Operation(summary = "บริการค้นหาข้อมูล รายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)", security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = AmloAssetFreezePersons.class))),
 	})
-	
 	@GetMapping("/{thaiNin}/amlo-lk2-asset-freeze-persons")
 	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,

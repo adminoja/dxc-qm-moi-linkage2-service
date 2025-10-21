@@ -6,11 +6,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +30,12 @@ import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
 import th.go.dxc.app.model.MoiDopaPersonFindByName;
+import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
+import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.AmloAssetFreezePersons;
+import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
@@ -47,6 +52,7 @@ import th.go.dxc.infra.connector.dopalinkage2.model.request.CitizenSearchRequest
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.AmloAssetFreezePersonsResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MsdhsDepCrippleResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsStudentResponse;
@@ -60,8 +66,10 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChange
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFacePhotoResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFindByNameResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPor4LicenseResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaThaiIdCardResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MolDsdWorkforceDevelopmentResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MophNhsoHealthInsuranceRightResponse;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
@@ -263,33 +271,39 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					List<MoiDopaAlien> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaAlienResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.map(resp -> {
+								if (resp == null) return null; // <-- เช็ค resp ก่อน
 								MoiDopaAlien alien = objectMapper.convertValue(resp, MoiDopaAlien.class);
+								
 								// แปลง nested object (Father / Mother / Passport / Visa)
-								if (resp.getFather() != null) {
-									alien.setFatherPersonalID(resp.getFather().getPersonalID());
-									alien.setFatherName(resp.getFather().getName());
-									alien.setFatherNationalityDesc(resp.getFather().getNationalityDesc());
-								}
-								if (resp.getMother() != null) {
-									alien.setMotherPersonalID(resp.getMother().getPersonalID());
-									alien.setMotherName(resp.getMother().getName());
-									alien.setMotherNationalityDesc(resp.getMother().getNationalityDesc());
-								}
-								if (resp.getPassport() != null) {
-									alien.setPassportDocumentType(resp.getPassport().getDocumentType());
-									alien.setPassportDocumentNo(resp.getPassport().getDocumentNo());
-									alien.setPassportIssuePlace(resp.getPassport().getDocumentIssuePlace());
-									alien.setPassportIssueDate(resp.getPassport().getIssueDate());
-									alien.setPassportExpireDate(resp.getPassport().getExpireDate());
-								}
-								if (resp.getVisa() != null) {
-									alien.setVisaDocumentNo(resp.getVisa().getDocumentNo());
-									alien.setVisaIssueDate(resp.getVisa().getIssueDate());
-									alien.setVisaExpireDate(resp.getVisa().getExpireDate());
-									alien.setVisaIssuePlace(resp.getVisa().getDocumentIssuePlace());
-									alien.setVisaType(resp.getVisa().getVisaType());
-									alien.setVisaRequestType(resp.getVisa().getVisaRequestType());
-								}
+								// --- Father ---
+								Optional.ofNullable(resp.getFather()).ifPresent(father -> {
+									alien.setFatherPersonalID(father.getPersonalID());
+									alien.setFatherName(father.getName());
+									alien.setFatherNationalityDesc(father.getNationalityDesc());
+								});
+								// --- Mother ---
+								Optional.ofNullable(resp.getMother()).ifPresent(mother -> {
+									alien.setMotherPersonalID(mother.getPersonalID());
+									alien.setMotherName(mother.getName());
+									alien.setMotherNationalityDesc(mother.getNationalityDesc());
+								});
+								// --- Passport ---
+								Optional.ofNullable(resp.getPassport()).ifPresent(passport -> {
+									alien.setPassportDocumentType(passport.getDocumentType());
+									alien.setPassportDocumentNo(passport.getDocumentNo());
+									alien.setPassportIssuePlace(passport.getDocumentIssuePlace());
+									alien.setPassportIssueDate(passport.getIssueDate());
+									alien.setPassportExpireDate(passport.getExpireDate());
+								});
+								// --- Visa ---
+								Optional.ofNullable(resp.getVisa()).ifPresent(visa -> {
+									alien.setVisaDocumentNo(visa.getDocumentNo());
+									alien.setVisaIssueDate(visa.getIssueDate());
+									alien.setVisaExpireDate(visa.getExpireDate());
+									alien.setVisaIssuePlace(visa.getDocumentIssuePlace());
+									alien.setVisaType(visa.getVisaType());
+									alien.setVisaRequestType(visa.getVisaRequestType());
+								});
 								return alien;
 							})
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
@@ -361,45 +375,46 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					List<MoiDopaThaiIdCard> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaThaiIdCardResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.map(resp -> {
+								if (resp == null) return null; // <-- เช็ค resp ก่อน
 								MoiDopaThaiIdCard thaiIdCard = objectMapper.convertValue(resp, MoiDopaThaiIdCard.class);
 								// แปลง nested object
 								// --- Document ---
-								if (resp.getDocument() != null) {
-									thaiIdCard.setDocumentCountryDesc(resp.getDocument().getCountryDesc());
-									thaiIdCard.setDocumentDistrictDesc(resp.getDocument().getDistrictDesc());
-									thaiIdCard.setDocumentProvinceDesc(resp.getDocument().getProvinceDesc());
-								}
+								Optional.ofNullable(resp.getDocument()).ifPresent(document -> {
+									thaiIdCard.setDocumentCountryDesc(document.getCountryDesc());
+									thaiIdCard.setDocumentDistrictDesc(document.getDistrictDesc());
+									thaiIdCard.setDocumentProvinceDesc(document.getProvinceDesc());
+								});
 								// --- NameEN ---
-								if (resp.getNameEN() != null) {
-									thaiIdCard.setNameENFirstName(resp.getNameEN().getFirstName());
-									thaiIdCard.setNameENLastName(resp.getNameEN().getLastName());
-									thaiIdCard.setNameENMiddleName(resp.getNameEN().getMiddleName());
-									thaiIdCard.setNameENTitle(resp.getNameEN().getTitle());
-								}
+								Optional.ofNullable(resp.getNameEN()).ifPresent(nameEN -> {
+									thaiIdCard.setNameENFirstName(nameEN.getFirstName());
+									thaiIdCard.setNameENLastName(nameEN.getLastName());
+									thaiIdCard.setNameENMiddleName(nameEN.getMiddleName());
+									thaiIdCard.setNameENTitle(nameEN.getTitle());
+								});
 								// --- NameTH ---
-								if (resp.getNameTH() != null) {
-									thaiIdCard.setNameTHFullName(resp.getNameTH().getFullName());
-									thaiIdCard.setNameTHFirstName(resp.getNameTH().getFirstName());
-									thaiIdCard.setNameTHLastName(resp.getNameTH().getLastName());
-									thaiIdCard.setNameTHMiddleName(resp.getNameTH().getMiddleName());
-									thaiIdCard.setNameTHTitle(resp.getNameTH().getTitle());
-								}
+								Optional.ofNullable(resp.getNameTH()).ifPresent(nameTH -> {
+									thaiIdCard.setNameTHFullName(nameTH.getFullName());
+									thaiIdCard.setNameTHFirstName(nameTH.getFirstName());
+									thaiIdCard.setNameTHLastName(nameTH.getLastName());
+									thaiIdCard.setNameTHMiddleName(nameTH.getMiddleName());
+									thaiIdCard.setNameTHTitle(nameTH.getTitle());
+								});
 								// --- Address ---
-								if (resp.getAddress() != null) {
-									thaiIdCard.setAddressAlleyDesc(resp.getAddress().getAlleyDesc());
-									thaiIdCard.setAddressAlleyWayDesc(resp.getAddress().getAlleyWayDesc());
-									thaiIdCard.setAddressDistrictDesc(resp.getAddress().getDistrictDesc());
-									thaiIdCard.setAddressHouseNo(resp.getAddress().getHouseNo());
-									thaiIdCard.setAddressProvinceDesc(resp.getAddress().getProvinceDesc());
-									thaiIdCard.setAddressRoadDesc(resp.getAddress().getRoadDesc());
-									thaiIdCard.setAddressSubdistrictDesc(resp.getAddress().getSubdistrictDesc());
-									thaiIdCard.setAddressVillageNo(resp.getAddress().getVillageNo());
-								}
+								Optional.ofNullable(resp.getAddress()).ifPresent(address -> {
+									thaiIdCard.setAddressAlleyDesc(address.getAlleyDesc());
+									thaiIdCard.setAddressAlleyWayDesc(address.getAlleyWayDesc());
+									thaiIdCard.setAddressDistrictDesc(address.getDistrictDesc());
+									thaiIdCard.setAddressHouseNo(address.getHouseNo());
+									thaiIdCard.setAddressProvinceDesc(address.getProvinceDesc());
+									thaiIdCard.setAddressRoadDesc(address.getRoadDesc());
+									thaiIdCard.setAddressSubdistrictDesc(address.getSubdistrictDesc());
+									thaiIdCard.setAddressVillageNo(address.getVillageNo());
+								});
 								return thaiIdCard;
 							})
+							.filter(Objects::nonNull) // ตรวจแค่ object ทั้งตัว ว่าเป็น null หรือไม่
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
-
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
 				});
 	}
@@ -433,6 +448,105 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				});
 	}
 
+	// ฐานข้อมูลคนพิการ
+	@Override
+	public Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MsdhsDepCrippleResponse.class)
+				.map(page -> {
+					List<MsdhsDepCripple> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MsdhsDepCrippleResponse.class))
+							.map(resp -> {
+								if (resp == null) return null; // <-- เช็ค resp ก่อน
+								MsdhsDepCripple cripple = objectMapper.convertValue(resp, MsdhsDepCripple.class);
+								
+								// --- Result ---
+								Optional.ofNullable(resp.getResult()).ifPresent(result -> {
+									cripple.setBirthDate(result.getBirthDate());
+									cripple.setCardExpireDate(result.getCardExpireDate());
+									cripple.setCardIssueDate(result.getCardIssueDate());
+									cripple.setDeformName(result.getDeformName());
+									cripple.setPersonCode(result.getPersonCode());
+									cripple.setPersonName(result.getPersonName());
+								});
+								return cripple;
+							})
+							.filter(Objects::nonNull) // ควรเปิดไว้ ป้องกัน resp เป็น null
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลใบอนุญาตป.4
+	@Override
+	public Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPor4LicenseResponse.class)
+				.map(page -> {
+					List<MoiDopaPor4License> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MoiDopaPor4LicenseResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
+							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
+							.map(item -> objectMapper.convertValue(item, MoiDopaPor4License.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลสิทธิประกันสุขภาพและการลงทะเบียนกับหน่วยบริการ
+	@Override
+	public Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MophNhsoHealthInsuranceRightResponse.class)
+				.map(page -> {
+					List<MophNhsoHealthInsuranceRight> mappedList = page.getContent().stream()
+							// 1) แปลง raw -> Response (มี nested WsDatetime)
+							.map(obj -> objectMapper.convertValue(obj, MophNhsoHealthInsuranceRightResponse.class))
+							.filter(res -> {
+								if (res == null) return false;
+								// ถ้า wsStatus = WS002 และคนอื่น ๆ null ให้ skip
+								boolean allNullExceptPersonIdOrStatus =  ("WS002".equals(res.getWsStatus()) || res.getWsStatusDesc() != null);
+								return !allNullExceptPersonIdOrStatus;
+							})
+							// 2) แปลง Response -> Target โดยใช้ BeanUtils + manual flatten
+							.map(resp -> {
+								if (resp == null) return null; // <-- เช็ค resp ก่อน
+								log.debug(">>> Mapped response: {}", resp);
+//								MophNhsoHealthInsuranceRight healthInsuranceRight = objectMapper.convertValue(resp, MophNhsoHealthInsuranceRight.class);
+								
+								// สร้าง target ใหม่
+								MophNhsoHealthInsuranceRight healthInsuranceRight = new MophNhsoHealthInsuranceRight();
+
+								// คัดลอก field ที่ชื่อเหมือนกัน (เช่น mainInscl, mainInsclName, personId, ...)
+								BeanUtils.copyProperties(resp, healthInsuranceRight);
+								
+								// --- WsDatetime ---
+								Optional.ofNullable(resp.getWsDatetime()).ifPresent(wsDatetime -> {
+									healthInsuranceRight.setWsDatetimeDay(wsDatetime.getDay());
+									healthInsuranceRight.setWsDatetimeHour(wsDatetime.getHour());
+									healthInsuranceRight.setWsDatetimeMinute(wsDatetime.getMinute());
+									healthInsuranceRight.setWsDatetimeMonth(wsDatetime.getMonth());
+									healthInsuranceRight.setWsDatetimeSecond(wsDatetime.getSecond());
+									healthInsuranceRight.setWsDatetimeTimezone(wsDatetime.getTimezone());
+									healthInsuranceRight.setWsDatetimeYear(wsDatetime.getYear());
+								});
+								// --- NewDateRegister ---
+//								Optional.ofNullable(resp.getNewDateRegister()).ifPresent(newDateRegister -> {
+//									healthInsuranceRight.setNewDateRegisterDay(newDateRegister.getDay());
+//									healthInsuranceRight.setNewDateRegisterHour(newDateRegister.getHour());
+//									healthInsuranceRight.setNewDateRegisterMinute(newDateRegister.getMinute());
+//									healthInsuranceRight.setNewDateRegisterMonth(newDateRegister.getMonth());
+//									healthInsuranceRight.setNewDateRegisterSecond(newDateRegister.getSecond());
+//									healthInsuranceRight.setNewDateRegisterTimezone(newDateRegister.getTimezone());
+//									healthInsuranceRight.setNewDateRegisterYear(newDateRegister.getYear());
+//								});
+								return healthInsuranceRight;
+							})
+							.filter(Objects::nonNull) // ควรเปิดไว้ ป้องกัน resp เป็น null
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
 	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
 	@Override
 	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons(String userNin, String thaiNin, String jobId, String departmentCode) {

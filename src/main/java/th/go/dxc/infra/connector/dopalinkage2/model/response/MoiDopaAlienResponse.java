@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MoiDopaAlienResponse {
+	
 	private Long houseID;
 	private String titleDesc;
 	private String firstName;

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MoiDopaPersonChangeLastnamePrimaryResponse {
+	
 	private List<AllName> allName;
 	private Integer total;
 

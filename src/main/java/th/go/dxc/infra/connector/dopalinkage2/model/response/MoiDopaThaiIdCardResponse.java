@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MoiDopaThaiIdCardResponse {
+	
 	@ApiModelProperty(notes = "เลขคำขอมีบัตร (บป.1)", example = "12345678901")
 	private String documentNumber;
 	@ApiModelProperty(notes = "เลขบัตรประจำตัวประชาชน", example = "1234567890123")

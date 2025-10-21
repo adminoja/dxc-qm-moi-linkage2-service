@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MoiDopaPersonFacePhotoResponse {
+	
 	private String personalID;
 	private String image;
 	private String mineType;
