@@ -24,9 +24,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
+import th.go.dxc.app.model.AmloAssetFreezePersons;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAddress;
 import th.go.dxc.app.model.MoiDopaAlien;
 import th.go.dxc.app.model.MoiDopaBirthCertificate;
 import th.go.dxc.app.model.MoiDopaDivorceCertificate;
@@ -35,9 +37,11 @@ import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
+import th.go.dxc.app.model.MoiDopaPersonFindByName;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.SearchPersons;
 import th.go.dxc.app.service.Linkage2Service;
+import th.go.dxc.app.service.MoiDopaThaiIdCard;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
 import th.go.dxc.share.commons.dto.ErrorDto;
 import th.go.dxc.share.security.service.SecurityService;
@@ -78,11 +82,11 @@ public class Linkage2ApiController {
 //		,content = @Content(mediaType = "application/json"
 //		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-persons")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-persons")
 //	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 //		return service.findMoiDopaPersons(userNin, thaiNin, serviceId);
 		return securityService.getCurrentUser()
@@ -116,10 +120,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonChangeNamePrimary.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-person-changename-primary")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-person-changename-primary")
 	public Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -137,10 +141,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonChangeLastnamePrimary.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-person-changelastname-primary")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-person-changelastname-primary")
 	public Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -158,10 +162,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaAlien.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-aliens")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-aliens")
 	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -179,10 +183,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaDivorceCertificate.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-divorce-certificates")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-divorce-certificates")
 	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -200,10 +204,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaBirthCertificate.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-birth-certificates")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-birth-certificates")
 	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -221,10 +225,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonFacePhoto.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-person-face-photos")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-person-face-photos")
 	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -242,10 +246,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaMarriageCertificate.class))),
 	})
-	@GetMapping("/{thaiNin}/moi-dopa-marriage-certificates")
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-marriage-certificates")
 	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -257,16 +261,103 @@ public class Linkage2ApiController {
 				});
 	}
 	
+	@Operation(summary = "บริการค้นหาข้อมูล บัตรประจำตัวประชาชน", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaThaiIdCard.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-thai-id-cards")
+	public Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaThaiIdCard(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนบ้าน (บุคคลทุกประเภท)", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaAddress.class))),
+	})
+	@GetMapping("/{thaiNin}/moi-dopa-lk2-addresses")
+	public Mono<Page<MoiDopaAddress>> findMoiDopaAddress (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = true) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaAddress(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = MoiDopaPersonFindByName.class))),
+	})
+	@GetMapping("/persons/moi-dopa-lk2-person-by-names")
+	public Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "ชื่อตัว") @RequestParam(value = "firstName", required = true) String firstName,
+			@Parameter(description = "ชื่อสกุล") @RequestParam(value = "lastName", required = true) String lastName,
+			@Parameter(description = "เลขที่ข้อมูล") @RequestParam(value = "recordNumber", required = true) String recordNumber,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findMoiDopaPersonByName(userNin, firstName, lastName, recordNumber, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
+	@Operation(summary = "บริการค้นหาข้อมูล รายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)", security = @SecurityRequirement(name="bearerAuth"))
+	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
+				,content = @Content(mediaType = "application/json"
+				, schema = @Schema(implementation = AmloAssetFreezePersons.class))),
+	})
+	
+	@GetMapping("/{thaiNin}/amlo-lk2-asset-freeze-persons")
+	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons (
+			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = true) String thaiNin,
+			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
+		return securityService.getCurrentUser()
+				.flatMap(currentUser -> {
+					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
+							.flatMap(lk2Service -> {
+								return service.findAmloAssetFreezePersons(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+							});
+				});
+	}
+	
 	@Operation(summary = "บริการค้นหาข้อมูล นักเรียน", security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoeOpsStudent.class))),
 	})
-	@GetMapping("/{thaiNin}/moe-ops-student")
-	public Mono<Page<MoeOpsStudent>> findMoeStudent (
+	@GetMapping("/{thaiNin}/moe-ops-lk2-student")
+	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -284,10 +375,10 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoeOpsGraduate.class))),
 	})
-	@GetMapping("/{thaiNin}/moe-ops-graduate")
+	@GetMapping("/{thaiNin}/moe-ops-lk2-graduate")
 	public Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
-			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,
+			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @PathVariable(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
@@ -305,7 +396,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MolDsdWorkforceDevelopment.class))),
 	})
-	@GetMapping("/{thaiNin}/mol-dsd-workforce-developments")
+	@GetMapping("/{thaiNin}/mol-dsd-lk2-workforce-developments")
 	public Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล", required = false) @PathVariable(value = "thaiNin", required = false) String thaiNin,

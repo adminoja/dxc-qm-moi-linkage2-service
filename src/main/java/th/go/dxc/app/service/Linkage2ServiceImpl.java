@@ -27,8 +27,10 @@ import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
+import th.go.dxc.app.model.MoiDopaPersonFindByName;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
+import th.go.dxc.app.model.AmloAssetFreezePersons;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
 import th.go.dxc.app.model.Lk2ServiceFilter;
@@ -36,15 +38,19 @@ import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.LoginLinkage2Token;
 import th.go.dxc.app.model.MoeOpsGraduate;
 import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAddress;
 import th.go.dxc.app.model.MoiDopaAlien;
 import th.go.dxc.app.model.MoiDopaBirthCertificate;
 import th.go.dxc.app.model.MoiDopaDivorceCertificate;
 import th.go.dxc.app.model.MoiDopaMarriageCertificate;
+import th.go.dxc.infra.connector.dopalinkage2.model.request.CitizenSearchRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.AmloAssetFreezePersonsResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsStudentResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaAddressResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaAlienResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaBirthCertificateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaDivorceCertificateResponse;
@@ -52,7 +58,9 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaMarriageCert
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeLastnamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeNamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFacePhotoResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFindByNameResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaThaiIdCardResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MolDsdWorkforceDevelopmentResponse;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
@@ -332,8 +340,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนสมรส
 	@Override
-	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin,
-			String jobId, String departmentCode) {
+	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaMarriageCertificateResponse.class)
 				.map(page -> {
 					List<MoiDopaMarriageCertificate> mappedList = page.getContent().stream()
@@ -344,6 +351,101 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				});
 	}
 	
+
+	// ฐานข้อมูลบัตรประจำตัวประชาชน
+	@Override
+	public Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard(String userNin, String thaiNin, String jobId,
+			String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaThaiIdCardResponse.class)
+				.map(page -> {
+					List<MoiDopaThaiIdCard> mappedList = page.getContent().stream()
+							.map(obj -> objectMapper.convertValue(obj, MoiDopaThaiIdCardResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
+							.map(resp -> {
+								MoiDopaThaiIdCard thaiIdCard = objectMapper.convertValue(resp, MoiDopaThaiIdCard.class);
+								// แปลง nested object
+								// --- Document ---
+								if (resp.getDocument() != null) {
+									thaiIdCard.setDocumentCountryDesc(resp.getDocument().getCountryDesc());
+									thaiIdCard.setDocumentDistrictDesc(resp.getDocument().getDistrictDesc());
+									thaiIdCard.setDocumentProvinceDesc(resp.getDocument().getProvinceDesc());
+								}
+								// --- NameEN ---
+								if (resp.getNameEN() != null) {
+									thaiIdCard.setNameENFirstName(resp.getNameEN().getFirstName());
+									thaiIdCard.setNameENLastName(resp.getNameEN().getLastName());
+									thaiIdCard.setNameENMiddleName(resp.getNameEN().getMiddleName());
+									thaiIdCard.setNameENTitle(resp.getNameEN().getTitle());
+								}
+								// --- NameTH ---
+								if (resp.getNameTH() != null) {
+									thaiIdCard.setNameTHFullName(resp.getNameTH().getFullName());
+									thaiIdCard.setNameTHFirstName(resp.getNameTH().getFirstName());
+									thaiIdCard.setNameTHLastName(resp.getNameTH().getLastName());
+									thaiIdCard.setNameTHMiddleName(resp.getNameTH().getMiddleName());
+									thaiIdCard.setNameTHTitle(resp.getNameTH().getTitle());
+								}
+								// --- Address ---
+								if (resp.getAddress() != null) {
+									thaiIdCard.setAddressAlleyDesc(resp.getAddress().getAlleyDesc());
+									thaiIdCard.setAddressAlleyWayDesc(resp.getAddress().getAlleyWayDesc());
+									thaiIdCard.setAddressDistrictDesc(resp.getAddress().getDistrictDesc());
+									thaiIdCard.setAddressHouseNo(resp.getAddress().getHouseNo());
+									thaiIdCard.setAddressProvinceDesc(resp.getAddress().getProvinceDesc());
+									thaiIdCard.setAddressRoadDesc(resp.getAddress().getRoadDesc());
+									thaiIdCard.setAddressSubdistrictDesc(resp.getAddress().getSubdistrictDesc());
+									thaiIdCard.setAddressVillageNo(resp.getAddress().getVillageNo());
+								}
+								return thaiIdCard;
+							})
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+	
+	// ฐานข้อมูลทะเบียนบ้าน (บุคคลทุกประเภท)
+	@Override
+	public Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAddressResponse.class)
+				.map(page -> {
+					List<MoiDopaAddress> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaAddress.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)
+	@Override
+	public Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName(String userNin, String firstName,
+			String lastName, String recordNumber, String jobId, String departmentCode) {
+		String limit = "1"; // fix 1 
+		String middleName = ""; // ส่งค่าว่างไป
+		return findByJobIdWithTokenByName(userNin, limit, firstName, lastName, middleName, recordNumber, jobId, departmentCode, MoiDopaPersonFindByNameResponse.class)
+				.map(page -> {
+					List<MoiDopaPersonFindByName> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFindByName.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
+	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
+	@Override
+	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonsResponse.class)
+				.map(page -> {
+					List<AmloAssetFreezePersons> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, AmloAssetFreezePersons.class))
+							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
+							.collect(Collectors.toList());
+					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
+				});
+	}
+
 	// ฐานข้อมูลนักเรียน
 	@Override
 	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode) {
@@ -416,8 +518,37 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					});
 				});
 	}
-
 	
+	// -------------------- Request สำหรับชื่อ-สกุล --------------------
+	private <T> Mono<Page<Object>> findByJobIdWithTokenByName(String userNin, String limit, String firstName,
+			String lastName, String middleName, String recordNumber, String jobId, String departmentCode,
+			Class<T> responseClass) {
+
+		return linkage2Token(userNin)
+				.flatMap(list -> Mono.justOrEmpty(list.stream().findFirst())
+						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
+				.flatMap(tokenEntity -> {
+					String lk2Token = tokenEntity.getToken();
+					String username = tokenEntity.getUsername();
+					String sessionState = tokenEntity.getSessionState();
+					
+					return findByJobId(jobId).flatMap(lk2Service -> {
+						String ipProxy = lk2Service.getIpProxy();
+						CitizenSearchRequest req = citizenSearchRequest(List.of(lk2Service), jobId, limit, firstName, lastName, middleName, recordNumber);
+						Map<Integer, Class<?>> responseMap = Map.of(Integer.parseInt(lk2Service.getServiceId()),
+								responseClass);
+
+						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState).flatMap(
+								validToken -> service.callService(req, validToken, responseMap, ipProxy).map(page -> {
+									List<Object> content = page.getContent().stream()
+											.map(GenericResponse.ResponseItem::getResponseData)
+											.collect(Collectors.toList());
+									return new PageImpl<>(content);
+								}));
+					});
+				});
+	}
+		
 	// -------------------- Request เลขบัตรประจำตัวประชาชน -------------------- 
 	private PersonProfileRequest personProfileRequest(List<Lk2ServiceEntity> lk2ServiceList, String jobId, String thaiNin) {
 //		PersonProfileRequest req = new PersonProfileRequest();
@@ -431,12 +562,23 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return new PersonProfileRequest(
 				jobId,
 				lk2ServiceList.stream()
-					.map(s -> new PersonProfileRequest.DataReq(
-							Integer.parseInt(s.getServiceId()),
+					.map(s -> new PersonProfileRequest.DataReq(Integer.parseInt(s.getServiceId()),
 						new PersonProfileRequest.QueryReq(thaiNin)))
 					.collect(Collectors.toList())
 		);
 	}
+	
+	// -------------------- Request ชื่อตัว-ชื่อสกุล -------------------- 
+	private CitizenSearchRequest citizenSearchRequest(List<Lk2ServiceEntity> lk2List, String jobId, String limit, String firstName, String lastName, String middleName
+			, String recordNumber) {
+		return new CitizenSearchRequest(
+				jobId, 
+				lk2List.stream()
+					.map(lk2 -> new CitizenSearchRequest.DataReq(Integer.parseInt(lk2.getServiceId()),
+							new CitizenSearchRequest.QueryReq(limit, firstName, lastName, middleName, recordNumber == null ? "1" : recordNumber)))
+					.collect(Collectors.toList()));
+	}
+	
 	
 	// -------------------- Generic Mapper กลาง --------------------
 	private <R, M> Mono<Page<M>> mapPage(Mono<Page<Object>> pageMono, Class<R> responseClass,
@@ -452,7 +594,6 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		});
 	}
 
-	
 	
 	// -------------------- ค้นหา Lk2TokenService โดย username(เลขบัตร ปปช) -------------------- 
 	private Mono<List<Lk2TokenServiceEntity>> linkage2Token(String username) {
