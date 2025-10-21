@@ -27,7 +27,7 @@ public class Lk2ServiceFilter {
 	private String jobName;
 	@Parameter(description = "รหัสฐานข้อมูล")
 	private String serviceId;
-	@Schema(description = "รหัสหน่วยงาน")
+	@Parameter(description = "รหัสหน่วยงาน")
 	private String departmentCode;
 	@JsonIgnore
 	@Parameter(description = "IP proxy")
