@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MoiDopaPersonFindByNameResponse {
+public class MoiDopaPersonFirstnameLastnameResponse {
 	
 	private Integer titleCode;
 	private String titleDesc;

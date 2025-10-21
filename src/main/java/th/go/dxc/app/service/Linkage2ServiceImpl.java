@@ -29,12 +29,12 @@ import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
-import th.go.dxc.app.model.MoiDopaPersonFindByName;
+import th.go.dxc.app.model.MoiDopaPersonFirstnameLastname;
 import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
-import th.go.dxc.app.model.AmloAssetFreezePersons;
+import th.go.dxc.app.model.AmloAssetFreezePerson;
 import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
@@ -51,7 +51,7 @@ import th.go.dxc.app.model.MoiDopaMarriageCertificate;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.CitizenSearchRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.AmloAssetFreezePersonsResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.AmloAssetFreezePersonResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MsdhsDepCrippleResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
@@ -64,7 +64,7 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaMarriageCert
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeLastnamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonChangeNamePrimaryResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFacePhotoResponse;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFindByNameResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonFirstnameLastnameResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPersonResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPor4LicenseResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaThaiIdCardResponse;
@@ -215,7 +215,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลทะเบียนราษฎร
 	@Override
-	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode) {
+	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode) {
 //		Mono<Page<Object>> rawPageMono = findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonResponse.class);
 //		// ใช้ method reactive ของ Linkage2ServiceImplMapper
 //		return mapper.mapPageMono(rawPageMono, MoiDopaPerson.class);
@@ -434,14 +434,14 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)
 	@Override
-	public Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName(String userNin, String firstName,
+	public Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname(String userNin, String firstName,
 			String lastName, String recordNumber, String jobId, String departmentCode) {
 		String limit = "1"; // fix 1 
 		String middleName = ""; // ส่งค่าว่างไป
-		return findByJobIdWithTokenByName(userNin, limit, firstName, lastName, middleName, recordNumber, jobId, departmentCode, MoiDopaPersonFindByNameResponse.class)
+		return findByJobIdWithTokenByName(userNin, limit, firstName, lastName, middleName, recordNumber, jobId, departmentCode, MoiDopaPersonFirstnameLastnameResponse.class)
 				.map(page -> {
-					List<MoiDopaPersonFindByName> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFindByName.class))
+					List<MoiDopaPersonFirstnameLastname> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFirstnameLastname.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -549,11 +549,11 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
 	@Override
-	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonsResponse.class)
+	public Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonResponse.class)
 				.map(page -> {
-					List<AmloAssetFreezePersons> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, AmloAssetFreezePersons.class))
+					List<AmloAssetFreezePerson> mappedList = page.getContent().stream()
+							.map(item -> objectMapper.convertValue(item, AmloAssetFreezePerson.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());

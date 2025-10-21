@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AmloAssetFreezePersonsResponse {
+public class AmloAssetFreezePersonResponse {
 
 	private String address;
 	private String address2;

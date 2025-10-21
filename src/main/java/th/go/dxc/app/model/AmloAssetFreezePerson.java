@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)")
-public class AmloAssetFreezePersons {
+public class AmloAssetFreezePerson {
 
 	@Schema(description = "ที่อยู่ (ตามทะเบียนบ้าน)", example = "999 หมู่ 9")
 	private String address;

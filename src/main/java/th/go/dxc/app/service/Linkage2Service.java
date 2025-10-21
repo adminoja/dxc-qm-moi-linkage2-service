@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import reactor.core.publisher.Mono;
-import th.go.dxc.app.model.AmloAssetFreezePersons;
+import th.go.dxc.app.model.AmloAssetFreezePerson;
 import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
@@ -22,7 +22,7 @@ import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
-import th.go.dxc.app.model.MoiDopaPersonFindByName;
+import th.go.dxc.app.model.MoiDopaPersonFirstnameLastname;
 import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
@@ -43,7 +43,7 @@ public interface Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนราษฎร
 //	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
-	Mono<Page<MoiDopaPerson>> findMoiDopaPersons(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode);
 
 	// ฐานข้อมูลนักเรียน
 	Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode);
@@ -82,10 +82,10 @@ public interface Linkage2Service {
 	Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode);
 
 	// ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)
-	Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName(String userNin, String firstName, String lastName, String recordNumber, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname(String userNin, String firstName, String lastName, String recordNumber, String jobId, String departmentCode);
 
 	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
-	Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode);
 
 	// ฐานข้อมูลคนพิการ
 	Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode);

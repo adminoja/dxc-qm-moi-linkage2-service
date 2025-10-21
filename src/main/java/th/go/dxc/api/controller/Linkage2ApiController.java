@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import reactor.core.publisher.Mono;
-import th.go.dxc.app.model.AmloAssetFreezePersons;
+import th.go.dxc.app.model.AmloAssetFreezePerson;
 import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.Lk2TokenService;
 import th.go.dxc.app.model.MoeOpsGraduate;
@@ -38,7 +38,7 @@ import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonFacePhoto;
-import th.go.dxc.app.model.MoiDopaPersonFindByName;
+import th.go.dxc.app.model.MoiDopaPersonFirstnameLastname;
 import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
@@ -85,9 +85,9 @@ public class Linkage2ApiController {
 //		,content = @Content(mediaType = "application/json"
 //		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@GetMapping("/moi-dopa-lk2-persons")
+	@GetMapping("/moi-dopa-lk2-person")
 //	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (
-	public Mono<Page<MoiDopaPerson>> findMoiDopaPersons (
+	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
@@ -97,7 +97,7 @@ public class Linkage2ApiController {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersons(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -228,7 +228,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonFacePhoto.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-face-photos")
+	@GetMapping("/moi-dopa-lk2-person-face-photo")
 	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -310,10 +310,10 @@ public class Linkage2ApiController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = MoiDopaPersonFindByName.class))),
+				, schema = @Schema(implementation = MoiDopaPersonFirstnameLastname.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-by-names")
-	public Mono<Page<MoiDopaPersonFindByName>> findMoiDopaPersonByName (
+	@GetMapping("/moi-dopa-lk2-person-firstname-lastname")
+	public Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "ชื่อตัว") @RequestParam(value = "firstName", required = true) String firstName,
 			@Parameter(description = "ชื่อสกุล") @RequestParam(value = "lastName", required = true) String lastName,
@@ -324,7 +324,7 @@ public class Linkage2ApiController {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersonByName(userNin, firstName, lastName, recordNumber, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPersonFirstnameLastname(userNin, firstName, lastName, recordNumber, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -396,10 +396,10 @@ public class Linkage2ApiController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
-				, schema = @Schema(implementation = AmloAssetFreezePersons.class))),
+				, schema = @Schema(implementation = AmloAssetFreezePerson.class))),
 	})
-	@GetMapping("/amlo-lk2-asset-freeze-persons")
-	public Mono<Page<AmloAssetFreezePersons>> findAmloAssetFreezePersons (
+	@GetMapping("/amlo-lk2-asset-freeze-person")
+	public Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
 			@Parameter(description = "รหัสฐานข้อมูล") @RequestParam(value = "serviceId", required = true) String serviceId) {
@@ -408,7 +408,7 @@ public class Linkage2ApiController {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findAmloAssetFreezePersons(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findAmloAssetFreezePerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
