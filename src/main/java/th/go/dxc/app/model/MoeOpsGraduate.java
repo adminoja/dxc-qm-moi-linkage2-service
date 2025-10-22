@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลผู้สำเร็จการศึกษา")
-public class MoeOpsGraduate {
+public class MoeOpsGraduate extends BaseMoiLinkage2 {
 	@Schema(description = "ปีที่สำเร็จการศึกษา", example = "")
 	private String academicYear;
 	@Schema(description = "สาขางาน", example = "")

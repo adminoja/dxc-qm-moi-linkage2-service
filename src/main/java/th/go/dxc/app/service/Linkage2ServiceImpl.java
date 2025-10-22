@@ -35,6 +35,7 @@ import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
 import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.app.model.AmloAssetFreezePerson;
+import th.go.dxc.app.model.BaseMoiLinkage2;
 import th.go.dxc.app.model.MsdhsDepCripple;
 import th.go.dxc.app.model.JobLinkage2;
 import th.go.dxc.app.model.Lk2Service;
@@ -222,7 +223,14 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonResponse.class)
 				.map(page -> {
 					List<MoiDopaPerson> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaPerson.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaPerson.class))
+//							.map(item -> ((MoiDopaPerson) objectMapper.convertValue(item, MoiDopaPerson.class)).assignCitizenCardNumber(thaiNin))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPerson.class))
+//							.map(item -> {
+//								MoiDopaPerson person = objectMapper.convertValue(item, MoiDopaPerson.class);
+//								person.assignCitizenCardNumber(thaiNin);
+//								return person;
+//							})
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -238,7 +246,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					List<MoiDopaPersonChangeNamePrimary> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeNamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
-							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeNamePrimary.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeNamePrimary.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPersonChangeNamePrimary.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 
@@ -255,7 +264,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					List<MoiDopaPersonChangeLastnamePrimary> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeLastnamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
-							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeLastnamePrimary.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaPersonChangeLastnamePrimary.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPersonChangeLastnamePrimary.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 
@@ -272,7 +282,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaAlienResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.map(resp -> {
 								if (resp == null) return null; // <-- เช็ค resp ก่อน
-								MoiDopaAlien alien = objectMapper.convertValue(resp, MoiDopaAlien.class);
+//								MoiDopaAlien alien = objectMapper.convertValue(resp, MoiDopaAlien.class);
+								MoiDopaAlien alien = assignCitizenCardNumber(resp, thaiNin, MoiDopaAlien.class);
 								
 								// แปลง nested object (Father / Mother / Passport / Visa)
 								// --- Father ---
@@ -319,7 +330,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaDivorceCertificateResponse.class)
 				.map(page -> {
 					List<MoiDopaDivorceCertificate> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaDivorceCertificate.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaDivorceCertificate.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaDivorceCertificate.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -332,7 +344,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaBirthCertificateResponse.class)
 				.map(page -> {
 					List<MoiDopaBirthCertificate> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaBirthCertificate.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaBirthCertificate.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaBirthCertificate.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -345,7 +358,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonFacePhotoResponse.class)
 				.map(page -> {
 					List<MoiDopaPersonFacePhoto> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFacePhoto.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFacePhoto.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPersonFacePhoto.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -358,7 +372,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaMarriageCertificateResponse.class)
 				.map(page -> {
 					List<MoiDopaMarriageCertificate> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaMarriageCertificate.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaMarriageCertificate.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaMarriageCertificate.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -376,7 +391,9 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaThaiIdCardResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.map(resp -> {
 								if (resp == null) return null; // <-- เช็ค resp ก่อน
-								MoiDopaThaiIdCard thaiIdCard = objectMapper.convertValue(resp, MoiDopaThaiIdCard.class);
+//								MoiDopaThaiIdCard thaiIdCard = objectMapper.convertValue(resp, MoiDopaThaiIdCard.class);
+								MoiDopaThaiIdCard thaiIdCard = assignCitizenCardNumber(resp, thaiNin, MoiDopaThaiIdCard.class);
+								
 								// แปลง nested object
 								// --- Document ---
 								Optional.ofNullable(resp.getDocument()).ifPresent(document -> {
@@ -425,7 +442,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAddressResponse.class)
 				.map(page -> {
 					List<MoiDopaAddress> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoiDopaAddress.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaAddress.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaAddress.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -457,7 +475,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 							.map(obj -> objectMapper.convertValue(obj, MsdhsDepCrippleResponse.class))
 							.map(resp -> {
 								if (resp == null) return null; // <-- เช็ค resp ก่อน
-								MsdhsDepCripple cripple = objectMapper.convertValue(resp, MsdhsDepCripple.class);
+//								MsdhsDepCripple cripple = objectMapper.convertValue(resp, MsdhsDepCripple.class);
+								MsdhsDepCripple cripple = assignCitizenCardNumber(resp, thaiNin, MsdhsDepCripple.class);
 								
 								// --- Result ---
 								Optional.ofNullable(resp.getResult()).ifPresent(result -> {
@@ -485,7 +504,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					List<MoiDopaPor4License> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPor4LicenseResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
 							.flatMap(resp -> resp.getAllName() != null ? resp.getAllName().stream() : Stream.empty())
-							.map(item -> objectMapper.convertValue(item, MoiDopaPor4License.class))
+//							.map(item -> objectMapper.convertValue(item, MoiDopaPor4License.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPor4License.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -513,7 +533,10 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 //								MophNhsoHealthInsuranceRight healthInsuranceRight = objectMapper.convertValue(resp, MophNhsoHealthInsuranceRight.class);
 								
 								// สร้าง target ใหม่
-								MophNhsoHealthInsuranceRight healthInsuranceRight = new MophNhsoHealthInsuranceRight();
+//								MophNhsoHealthInsuranceRight healthInsuranceRight = new MophNhsoHealthInsuranceRight();
+								
+								// assign citizenCardNumber โดยใช้ helper generic
+								MophNhsoHealthInsuranceRight healthInsuranceRight = assignCitizenCardNumber(resp, thaiNin, MophNhsoHealthInsuranceRight.class);
 
 								// คัดลอก field ที่ชื่อเหมือนกัน (เช่น mainInscl, mainInsclName, personId, ...)
 								BeanUtils.copyProperties(resp, healthInsuranceRight);
@@ -553,7 +576,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonResponse.class)
 				.map(page -> {
 					List<AmloAssetFreezePerson> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, AmloAssetFreezePerson.class))
+//							.map(item -> objectMapper.convertValue(item, AmloAssetFreezePerson.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, AmloAssetFreezePerson.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -567,7 +591,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsStudentResponse.class)
 				.map(page -> {
 					List<MoeOpsStudent> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoeOpsStudent.class))
+//							.map(item -> objectMapper.convertValue(item, MoeOpsStudent.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoeOpsStudent.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 
@@ -582,7 +607,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsGraduateResponse.class)
 				.map(page -> {
 					List<MoeOpsGraduate> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MoeOpsGraduate.class))
+//							.map(item -> objectMapper.convertValue(item, MoeOpsGraduate.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MoeOpsGraduate.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -596,7 +622,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MolDsdWorkforceDevelopmentResponse.class)
 				.map(page -> {
 					List<MolDsdWorkforceDevelopment> mappedList = page.getContent().stream()
-							.map(item -> objectMapper.convertValue(item, MolDsdWorkforceDevelopment.class))
+//							.map(item -> objectMapper.convertValue(item, MolDsdWorkforceDevelopment.class))
+							.map(item -> assignCitizenCardNumber(item, thaiNin, MolDsdWorkforceDevelopment.class))
 							.filter(Linkage2ServiceImpl::hasMeaningfulData) // ใช้ dynamic check ทุก field
 							.collect(Collectors.toList());
 					return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
@@ -693,22 +720,6 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 					.collect(Collectors.toList()));
 	}
 	
-	
-	// -------------------- Generic Mapper กลาง --------------------
-	private <R, M> Mono<Page<M>> mapPage(Mono<Page<Object>> pageMono, Class<R> responseClass,
-			Function<R, Stream<?>> extractor, Function<Object, M> converter) {
-
-		return pageMono.map(page -> {
-			List<M> mappedList = page.getContent().stream().map(obj -> objectMapper.convertValue(obj, responseClass))
-					.flatMap(resp -> extractor.apply(resp)).map(item -> converter.apply(item))
-					.filter(Linkage2ServiceImpl::hasMeaningfulData) // ✅ ฟิลเตอร์ข้อมูลที่ไม่มีค่า
-					.collect(Collectors.toList());
-
-			return new PageImpl<>(mappedList, page.getPageable(), page.getTotalElements());
-		});
-	}
-
-	
 	// -------------------- ค้นหา Lk2TokenService โดย username(เลขบัตร ปปช) -------------------- 
 	private Mono<List<Lk2TokenServiceEntity>> linkage2Token(String username) {
 		return Mono.fromCallable(() -> {
@@ -765,5 +776,14 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 		}
 		return false; // ทุก field เป็น null/ว่าง
 	}
+	
+	//  -------------------- Assign CitizenCardNumber (เลขบัตรประชาชนผู้ถูกค้น (thaiNin)) --------------------
+	private <T extends BaseMoiLinkage2> T assignCitizenCardNumber(Object item, String thaiNin, Class<T> targetClass) {
+		T model = objectMapper.convertValue(item, targetClass);
+		model.setCitizenCardNumber(thaiNin);
+		return model;
+	}
+
+
 
 }

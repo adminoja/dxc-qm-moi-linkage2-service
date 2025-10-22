@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อตัว")
-public class MoiDopaPersonChangeNamePrimary {
+public class MoiDopaPersonChangeNamePrimary extends BaseMoiLinkage2 {
 
 	@Schema(description = "อายุผู้ขอใบอนุญาต ณ วันที่ออกใบอนุญาต", example = "39")
 	private Integer age;

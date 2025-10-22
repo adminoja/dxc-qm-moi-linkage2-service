@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลการพัฒนาฝีมือแรงงาน")
-public class MolDsdWorkforceDevelopment {
+public class MolDsdWorkforceDevelopment extends BaseMoiLinkage2 {
 	@Schema(description = "วันที่ออกหนังสือรับรอง/วุฒิบัตร", example = "")
 	private String certificateDate;
 	@Schema(description = "หมายเลขของหนังสือรับรอง/วุฒิบัตร", example = "")

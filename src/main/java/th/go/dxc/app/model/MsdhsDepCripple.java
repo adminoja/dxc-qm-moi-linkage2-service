@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลคนพิการ")
-public class MsdhsDepCripple {
+public class MsdhsDepCripple extends BaseMoiLinkage2 {
 
 	@Schema(description = "Error Message", example = "")
 	private Object message;

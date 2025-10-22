@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลใบอนุญาตป.4")
-public class MoiDopaPor4License {
+public class MoiDopaPor4License extends BaseMoiLinkage2 {
 
 	@Schema(description = "อำเภอ ตามที่อยู่", example = "")
 	private String amphorDesc;

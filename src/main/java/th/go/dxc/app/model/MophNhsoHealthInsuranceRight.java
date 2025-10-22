@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลสิทธิประกันสุขภาพและการลงทะเบียนกับหน่วยบริการ")
-public class MophNhsoHealthInsuranceRight {
+public class MophNhsoHealthInsuranceRight extends BaseMoiLinkage2 {
 
 	@Schema(description = "รหัสสิทธิหลักในการรับบริการ", example = "UCS")
 	private String mainInscl;

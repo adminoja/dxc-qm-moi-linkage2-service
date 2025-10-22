@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลทะเบียนบุคคลต่างด้าว")
-public class MoiDopaAlien {
+public class MoiDopaAlien extends BaseMoiLinkage2 {
 
 	@Schema(description = "เลขรหัสประจำบ้านที่อาศัยอยู่", example = "10010111111")
 	private Long houseID;

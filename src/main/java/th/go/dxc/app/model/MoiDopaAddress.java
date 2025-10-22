@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลทะเบียนบ้าน (บุคคลทุกประเภท)")
-public class MoiDopaAddress {
+public class MoiDopaAddress extends BaseMoiLinkage2 {
 	
 	@Schema(description = "เลขรหัสซอย", example = "0")
 	private Integer alleyCode;

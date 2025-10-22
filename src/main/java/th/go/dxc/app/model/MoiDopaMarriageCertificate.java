@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลทะเบียนสมรส")
-public class MoiDopaMarriageCertificate {
+public class MoiDopaMarriageCertificate extends BaseMoiLinkage2 {
 
 	@Schema(description = "อายุฝ่ายหญิง", example = "30")
 	private Integer femaleAge;

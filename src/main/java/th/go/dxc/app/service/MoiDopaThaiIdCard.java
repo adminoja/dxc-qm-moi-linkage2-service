@@ -4,12 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import th.go.dxc.app.model.BaseMoiLinkage2;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลบัตรประจำตัวประชาชน")
-public class MoiDopaThaiIdCard {
+public class MoiDopaThaiIdCard extends BaseMoiLinkage2 {
 
 	@Schema(description = "เลขคำขอมีบัตร (บป.1)", example = "12345678901")
 	private String documentNumber;

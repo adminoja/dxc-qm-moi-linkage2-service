@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลใบสูติบัตร")
-public class MoiDopaBirthCertificate {
+public class MoiDopaBirthCertificate extends BaseMoiLinkage2 {
 	
 	@Schema(description = "รหัสสำนักทะเบียนที่แจ้งเกิด", example = "ท้องถิ่นเขตวัฒนา")
 	private String authorityIssuing;

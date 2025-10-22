@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)")
-public class MoiDopaPersonFirstnameLastname {
+public class MoiDopaPersonFirstnameLastname extends BaseMoiLinkage2 {
 
 	@Schema(description = "รหัสคำนำหน้า", example = "3")
 	private Integer titleCode;

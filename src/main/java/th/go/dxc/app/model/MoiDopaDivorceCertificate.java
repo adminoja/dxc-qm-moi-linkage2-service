@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "ฐานข้อมูลทะเบียนการหย่า")
-public class MoiDopaDivorceCertificate {
+public class MoiDopaDivorceCertificate extends BaseMoiLinkage2 {
 	
 	@Schema(description = "ปี เดือน วันที่จดทะเบียนการหย่า", example = "25581117")
 	private Integer divorceDate;
