@@ -68,25 +68,8 @@ public class Linkage2ApiController {
 		@ApiResponse(responseCode = "200",description = "ระบบทำงานปกติ"
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPerson.class))),
-		
-//		@ApiResponse(responseCode = "400",description = "เรียกใช้งานไม่ถูกต้อง"
-//		,content = @Content(mediaType = "application/json"
-//		, schema = @Schema(implementation = ErrorDto.class))),
-//
-//		@ApiResponse(responseCode = "401",description = "การยืนยันตัวตนไม่ถูกต้อง Token หรือ รหัสยืนยันตัวตนมีปัญหา"
-//		,headers = {@Header(name = "www-authenticate",description = "รายละเอียดข้อผิดพลาด (ถ้ามี)")}
-//		,content = @Content(schema = @Schema(hidden=true))),
-//
-//		@ApiResponse(responseCode = "403",description = "ไม่มีสิทธิในการใช้บริการ"
-//		,content = @Content(mediaType = "application/json"
-//		, schema = @Schema(implementation = ErrorDto.class))),
-//		
-//		@ApiResponse(responseCode = "500",description = "ระบบทำงานผิดพลาด กรุณาติดต่อผู้ดูแลระบบ"
-//		,content = @Content(mediaType = "application/json"
-//		, schema = @Schema(implementation = ErrorDto.class)))
 	})
 	@GetMapping("/moi-dopa-lk2-person")
-//	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -101,21 +84,6 @@ public class Linkage2ApiController {
 							});
 				});
 	}
-	
-//	@Operation(summary = "บริการค้นหาข้อมูล ทะเบียนราษฎร", security = @SecurityRequirement(name="bearerAuth"))
-//	@PostMapping("/{thaiNin}/moi-dopa-persons")
-//	@ResponseBody
-//	public Mono<Page<ResponseItem<Object>>> findMoiDopaPersons (@RequestBody SearchPersons request) {
-////		return service.findMoiDopaPersons(userNin, thaiNin, serviceId);
-//		return securityService.getCurrentUser()
-//				.flatMap(currentUser -> {
-//					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
-//					return service.findByServiceIdAndDepartmentCode(request.getServiceId(), departmentCode)
-//							.flatMap(lk2Service -> {
-//								return service.findMoiDopaPersons(request.getUserNin(), request.getThaiNin(), lk2Service.getJobId());  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
-//							});
-//				});
-//	}
 	
 	@Operation(summary = "บริการค้นหาข้อมูล การจดทะเบียนเปลี่ยนชื่อตัว", security = @SecurityRequirement(name="bearerAuth"))
 	@ApiResponses({
