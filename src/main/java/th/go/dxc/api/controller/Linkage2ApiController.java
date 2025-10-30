@@ -69,7 +69,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPerson.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person")
+	@GetMapping("/dopa/moi-dopa-lk2-person")
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -91,7 +91,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonChangeNamePrimary.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-changename-primary")
+	@GetMapping("/dopa/moi-dopa-lk2-person-changename-primary")
 	public Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -112,7 +112,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonChangeLastnamePrimary.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-changelastname-primary")
+	@GetMapping("/dopa/moi-dopa-lk2-person-changelastname-primary")
 	public Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -133,7 +133,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaAlien.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-aliens")
+	@GetMapping("/dopa/moi-dopa-lk2-aliens")
 	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -154,7 +154,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaDivorceCertificate.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-divorce-certificates")
+	@GetMapping("/dopa/moi-dopa-lk2-divorce-certificates")
 	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -175,7 +175,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaBirthCertificate.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-birth-certificates")
+	@GetMapping("/dopa/moi-dopa-lk2-birth-certificates")
 	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -196,7 +196,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonFacePhoto.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-face-photo")
+	@GetMapping("/dopa/moi-dopa-lk2-person-face-photo")
 	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -217,7 +217,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaMarriageCertificate.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-marriage-certificates")
+	@GetMapping("/dopa/moi-dopa-lk2-marriage-certificates")
 	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -238,7 +238,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaThaiIdCard.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-thai-id-cards")
+	@GetMapping("/dopa/moi-dopa-lk2-thai-id-cards")
 	public Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -259,7 +259,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaAddress.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-addresses")
+	@GetMapping("/dopa/moi-dopa-lk2-addresses")
 	public Mono<Page<MoiDopaAddress>> findMoiDopaAddress (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
@@ -280,7 +280,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPersonFirstnameLastname.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-person-firstname-lastname")
+	@GetMapping("/dopa/moi-dopa-lk2-person-firstname-lastname")
 	public Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "ชื่อตัว") @RequestParam(value = "firstName", required = true) String firstName,
@@ -303,7 +303,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MsdhsDepCripple.class))),
 	})
-	@GetMapping("/msdhs-dep-lk2-cripple")
+	@GetMapping("dep/lk2-cripple")
 	public Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
@@ -324,7 +324,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPor4License.class))),
 	})
-	@GetMapping("/moi-dopa-lk2-por4-licenses")
+	@GetMapping("/dopa/moi-dopa-lk2-por4-licenses")
 	public Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
@@ -345,7 +345,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MophNhsoHealthInsuranceRight.class))),
 	})
-	@GetMapping("/moph-nhso-lk2-health-insurance-rights")
+	@GetMapping("/nhso/lk2-health-insurance-rights")
 	public Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
@@ -366,7 +366,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = AmloAssetFreezePerson.class))),
 	})
-	@GetMapping("/amlo-lk2-asset-freeze-person")
+	@GetMapping("/amlo/lk2-asset-freeze-person")
 	public Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = true) String thaiNin,
@@ -387,7 +387,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoeOpsStudent.class))),
 	})
-	@GetMapping("/moe-ops-lk2-student")
+	@GetMapping("/ops/lk2-student")
 	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -408,7 +408,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoeOpsGraduate.class))),
 	})
-	@GetMapping("/moe-ops-lk2-graduate")
+	@GetMapping("/ops/lk2-graduate")
 	public Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
@@ -429,7 +429,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MolDsdWorkforceDevelopment.class))),
 	})
-	@GetMapping("/mol-dsd-lk2-workforce-developments")
+	@GetMapping("/dsd/lk2-workforce-developments")
 	public Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
