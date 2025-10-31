@@ -69,7 +69,7 @@ public class Linkage2ApiController {
 				,content = @Content(mediaType = "application/json"
 				, schema = @Schema(implementation = MoiDopaPerson.class))),
 	})
-	@GetMapping("/dopa/moi-dopa-lk2-person")
+	@GetMapping("/dopa/moi-dopa-lk2-persons")
 	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson (
 			@Parameter(description = "เลขประจำตัวประชาชนไทยผู้ค้น") @RequestHeader(value = "X-User-Nin", required = true) String userNin,
 			@Parameter(description = "เลขประจำตัวประชาชนไทยข้อมูล") @RequestParam(value = "thaiNin", required = false) String thaiNin,
