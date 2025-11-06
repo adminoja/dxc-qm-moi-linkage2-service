@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 
@@ -77,6 +78,7 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
+import th.go.dxc.share.exception.CustomBusinessException;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -180,12 +182,22 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				long minutesUntilExpire = Duration.between(now, expireTime).toMinutes();
 				if (minutesUntilExpire > 10) { // หมายถึงยังไม่ถึง 50 นาที
 					// อัพเดต lastActiveTime ของ token เดิม
-					log.info("✅ Token still valid for user: {} (expires in {} min)", cid, minutesUntilExpire);
+					log.warn("✅ Token still valid for user: {} (expires in {} min)", cid, minutesUntilExpire);
 					return lk2TokenServiceService.updateLastActiveTime(existingToken.getUsername(), existingToken.getSessionState())
 							.thenReturn(existingToken.getToken());
 				}
 			}
-		
+			
+			// ---------- ถ้าเกิน 1 ชม. ไม่ต้องต่ออายุ token ----------
+			if (expireTime != null) {
+				long minutesSinceExpire = Duration.between(expireTime, now).toMinutes();
+				if (minutesSinceExpire > 60) {
+					log.warn("❌ Token for user {} expired more than 1 hour ago, skipping renew", cid);
+					return Mono.error(new CustomBusinessException(
+							HttpStatus.UNAUTHORIZED,
+							"ไม่สามารถยืนยันตัวตนผู้ใช้งาน Linkage2"));
+				}
+			}
 		
 			// ---------- ถ้าเกิน 50 นาที (เหลือต่ำกว่า 10 นาที) → ต่ออายุ token ----------
 			Linkage2TokenRequest renewReq = new Linkage2TokenRequest();
