@@ -751,11 +751,26 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	//  -------------------- Assign CitizenCardNumber (เลขบัตรประชาชนผู้ถูกค้น (thaiNin)) --------------------
 	private <T extends BaseMoiLinkage2> T assignCitizenCardNumber(Object item, String thaiNin, Class<T> targetClass) {
+		
+		// --- รองรับกรณี response เป็น List ---
+		if (item instanceof List) {
+			List<?> list = (List<?>) item;
+			if (!list.isEmpty()) {
+				item = list.get(0);
+			}
+		}
+		// --- รองรับกรณี response เป็น Array ---
+		else if (item != null && item.getClass().isArray()) {
+			Object[] arr = (Object[]) item;
+			if (arr.length > 0) {
+				item = arr[0];
+			}
+		}
+
+		// convert → model
 		T model = objectMapper.convertValue(item, targetClass);
 		model.setCitizenCardNumber(thaiNin);
 		return model;
 	}
-
-
 
 }
