@@ -25,7 +25,7 @@ public interface DopaLinkage2Service {
 
 	Mono<LoginLinkage2TokenResponse> renewLoginLinkage2(Linkage2TokenRequest request, String ipProxy);
 
-	Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy);
+	Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy, String tokenLk2);
 
 	Mono<JobLinkage2Response> jobLinkage2(Linkage2TokenRequest request, String ipProxy);
 

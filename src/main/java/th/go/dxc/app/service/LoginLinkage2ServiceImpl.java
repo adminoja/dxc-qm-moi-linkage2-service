@@ -1,7 +1,9 @@
 package th.go.dxc.app.service;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -24,7 +26,9 @@ import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
+import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -35,16 +39,18 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	private final Lk2ThaidLogRepository lk2ThaidLogRepository;
 	private final Lk2TokenServiceService lk2TokenServiceService;
 	private final Linkage2Service linkage2Service;
+	private final Lk2TokenServiceRepository repository;
 	
 	public LoginLinkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, 
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service) {
+			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository) {
 		super();
 		this.service = service;
 		this.mapperFacade = mapperFacade;
 		this.lk2ThaidLogRepository = lk2ThaidLogRepository;
 		this.lk2TokenServiceService = lk2TokenServiceService;
 		this.linkage2Service = linkage2Service;
+		this.repository = repository;
 	}
 	
 	private Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode) {
@@ -160,11 +166,51 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	// -------------------- ออกจากระบบ -------------------- 
 	@Override
 	public Mono<Void> logoutLinkage2(UsernameRequest request, String departmentCode) {
+		
+		List<Lk2TokenServiceEntity> lk2TokenService = repository.findByUsernameOrderByIdDesc(request.getUsername());
+		
+		// ❗ ถ้ายังไม่เคย login → ไม่ต้อง logout
+		if (lk2TokenService.isEmpty()) {
+			log.info("User {} has no Linkage2 login history → skip logout", request.getUsername());
+			return Mono.empty();
+		}
+		
+		Lk2TokenServiceEntity latestToken = lk2TokenService.get(0);
+		
+		// ❗ เช็ค channel
+		if (!"2".contentEquals(latestToken.getChannel()) && !"9".contentEquals(latestToken.getChannel())) {
+			return Mono.error(new IllegalStateException("Channel does not meet the requirements"));
+		}
+		
+		String tokenLk2 = latestToken.getToken();
+		
+		// ❗ เช็ค expiry token
+		try {
+			SignedJWT signedJWTKc = SignedJWT.parse(tokenLk2);
+			Number expNum = (Number) signedJWTKc.getJWTClaimsSet().getClaim("exp");
+			if (expNum == null) {
+				log.warn("Token has no exp → skip logout");
+				return Mono.empty();
+			}
+			long expSeconds = expNum.longValue();
+			LocalDateTime expTime = Instant.ofEpochSecond(expSeconds).atZone(ZoneId.systemDefault()).toLocalDateTime();
+			LocalDateTime now = LocalDateTime.now();
+			if (expTime.isBefore(now)) {
+				log.warn("Linkage2 token already expired → skip logout");
+				return Mono.empty();
+			}
+		} catch (ParseException e) {
+			log.error("Invalid token format", e);
+			return Mono.empty();
+		}
+		
 		// ตรวจสอบค่าเบื้องต้น
 		if (!StringUtils.hasText(departmentCode)) {
 			log.error("DepartmentCode must not be empty");
 			return Mono.error(new IllegalStateException("DepartmentCode must not be empty"));
 		}
+		
+		log.debug("tokenLk2 = {}", tokenLk2);
 		
 		return findByDepartmentCodeLk2Service(departmentCode)
 				.flatMap(lk2Service -> lk2Service.stream().findFirst()
@@ -180,7 +226,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 					// log ดูเพื่อความชัวร์
 					log.debug("Using ipProxy [{}] for departmentCode [{}]", ipProxy, departmentCode);
 		
-					return service.logoutLinkage2(request, ipProxy)
+					return service.logoutLinkage2(request, ipProxy, tokenLk2)
 							.then();
 				});
 	}
@@ -295,5 +341,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		entity.setLastActiveTime(LocalDateTime.now());
 		return entity;
 	}
+	
+	
 	
 }

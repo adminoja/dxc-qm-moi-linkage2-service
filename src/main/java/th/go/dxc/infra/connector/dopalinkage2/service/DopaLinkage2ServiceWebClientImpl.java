@@ -148,7 +148,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	}
 
 	@Override
-	public Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy) {
+	public Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy, String tokenLk2) {
 		WebClient webClient = buildClient(ipProxy);
 		
 		// ตรวจสอบ Usrename
@@ -156,13 +156,10 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 			throw new IllegalArgumentException("Invalid username.");
 		}
 		
-		// ดึง token linkage2 จาก Table (ยังไม่ได้ทำ Table)
-		String token = null;
-		
 		return webClient.delete()
 				.uri(LINKAGE2_LOGIN_PATH)
 				.accept(MediaType.APPLICATION_JSON)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenLk2)
 				.retrieve()
 				.onStatus(HttpStatus::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)

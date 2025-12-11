@@ -88,8 +88,8 @@ public class StgAppConfig {
 	@Bean
 	public LoginLinkage2Service loginLinkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, 
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service) {
-		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service);
+			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository) {
+		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service, repository);
 	}
 	
 	@Bean
