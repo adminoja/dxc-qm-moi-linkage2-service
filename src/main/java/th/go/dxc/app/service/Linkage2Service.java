@@ -43,57 +43,57 @@ public interface Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนราษฎร
 //	Mono<Page<ResponseItem<Object>>> findMoiDopaPersons(String userNin, String thaiNin, String jobId);
-	Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลนักเรียน
-	Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลผู้สำเร็จการศึกษา
-	Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลการพัฒนาฝีมือแรงงาน
-	Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อตัว
-	Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อสกุล
-	Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลทะเบียนบุคคลต่างด้าว
-	Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลทะเบียนการหย่า
-	Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลใบสูติบัตร
-	Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลภาพใบหน้า
-	Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลทะเบียนสมรส
-	Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลบัตรประจำตัวประชาชน
-	Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลทะเบียนบ้าน (บุคคลทุกประเภท)
-	Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)
-	Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname(String userNin, String firstName, String lastName, String recordNumber, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname(String userNin, String firstName, String lastName, String recordNumber, String jobId, String departmentCode, String sessionStateKc);
 
 	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
-	Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลคนพิการ
-	Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลใบอนุญาตป.4
-	Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 	// ฐานข้อมูลสิทธิประกันสุขภาพและการลงทะเบียนกับหน่วยบริการ
-	Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight(String userNin, String thaiNin, String jobId, String departmentCode);
+	Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc);
 
 }

@@ -96,9 +96,9 @@ public class PrdAppConfig {
 	
 	@Bean
 	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService,
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository,
 			@Lazy LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService, ObjectMapper objectMapper) {
-		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository, securityService,
+		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository,
 				loginLinkage2Service, lk2TokenServiceService, objectMapper);
 	}
 	

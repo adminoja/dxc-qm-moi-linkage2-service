@@ -78,9 +78,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -99,9 +100,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersonChangeNamePrimary(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPersonChangeNamePrimary(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -120,9 +122,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findDopaPersonChangeLastnamePrimary(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findDopaPersonChangeLastnamePrimary(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -141,9 +144,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaAlien(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaAlien(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -162,9 +166,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaDivorceCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaDivorceCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -183,9 +188,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaBirthCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaBirthCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -204,9 +210,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersonFacePhoto(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPersonFacePhoto(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -225,9 +232,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaMarriageCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaMarriageCertificate(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -246,9 +254,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaThaiIdCard(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaThaiIdCard(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -267,9 +276,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaAddress(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaAddress(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -290,9 +300,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPersonFirstnameLastname(userNin, firstName, lastName, recordNumber, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPersonFirstnameLastname(userNin, firstName, lastName, recordNumber, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -311,9 +322,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMsdhsDepCripple(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMsdhsDepCripple(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -332,9 +344,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoiDopaPor4License(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoiDopaPor4License(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -353,9 +366,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMophNhsoHealthInsuranceRight(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMophNhsoHealthInsuranceRight(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -374,9 +388,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findAmloAssetFreezePerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findAmloAssetFreezePerson(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -395,9 +410,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoeOpsStudent(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoeOpsStudent(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -416,9 +432,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMoeOpsGraduate(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMoeOpsGraduate(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}
@@ -437,9 +454,10 @@ public class Linkage2ApiController {
 		return securityService.getCurrentUser()
 				.flatMap(currentUser -> {
 					String departmentCode = currentUser.getUserOrganizationId(); // ✅ หน่วยงานของ user
+					String sessionStateKc = currentUser.getSessionState(); //sessionStateKeycloak
 					return service.findByServiceIdAndDepartmentCode(serviceId, departmentCode)
 							.flatMap(lk2Service -> {
-								return service.findMolDsdWorkforceDevelopment(userNin, thaiNin, lk2Service.getJobId(), departmentCode);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
+								return service.findMolDsdWorkforceDevelopment(userNin, thaiNin, lk2Service.getJobId(), departmentCode, sessionStateKc);  // ✅ ดึง jobId ที่ตรงกับหน่วยงาน
 							});
 				});
 	}

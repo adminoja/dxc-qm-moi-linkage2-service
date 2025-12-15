@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -79,6 +80,7 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.share.exception.CustomBusinessException;
+import th.go.dxc.share.security.model.DxcUserDetails;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -94,7 +96,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	private final ObjectMapper objectMapper;
 	
 	public Linkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
-			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository, SecurityService securityService,
+			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository,
 			LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService,
 			ObjectMapper objectMapper) {
 		super();
@@ -168,8 +170,11 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 			List<Lk2TokenServiceEntity> existingTokenList = lk2TokenServiceRepository
 					.findByUsernameAndSessionStateKcOrderByIdDesc(cid, sessionStateKc);
 			
+			
 			if (existingTokenList == null || existingTokenList.isEmpty()) {
-				return Mono.empty();
+				log.debug("existingTokenList = {}", existingTokenList);
+				return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "ไม่สามารถยืนยันตัวตนผู้ใช้งาน"));
+//				return Mono.empty();
 			}
 			
 			Lk2TokenServiceEntity existingToken = existingTokenList.get(0);
@@ -228,8 +233,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลทะเบียนราษฎร
 	@Override
-	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonResponse.class)
+	public Mono<Page<MoiDopaPerson>> findMoiDopaPerson(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPerson> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPerson.class))
@@ -242,8 +247,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อตัว
 	@Override
 	public Mono<Page<MoiDopaPersonChangeNamePrimary>> findMoiDopaPersonChangeNamePrimary(String userNin, String thaiNin,
-			String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeNamePrimaryResponse.class)
+			String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeNamePrimaryResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPersonChangeNamePrimary> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeNamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
@@ -259,8 +264,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// ฐานข้อมูลการจดทะเบียนเปลี่ยนชื่อสกุล
 	@Override
 	public Mono<Page<MoiDopaPersonChangeLastnamePrimary>> findDopaPersonChangeLastnamePrimary(String userNin,
-			String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeLastnamePrimaryResponse.class)
+			String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonChangeLastnamePrimaryResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPersonChangeLastnamePrimary> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPersonChangeLastnamePrimaryResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
@@ -275,8 +280,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนบุคคลต่างด้าว
 	@Override
-	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAlienResponse.class)
+	public Mono<Page<MoiDopaAlien>> findMoiDopaAlien(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAlienResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaAlien> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaAlienResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
@@ -325,8 +330,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนการหย่า
 	@Override
-	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaDivorceCertificateResponse.class)
+	public Mono<Page<MoiDopaDivorceCertificate>> findMoiDopaDivorceCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaDivorceCertificateResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaDivorceCertificate> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaDivorceCertificate.class))
@@ -338,8 +343,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลใบสูติบัตร
 	@Override
-	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaBirthCertificateResponse.class)
+	public Mono<Page<MoiDopaBirthCertificate>> findMoiDopaBirthCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaBirthCertificateResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaBirthCertificate> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaBirthCertificate.class))
@@ -351,8 +356,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลภาพใบหน้า
 	@Override
-	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonFacePhotoResponse.class)
+	public Mono<Page<MoiDopaPersonFacePhoto>> findMoiDopaPersonFacePhoto(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPersonFacePhotoResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPersonFacePhoto> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaPersonFacePhoto.class))
@@ -364,8 +369,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนสมรส
 	@Override
-	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaMarriageCertificateResponse.class)
+	public Mono<Page<MoiDopaMarriageCertificate>> findMoiDopaMarriageCertificate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaMarriageCertificateResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaMarriageCertificate> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaMarriageCertificate.class))
@@ -379,8 +384,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// ฐานข้อมูลบัตรประจำตัวประชาชน
 	@Override
 	public Mono<Page<MoiDopaThaiIdCard>> findMoiDopaThaiIdCard(String userNin, String thaiNin, String jobId,
-			String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaThaiIdCardResponse.class)
+			String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaThaiIdCardResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaThaiIdCard> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaThaiIdCardResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
@@ -432,8 +437,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// ฐานข้อมูลทะเบียนบ้าน (บุคคลทุกประเภท)
 	@Override
-	public Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAddressResponse.class)
+	public Mono<Page<MoiDopaAddress>> findMoiDopaAddress(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaAddressResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaAddress> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoiDopaAddress.class))
@@ -446,10 +451,10 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// ฐานข้อมูลทะเบียนราษฎร (ค้นหาด้วยชื่อตัว-ชื่อสกุล)
 	@Override
 	public Mono<Page<MoiDopaPersonFirstnameLastname>> findMoiDopaPersonFirstnameLastname(String userNin, String firstName,
-			String lastName, String recordNumber, String jobId, String departmentCode) {
+			String lastName, String recordNumber, String jobId, String departmentCode, String sessionStateKc) {
 		String limit = "1"; // fix 1 
 		String middleName = ""; // ส่งค่าว่างไป
-		return findByJobIdWithTokenByName(userNin, limit, firstName, lastName, middleName, recordNumber, jobId, departmentCode, MoiDopaPersonFirstnameLastnameResponse.class)
+		return findByJobIdWithTokenByName(userNin, limit, firstName, lastName, middleName, recordNumber, jobId, departmentCode, MoiDopaPersonFirstnameLastnameResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPersonFirstnameLastname> mappedList = page.getContent().stream()
 							.map(item -> objectMapper.convertValue(item, MoiDopaPersonFirstnameLastname.class))
@@ -461,8 +466,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลคนพิการ
 	@Override
-	public Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MsdhsDepCrippleResponse.class)
+	public Mono<Page<MsdhsDepCripple>> findMsdhsDepCripple(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MsdhsDepCrippleResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MsdhsDepCripple> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MsdhsDepCrippleResponse.class))
@@ -490,8 +495,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลใบอนุญาตป.4
 	@Override
-	public Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPor4LicenseResponse.class)
+	public Mono<Page<MoiDopaPor4License>> findMoiDopaPor4License(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoiDopaPor4LicenseResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoiDopaPor4License> mappedList = page.getContent().stream()
 							.map(obj -> objectMapper.convertValue(obj, MoiDopaPor4LicenseResponse.class)) // ✅ แปลงให้เป็น Response ชัดเจนก่อน
@@ -505,8 +510,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลสิทธิประกันสุขภาพและการลงทะเบียนกับหน่วยบริการ
 	@Override
-	public Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MophNhsoHealthInsuranceRightResponse.class)
+	public Mono<Page<MophNhsoHealthInsuranceRight>> findMophNhsoHealthInsuranceRight(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MophNhsoHealthInsuranceRightResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MophNhsoHealthInsuranceRight> mappedList = page.getContent().stream()
 							// 1) แปลง raw -> Response (มี nested WsDatetime)
@@ -559,8 +564,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	
 	// "ฐานข้อมูลรายชื่อบุคคลที่ถูกยึดหรืออายัดทรัพย์สิน (HR-02)
 	@Override
-	public Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonResponse.class)
+	public Mono<Page<AmloAssetFreezePerson>> findAmloAssetFreezePerson(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, AmloAssetFreezePersonResponse.class, sessionStateKc)
 				.map(page -> {
 					List<AmloAssetFreezePerson> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, AmloAssetFreezePerson.class))
@@ -572,8 +577,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลนักเรียน
 	@Override
-	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsStudentResponse.class)
+	public Mono<Page<MoeOpsStudent>> findMoeOpsStudent(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsStudentResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoeOpsStudent> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoeOpsStudent.class))
@@ -586,8 +591,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลผู้สำเร็จการศึกษา
 	@Override
-	public Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsGraduateResponse.class)
+	public Mono<Page<MoeOpsGraduate>> findMoeOpsGraduate(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MoeOpsGraduateResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MoeOpsGraduate> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MoeOpsGraduate.class))
@@ -599,8 +604,8 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// ฐานข้อมูลการพัฒนาฝีมือแรงงาน
 	@Override
-	public Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment(String userNin, String thaiNin, String jobId, String departmentCode) {
-		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MolDsdWorkforceDevelopmentResponse.class)
+	public Mono<Page<MolDsdWorkforceDevelopment>> findMolDsdWorkforceDevelopment(String userNin, String thaiNin, String jobId, String departmentCode, String sessionStateKc) {
+		return findByJobIdWithToken(userNin, thaiNin, jobId, departmentCode, MolDsdWorkforceDevelopmentResponse.class, sessionStateKc)
 				.map(page -> {
 					List<MolDsdWorkforceDevelopment> mappedList = page.getContent().stream()
 							.map(item -> assignCitizenCardNumber(item, thaiNin, MolDsdWorkforceDevelopment.class))
@@ -613,23 +618,24 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 
 	// -------------------- Request สำหรับเลขบัตรประจำตัวประชาชน --------------------
 	private <T> Mono<Page<Object>> findByJobIdWithToken(String userNin, String thaiNin, String jobId,
-			String departmentCode, Class<T> responseClass) {
+			String departmentCode, Class<T> responseClass, String sessionStateKc) {
 
-		return linkage2Token(userNin)
+			return linkage2Token(userNin)
 				.flatMap(list -> Mono.justOrEmpty(list.stream().findFirst())
 						.switchIfEmpty(Mono.error(new IllegalStateException("No linkage2 token found for user"))))
 				.flatMap(tokenEntity -> {
+					
 					String lk2Token = tokenEntity.getToken();
 					String username = tokenEntity.getUsername();
-					String sessionState = tokenEntity.getSessionState();
-
+//					String sessionState = tokenEntity.getSessionState();
+					
 					return findByJobId(jobId).flatMap(lk2Service -> {
 						String ipProxy = lk2Service.getIpProxy();
 						PersonProfileRequest req = personProfileRequest(List.of(lk2Service), jobId, thaiNin);
 						Map<Integer, Class<?>> responseMap = Map.of(Integer.parseInt(lk2Service.getServiceId()),
 								responseClass);
 
-						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState).flatMap(
+						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionStateKc).flatMap(
 								validToken -> service.callService(req, validToken, responseMap, ipProxy).map(page -> {
 									List<Object> content = page.getContent().stream()
 											.map(GenericResponse.ResponseItem::getResponseData)
@@ -643,7 +649,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 	// -------------------- Request สำหรับชื่อ-สกุล --------------------
 	private <T> Mono<Page<Object>> findByJobIdWithTokenByName(String userNin, String limit, String firstName,
 			String lastName, String middleName, String recordNumber, String jobId, String departmentCode,
-			Class<T> responseClass) {
+			Class<T> responseClass, String sessionStateKc) {
 
 		return linkage2Token(userNin)
 				.flatMap(list -> Mono.justOrEmpty(list.stream().findFirst())
@@ -651,7 +657,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 				.flatMap(tokenEntity -> {
 					String lk2Token = tokenEntity.getToken();
 					String username = tokenEntity.getUsername();
-					String sessionState = tokenEntity.getSessionState();
+//					String sessionState = tokenEntity.getSessionState();
 					
 					return findByJobId(jobId).flatMap(lk2Service -> {
 						String ipProxy = lk2Service.getIpProxy();
@@ -659,7 +665,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 						Map<Integer, Class<?>> responseMap = Map.of(Integer.parseInt(lk2Service.getServiceId()),
 								responseClass);
 
-						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionState).flatMap(
+						return linkage2TokenRenew(lk2Token, username, departmentCode, sessionStateKc).flatMap(
 								validToken -> service.callService(req, validToken, responseMap, ipProxy).map(page -> {
 									List<Object> content = page.getContent().stream()
 											.map(GenericResponse.ResponseItem::getResponseData)

@@ -123,7 +123,9 @@ public class SecurityServiceJwtImpl implements SecurityService{
 //		}
 //		log.debug("current userDetails={}",userDetails);
 //		return userDetails;
-//	}@Override
+//	}
+	
+	@Override
 	public Mono<DxcUserDetails> getCurrentUser() {
 		log.trace("getCurrentUser");
 		return Mono.defer(() -> {
