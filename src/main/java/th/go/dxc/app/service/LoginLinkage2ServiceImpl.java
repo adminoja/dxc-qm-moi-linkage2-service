@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -29,6 +30,8 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
+import th.go.dxc.infra.datasource.dxcsamdb.useraccount.entity.DxcUserAccountEntity;
+import th.go.dxc.infra.datasource.dxcsamdb.useraccount.repository.DxcUserAccountRepository;
 import th.go.dxc.share.security.service.SecurityService;
 
 @Slf4j
@@ -40,10 +43,11 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	private final Lk2TokenServiceService lk2TokenServiceService;
 	private final Linkage2Service linkage2Service;
 	private final Lk2TokenServiceRepository repository;
+	private final DxcUserAccountRepository userAccountRepository;
 	
 	public LoginLinkage2ServiceImpl(DopaLinkage2Service service, MapperFacade mapperFacade, 
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository) {
+			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository, DxcUserAccountRepository userAccountRepository) {
 		super();
 		this.service = service;
 		this.mapperFacade = mapperFacade;
@@ -51,6 +55,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		this.lk2TokenServiceService = lk2TokenServiceService;
 		this.linkage2Service = linkage2Service;
 		this.repository = repository;
+		this.userAccountRepository = userAccountRepository;
 	}
 	
 	private Mono<List<Lk2ServiceEntity>> findByDepartmentCodeLk2Service(String departmentCode) {
@@ -167,7 +172,21 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 	@Override
 	public Mono<Void> logoutLinkage2(UsernameRequest request, String departmentCode) {
 		
-		List<Lk2TokenServiceEntity> lk2TokenService = repository.findByUsernameOrderByIdDesc(request.getUsername());
+		if (request == null || !StringUtils.hasText(request.getUsername())) {
+			log.error("Username must not be empty");
+			return Mono.error(new IllegalArgumentException("Username must not be empty"));
+		}
+
+		List<DxcUserAccountEntity> userAccountList = userAccountRepository.findByUsername(request.getUsername());
+		if (userAccountList.isEmpty()) {
+			log.warn("Username {} not found in system", request.getUsername());
+			return Mono.error(new IllegalArgumentException("Username is not in the system"));
+		}
+		log.debug("userAccountList = {}", userAccountList);
+
+		String citizenCardNumber = userAccountList.get(0).getCitizenCardNumber();
+		// username ของ Table Lk2TokenService = เลขบัตรประชาชน
+		List<Lk2TokenServiceEntity> lk2TokenService = repository.findByUsernameOrderByIdDesc(citizenCardNumber);
 		
 		// ❗ ถ้ายังไม่เคย login → ไม่ต้อง logout
 		if (lk2TokenService.isEmpty()) {
@@ -187,18 +206,25 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 		// ❗ เช็ค expiry token
 		try {
 			SignedJWT signedJWTKc = SignedJWT.parse(tokenLk2);
-			Number expNum = (Number) signedJWTKc.getJWTClaimsSet().getClaim("exp");
-			if (expNum == null) {
+//			Number expNum = (Number) signedJWTKc.getJWTClaimsSet().getClaim("exp");
+			Date expDate = signedJWTKc.getJWTClaimsSet().getExpirationTime();
+			if (expDate == null) {
 				log.warn("Token has no exp → skip logout");
 				return Mono.empty();
 			}
-			long expSeconds = expNum.longValue();
-			LocalDateTime expTime = Instant.ofEpochSecond(expSeconds).atZone(ZoneId.systemDefault()).toLocalDateTime();
-			LocalDateTime now = LocalDateTime.now();
-			if (expTime.isBefore(now)) {
+			
+			if (expDate.before(new Date())) {
 				log.warn("Linkage2 token already expired → skip logout");
 				return Mono.empty();
 			}
+			
+//			long expSeconds = expDate.longValue();
+//			LocalDateTime expTime = Instant.ofEpochSecond(expSeconds).atZone(ZoneId.systemDefault()).toLocalDateTime();
+//			LocalDateTime now = LocalDateTime.now();
+//			if (expTime.isBefore(now)) {
+//				log.warn("Linkage2 token already expired → skip logout");
+//				return Mono.empty();
+//			}
 		} catch (ParseException e) {
 			log.error("Invalid token format", e);
 			return Mono.empty();

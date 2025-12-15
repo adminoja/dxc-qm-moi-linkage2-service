@@ -148,7 +148,7 @@ public class LoginLinkage2ApiController {
 		,content = @Content(mediaType = "application/json"
 		, schema = @Schema(implementation = ErrorDto.class)))
 	})
-	@RequestMapping(method = RequestMethod.DELETE, value = "/logout")
+	@RequestMapping(method = RequestMethod.POST, value = "/logout")
 	@ResponseBody
 	public Mono<Void> logoutLinkage2(@RequestBody UsernameRequest request) {
 		return securityService.getCurrentUser()

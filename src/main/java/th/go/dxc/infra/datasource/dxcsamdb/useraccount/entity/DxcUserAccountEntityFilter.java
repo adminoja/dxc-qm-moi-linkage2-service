@@ -1,0 +1,75 @@
+package th.go.dxc.infra.datasource.dxcsamdb.useraccount.entity;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class DxcUserAccountEntityFilter {
+	private Integer id;
+	private String officerNumber;
+	private String citizenCardNumber;
+	private String departmentCode;
+	private String username;
+	private String password;
+	private Integer accountType;
+	private String activationCode;
+	private Date registerDate;
+	private Timestamp lastAccessDate;
+	private Timestamp createDate;
+	private String isBlock;
+	private String status;
+	private String subStatus;
+	private Timestamp exprDate;
+	private String email;
+	private String permissions;
+	private Integer countLogin;
+	private String countSearch;
+	private String prefix;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String phoneNumber;
+	private String hadToken;
+	private String adAccount;
+	private Integer groupId;
+	private String firstNameEn;
+	private String lastNameEn;
+	private String position;
+	private Integer createrId;
+	private String createrName;
+	private String apikey;
+	private String isAllowServiceAPI;
+	private Boolean apiEnabled;
+	private String drmAccount;
+	private String drmAccountID;
+	private String drmAccountStatus;
+	private Integer countLoginFail;
+	private LocalDateTime deletedDatetime;
+	private String deleteUsername;
+	private String deleteEmail;
+	private String deleteCitizenCardNumber;
+	private Integer deleteAdminId;
+	private String deleted;
+	private Timestamp profileCompletedDateTime;
+	private Timestamp sys_update_registerDate_byscript;
+	private Timestamp sys_update_lastAccessDate_byscript;
+	private String refId;
+	private String hideOnReport;
+	private String approvalStatus;
+	private Integer approvalStatusBy;
+	private String approvalRemark;
+	private Timestamp approvalDate;
+	private String province; 
+	private String subordinate;
+	private String mainsignature;
+	private String ministry;
+	private String responsiblework;
+	private String governmentofficialstype;
+	private String governmentNum;
+	private String commanderId;
+	private String adminId;
+	private String sscSubStatus;
+}

@@ -151,11 +151,6 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 	public Mono<Void> logoutLinkage2(UsernameRequest request, String ipProxy, String tokenLk2) {
 		WebClient webClient = buildClient(ipProxy);
 		
-		// ตรวจสอบ Usrename
-		if (request == null || !StringUtils.hasText(request.getUsername()) || "string".equalsIgnoreCase(request.getUsername())) {
-			throw new IllegalArgumentException("Invalid username.");
-		}
-		
 		return webClient.delete()
 				.uri(LINKAGE2_LOGIN_PATH)
 				.accept(MediaType.APPLICATION_JSON)
