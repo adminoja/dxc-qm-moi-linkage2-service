@@ -12,9 +12,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.Linkage2ServiceImpl;
 import th.go.dxc.app.service.Lk2ThaidLogService;
@@ -40,9 +37,9 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.useraccount.repository.DxcUserAccountRepository;
-import th.go.dxc.share.commons.util.ObjectMapperService;
 import th.go.dxc.share.security.service.SecurityService;
 import th.go.dxc.share.security.service.SecurityServiceJwtImpl;
+import th.go.dxc.share.util.mapstruct.MapperFacade;
 
 @Profile("prd")
 @Configuration
@@ -56,10 +53,10 @@ public class PrdAppConfig {
 		log.info("Init {}",this.getClass().getName());
 	}
 
-	@Bean
-	public MapperFactory mapperFactory() {
-		return new DefaultMapperFactory.Builder().build();
-	}
+	// @Bean
+	// public MapperFactory mapperFactory() {
+	// 	return new DefaultMapperFactory.Builder().build();
+	// }
 	
 	@Bean
 	public SecurityService securityService() {

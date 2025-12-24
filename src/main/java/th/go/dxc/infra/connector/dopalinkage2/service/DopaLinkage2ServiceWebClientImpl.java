@@ -9,21 +9,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
@@ -39,15 +34,12 @@ import th.go.dxc.infra.connector.dopalinkage2.config.DopaLinkage2Properties;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.ConfirmLoginLinkage2Request;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.LoginLinkage2Request;
-import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.UsernameRequest;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2TokenResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.DopaLinkage2ErrorResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse.ResponseItem;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.JobLinkage2Response;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2Response;
-import th.go.dxc.infra.connector.thaid.model.response.TokenErrorResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.LoginLinkage2TokenResponse;
 
 @Slf4j
 public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
@@ -134,7 +126,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + request.getToken())
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
 						.doOnNext(err -> log.error("DOPA Linkage2 Renew error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
 						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -156,7 +148,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 				.accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenLk2)
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
 						.doOnNext(err -> log.error("DOPA Linkage2 error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
 						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -179,7 +171,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 				.accept(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + request.getToken())
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
 						.doOnNext(err -> log.error("DOPA Linkage2 Job error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
 						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -201,7 +193,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(body)
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
 						.doOnNext(err -> log.error("DOPA Linkage2 Login error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
 						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -238,7 +230,7 @@ public class DopaLinkage2ServiceWebClientImpl implements DopaLinkage2Service {
 			.header("Authorization", "Bearer " + token)
 			.bodyValue(req)
 			.retrieve()
-			.onStatus(HttpStatus::isError,
+			.onStatus(HttpStatusCode::isError,
 					clientResponse -> clientResponse.bodyToMono(DopaLinkage2ErrorResponse.class)
 						.doOnNext(err -> log.error("DOPA Linkage2 Request error [{}]: {}", err.getErrorNumber(), err.getErrorMessage()))
 						.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(

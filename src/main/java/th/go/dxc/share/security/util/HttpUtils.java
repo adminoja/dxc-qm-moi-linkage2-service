@@ -1,11 +1,11 @@
 package th.go.dxc.share.security.util;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpUtils {
 	 public static HttpServletRequest getCurrentRequest() {

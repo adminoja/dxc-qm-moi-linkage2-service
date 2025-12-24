@@ -4,18 +4,13 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Map;
 
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import th.go.dxc.app.model.IntrospectToken;
 import th.go.dxc.app.model.Lk2ThaidLog;
@@ -26,6 +21,7 @@ import th.go.dxc.infra.connector.thaid.model.request.AuthorizationCodeRequest;
 import th.go.dxc.infra.connector.thaid.model.response.TokenResponse;
 import th.go.dxc.infra.connector.thaid.service.ThaidService;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
+import th.go.dxc.share.util.mapstruct.MapperFacade;
 
 @Slf4j
 public class LoginThaidServiceImpl implements LoginThaidService {
@@ -51,7 +47,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 				return Mono.error(new IllegalStateException("Token is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, ThaidToken.class));
+			return Mono.just(mapper.toThaidToken(res));
 		});
 	}
 
@@ -65,7 +61,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 				return Mono.error(new IllegalStateException("Token is null after mapping response"));
 			}
 			// map ต่อแบบ non-blocking
-			return Mono.just(mapper.map(res, ThaidToken.class));
+			return Mono.just(mapper.toThaidToken(res));
 		});
 	}
 
@@ -77,7 +73,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 				log.error("Mapped IntrospectToken has null active: {}", res);
 				return Mono.error(new IllegalStateException("Active is null after mapping response"));
 			}
-			return Mono.just(mapper.map(res, IntrospectToken.class));
+			return Mono.just(mapper.toIntrospectToken(res));
 		});
 	}
 
@@ -89,7 +85,7 @@ public class LoginThaidServiceImpl implements LoginThaidService {
 				log.error("Mapped RevokeToken has null message: {}", res);
 				return Mono.error(new IllegalStateException("Message is null after mapping response"));
 			}
-			return Mono.just(mapper.map(res, RevokeToken.class));
+			return Mono.just(mapper.toRevokeToken(res));
 		});
 	}
 	

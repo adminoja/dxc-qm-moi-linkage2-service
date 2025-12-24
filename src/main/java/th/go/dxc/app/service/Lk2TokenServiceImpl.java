@@ -1,14 +1,10 @@
 package th.go.dxc.app.service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -29,7 +25,7 @@ public class Lk2TokenServiceImpl implements Lk2TokenServiceService {
 	public Lk2TokenServiceImpl(Lk2TokenServiceRepository repository, Lk2TokenServiceServiceImplMapper mapper) {
 		super();
 		this.repository = repository;
-		this.mapper = mapper;
+		this.mapper = mapper; 
 	}
 	
 	private Lk2TokenServiceEntity createLk2TokenServiceEntity(Lk2TokenService model) {

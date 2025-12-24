@@ -1,20 +1,21 @@
 package th.go.dxc.config;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
+import reactor.netty.http.client.HttpClient;
 import th.go.dxc.app.service.Linkage2Service;
 import th.go.dxc.app.service.Linkage2ServiceImpl;
 import th.go.dxc.app.service.Lk2ThaidLogService;
@@ -40,9 +41,9 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.useraccount.repository.DxcUserAccountRepository;
-import th.go.dxc.share.commons.util.ObjectMapperService;
 import th.go.dxc.share.security.service.SecurityService;
 import th.go.dxc.share.security.service.SecurityServiceJwtImpl;
+import th.go.dxc.share.util.mapstruct.MapperFacade;
 
 @Profile("dev")
 @Configuration
@@ -56,60 +57,76 @@ public class DevAppConfig {
 		log.info("Init {}", DevAppConfig.class.getName());
 	}
 
-	@Bean
-	public MapperFactory mapperFactory() {
-		return new DefaultMapperFactory.Builder().build();
-	}
+	// @Bean
+	// public MapperFactory mapperFactory() {
+	// 	return new DefaultMapperFactory.Builder().build();
+	// }
 
 	@Bean
 	public SecurityService securityService() {
-		return new SecurityServiceJwtImpl(); 
+		return new SecurityServiceJwtImpl();
 	}
-	
+
 	@Bean
 	public ThaidService thaidService(WebClient.Builder webClientBuilder, ThaidProperties properties) {
 		return new ThaidServiceWebClientImpl(webClientBuilder, properties);
 	}
-	
+
 	@Bean
-	public LoginThaidService loginThaidService(ThaidService service, MapperFacade mapper, Lk2ThaidLogService lk2ThaidLogService) {
+	public LoginThaidService loginThaidService(ThaidService service, MapperFacade mapper,
+			Lk2ThaidLogService lk2ThaidLogService) {
 		return new LoginThaidServiceImpl(service, mapper, lk2ThaidLogService);
 	}
-	
+
 	@Bean
-	public Lk2ThaidLogService lk2ThaidLogService(Lk2ThaidLogRepository repository, Lk2ThaidLogServiceImplMapper mapper) {
+	public Lk2ThaidLogService lk2ThaidLogService(Lk2ThaidLogRepository repository,
+			Lk2ThaidLogServiceImplMapper mapper) {
 		return new Lk2ThaidLogServiceImpl(repository, mapper);
 	}
-	
+
 	@Bean
-	public DopaLinkage2Service dopaLinkage2Service(WebClient.Builder webClientBuilder, DopaLinkage2Properties properties) {
+	public DopaLinkage2Service dopaLinkage2Service(WebClient.Builder webClientBuilder,
+			DopaLinkage2Properties properties) {
 		return new DopaLinkage2ServiceWebClientImpl(webClientBuilder, properties);
 	}
-	
+
 	@Bean
-	public LoginLinkage2Service loginLinkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, 
+	public LoginLinkage2Service loginLinkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade,
 			Lk2ThaidLogRepository lk2ThaidLogRepository, Lk2TokenServiceService lk2TokenServiceService,
-			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository, DxcUserAccountRepository userAccountRepository) {
-		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService, linkage2Service, repository
-				,userAccountRepository);
+			Linkage2Service linkage2Service, Lk2TokenServiceRepository repository,
+			DxcUserAccountRepository userAccountRepository) {
+		return new LoginLinkage2ServiceImpl(service, mapperFacade, lk2ThaidLogRepository, lk2TokenServiceService,
+				linkage2Service, repository, userAccountRepository);
 	}
-	
+
 	@Bean
-	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade, Lk2ServiceRepository repository,
+	public Linkage2Service linkage2Service(DopaLinkage2Service service, MapperFacade mapperFacade,
+			Lk2ServiceRepository repository,
 			Linkage2ServiceImplMapper mapper, Lk2TokenServiceRepository lk2TokenServiceRepository,
-			@Lazy LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService, ObjectMapper objectMapper) {
+			@Lazy LoginLinkage2Service loginLinkage2Service, Lk2TokenServiceService lk2TokenServiceService,
+			ObjectMapper objectMapper) {
 		return new Linkage2ServiceImpl(service, mapperFacade, repository, mapper, lk2TokenServiceRepository,
 				loginLinkage2Service, lk2TokenServiceService, objectMapper);
 	}
-	
+
 	@Bean
-	public Lk2TokenServiceService lk2TokenServiceService(Lk2TokenServiceRepository repository, Lk2TokenServiceServiceImplMapper mapper) {
+	public Lk2TokenServiceService lk2TokenServiceService(Lk2TokenServiceRepository repository,
+			Lk2TokenServiceServiceImplMapper mapper) {
 		return new Lk2TokenServiceImpl(repository, mapper);
 	}
-	
+
 	@Bean
-	public LoginThaidAndLinkage2Service loginThaidAndLinkage2Service(LoginThaidService loginThaidService, LoginLinkage2Service loginLinkage2Service) {
+	public LoginThaidAndLinkage2Service loginThaidAndLinkage2Service(LoginThaidService loginThaidService,
+			LoginLinkage2Service loginLinkage2Service) {
 		return new LoginThaidAndLinkage2ServiceImpl(loginThaidService, loginLinkage2Service);
 	}
-	
+
+	@Bean
+	WebClient.Builder webClientBuilder() {
+		HttpClient httpClient = HttpClient.create()
+				.responseTimeout(Duration.ofSeconds(30));
+
+		return WebClient.builder()
+				.clientConnector(new ReactorClientHttpConnector(httpClient));
+	}
 }

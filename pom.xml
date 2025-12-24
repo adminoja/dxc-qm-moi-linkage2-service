@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>th.go.dxc</groupId>
 	<artifactId>dxc-qm-moi-linkage2-service</artifactId>
-	<version>3.4.1-RELEASE</version>
+	<version>4.0.0-RELEASE</version>
 	<name>dxc-qm-moi-linkage2-service</name>
 	<description>กรมการปกครอง</description>
 
@@ -36,33 +36,42 @@
 			</properties>
 		</developer>
 	</developers>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.13</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>4.0.1</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	
+
 	<properties>
-		<java.version>11</java.version>
-		<spring-cloud.version>2021.0.2</spring-cloud.version>
-		<org.mapstruct.version>1.5.0.RC1</org.mapstruct.version>
+		<java.version>21</java.version>
+		<spring-cloud.version>2025.1.0</spring-cloud.version>
+
+		<!-- Build / codegen -->
+		<org.mapstruct.version>1.6.0</org.mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
-		<dxc-share-lib.version>1.2.0-RELEASE</dxc-share-lib.version>
-		<gitlab.group-id>5</gitlab.group-id>
-		<orika.version>1.5.4</orika.version>
+
+		<!-- DXC shared lib -->
+		<dxc-share-lib.version>2.1.0-RELEASE</dxc-share-lib.version>
+
+		<!-- GitLab Package Registry (shared libs project) -->
+		<gitlab.maven.project-id>521</gitlab.maven.project-id>
+
+		<!-- Other explicit versions (not managed by Spring Boot BOM) -->
+		<!-- <orika.version>1.5.4</orika.version> -->
 		<easy-random.version>5.0.0</easy-random.version>
-		<jsqlparser.version>4.6</jsqlparser.version>
+		<jsqlparser.version>5.3</jsqlparser.version>
+		<swagger-annotations-jakarta.version>2.2.41</swagger-annotations-jakarta.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<!-- Database -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -104,9 +113,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.6.6</version>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations-jakarta</artifactId>
+			<version>${swagger-annotations-jakarta.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -120,30 +129,37 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
-		
+
 		<!-- Orika - Bean Mapper -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>orika-core</artifactId>
-			<version>${orika.version}</version><!-- or latest version -->
+			<version>${orika.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
 		</dependency>
+
 		<!-- JSQL Parser -->
 		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
 			<version>${jsqlparser.version}</version>
 		</dependency>
+		<!-- Spring Security OAuth (legacy) was removed in modern Spring Security.
+			 Use Resource Server / Client starters instead. -->
 		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>2.4.0.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-client</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -155,9 +171,29 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>enforce-java</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>[21,)</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -174,6 +210,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
+					<release>${java.version}</release>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
@@ -185,11 +222,11 @@
 							<artifactId>lombok</artifactId>
 							<version>${lombok.version}</version>
 						</path>
-						<dependency>
+						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok-mapstruct-binding</artifactId>
 							<version>${lombok-mapstruct-binding.version}</version>
-						</dependency>
+						</path>
 					</annotationProcessorPaths>
 					<compilerArgs>
 						<compilerArg>
@@ -200,11 +237,11 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>gitlab-maven</id>
-			<url>https://gitlab.clearskysolutions.co.th/api/v4/groups/${gitlab.group-id}/-/packages/maven</url>
+			<url>https://gitlab.clearskysolutions.co.th/api/v4/projects/${gitlab.maven.project-id}/packages/maven</url>
 		</repository>
 	</repositories>
 
@@ -217,6 +254,6 @@
 			<id>gitlab-maven</id>
 			<url>https://gitlab.clearskysolutions.co.th/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
 		</snapshotRepository>
-	</distributionManagement>	
-	
+	</distributionManagement>
+
 </project>

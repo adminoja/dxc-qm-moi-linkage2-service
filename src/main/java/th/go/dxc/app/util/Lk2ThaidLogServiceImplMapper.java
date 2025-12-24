@@ -6,12 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import th.go.dxc.app.model.Lk2Service;
-import th.go.dxc.app.model.Lk2ServiceFilter;
 import th.go.dxc.app.model.Lk2ThaidLog;
 import th.go.dxc.app.model.Lk2ThaidLogFilter;
-import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
-import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntityFilter;
 import th.go.dxc.share.commons.util.ObjectMapperService;

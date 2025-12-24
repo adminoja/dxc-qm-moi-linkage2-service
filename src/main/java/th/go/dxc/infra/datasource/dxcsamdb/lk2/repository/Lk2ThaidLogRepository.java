@@ -4,17 +4,15 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 
-import reactor.core.publisher.Flux;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ThaidLogEntityFilter;
 
-public interface Lk2ThaidLogRepository extends PagingAndSortingRepository<Lk2ThaidLogEntity, Integer>,
-		QueryByExampleExecutor<Lk2ThaidLogEntity>, JpaSpecificationExecutor<Lk2ThaidLogEntity> {
+public interface Lk2ThaidLogRepository extends JpaRepository<Lk2ThaidLogEntity, Integer>,
+		 JpaSpecificationExecutor<Lk2ThaidLogEntity> {
 	@Query(nativeQuery = true, 
 			countQuery = "SELECT COUNT(*) FROM " + Lk2ThaidLogEntity.ENTITY_TABLE_NAME + " a "
 				+ "where (:#{#filter.id} is null or a.id = :#{#filter.id})"

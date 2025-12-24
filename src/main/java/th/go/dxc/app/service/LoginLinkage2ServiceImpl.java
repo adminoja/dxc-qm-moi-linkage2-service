@@ -1,9 +1,7 @@
 package th.go.dxc.app.service;
 
 import java.text.ParseException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +11,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -32,7 +29,7 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ThaidLogRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.useraccount.entity.DxcUserAccountEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.useraccount.repository.DxcUserAccountRepository;
-import th.go.dxc.share.security.service.SecurityService;
+import th.go.dxc.share.util.mapstruct.MapperFacade;
 
 @Slf4j
 public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
@@ -94,7 +91,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 									return Mono.error(new IllegalStateException("Office is null after mapping response"));
 								}
 								// map ต่อแบบ non-blocking
-								return Mono.just(mapperFacade.map(res, LoginLinkage2.class));
+								return Mono.just(mapperFacade.toLoginLinkage2(res));
 					});
 				});
 	}
@@ -129,7 +126,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 							return Mono.error(new IllegalStateException("Token is null after mapping response"));
 						}
 						// map ต่อแบบ non-blocking
-						return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
+						return Mono.just(mapperFacade.toLoginLinkage2Token(res));
 					});
 				});
 	}
@@ -163,7 +160,7 @@ public class LoginLinkage2ServiceImpl implements LoginLinkage2Service {
 									return Mono.error(new IllegalStateException("Token is null after mapping response"));
 								}
 								// map ต่อแบบ non-blocking
-								return Mono.just(mapperFacade.map(res, LoginLinkage2Token.class));
+								return Mono.just(mapperFacade.toLoginLinkage2Token(res));
 							});
 				});
 	}

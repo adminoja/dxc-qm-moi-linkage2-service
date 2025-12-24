@@ -2,13 +2,11 @@ package th.go.dxc.app.service;
 
 import java.lang.reflect.Field;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,16 +15,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import th.go.dxc.app.model.AmloAssetFreezePerson;
+import th.go.dxc.app.model.BaseMoiLinkage2;
+import th.go.dxc.app.model.JobLinkage2;
+import th.go.dxc.app.model.Lk2Service;
+import th.go.dxc.app.model.Lk2ServiceFilter;
+import th.go.dxc.app.model.Lk2TokenService;
+import th.go.dxc.app.model.MoeOpsGraduate;
+import th.go.dxc.app.model.MoeOpsStudent;
+import th.go.dxc.app.model.MoiDopaAddress;
+import th.go.dxc.app.model.MoiDopaAlien;
+import th.go.dxc.app.model.MoiDopaBirthCertificate;
+import th.go.dxc.app.model.MoiDopaDivorceCertificate;
+import th.go.dxc.app.model.MoiDopaMarriageCertificate;
 import th.go.dxc.app.model.MoiDopaPerson;
 import th.go.dxc.app.model.MoiDopaPersonChangeLastnamePrimary;
 import th.go.dxc.app.model.MoiDopaPersonChangeNamePrimary;
@@ -35,27 +44,12 @@ import th.go.dxc.app.model.MoiDopaPersonFirstnameLastname;
 import th.go.dxc.app.model.MoiDopaPor4License;
 import th.go.dxc.app.model.MolDsdWorkforceDevelopment;
 import th.go.dxc.app.model.MophNhsoHealthInsuranceRight;
-import th.go.dxc.app.util.Linkage2ServiceImplMapper;
-import th.go.dxc.app.model.AmloAssetFreezePerson;
-import th.go.dxc.app.model.BaseMoiLinkage2;
 import th.go.dxc.app.model.MsdhsDepCripple;
-import th.go.dxc.app.model.JobLinkage2;
-import th.go.dxc.app.model.Lk2Service;
-import th.go.dxc.app.model.Lk2ServiceFilter;
-import th.go.dxc.app.model.Lk2TokenService;
-import th.go.dxc.app.model.LoginLinkage2Token;
-import th.go.dxc.app.model.MoeOpsGraduate;
-import th.go.dxc.app.model.MoeOpsStudent;
-import th.go.dxc.app.model.MoiDopaAddress;
-import th.go.dxc.app.model.MoiDopaAlien;
-import th.go.dxc.app.model.MoiDopaBirthCertificate;
-import th.go.dxc.app.model.MoiDopaDivorceCertificate;
-import th.go.dxc.app.model.MoiDopaMarriageCertificate;
+import th.go.dxc.app.util.Linkage2ServiceImplMapper;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.CitizenSearchRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.Linkage2TokenRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.request.PersonProfileRequest;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.AmloAssetFreezePersonResponse;
-import th.go.dxc.infra.connector.dopalinkage2.model.response.MsdhsDepCrippleResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.GenericResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsGraduateResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoeOpsStudentResponse;
@@ -73,6 +67,7 @@ import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaPor4LicenseR
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MoiDopaThaiIdCardResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MolDsdWorkforceDevelopmentResponse;
 import th.go.dxc.infra.connector.dopalinkage2.model.response.MophNhsoHealthInsuranceRightResponse;
+import th.go.dxc.infra.connector.dopalinkage2.model.response.MsdhsDepCrippleResponse;
 import th.go.dxc.infra.connector.dopalinkage2.service.DopaLinkage2Service;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2ServiceEntityFilter;
@@ -80,8 +75,7 @@ import th.go.dxc.infra.datasource.dxcsamdb.lk2.entity.Lk2TokenServiceEntity;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2ServiceRepository;
 import th.go.dxc.infra.datasource.dxcsamdb.lk2.repository.Lk2TokenServiceRepository;
 import th.go.dxc.share.exception.CustomBusinessException;
-import th.go.dxc.share.security.model.DxcUserDetails;
-import th.go.dxc.share.security.service.SecurityService;
+import th.go.dxc.share.util.mapstruct.MapperFacade;
 
 @Slf4j
 public class Linkage2ServiceImpl implements Linkage2Service {
@@ -141,7 +135,7 @@ public class Linkage2ServiceImpl implements Linkage2Service {
 									return Mono.error(new IllegalStateException("Job is null after mapping response"));
 								}
 								// map ต่อแบบ non-blocking
-								return Mono.just(mapperFacade.map(res, JobLinkage2.class));
+								return Mono.just(mapperFacade.toJobLinkage2(res));
 							});
 				});
 	}

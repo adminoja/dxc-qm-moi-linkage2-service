@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.time.Duration;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.util.LinkedMultiValueMap;
@@ -79,7 +79,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.body(BodyInserters.fromFormData(formData))
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
 								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
 								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -104,7 +104,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.body(BodyInserters.fromFormData(formData))
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
 								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
 								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -127,7 +127,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.body(BodyInserters.fromFormData(formData))
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
 								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
 								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -150,7 +150,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.body(BodyInserters.fromFormData(formData))
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 						clientResponse -> clientResponse.bodyToMono(TokenErrorResponse.class)
 								.doOnNext(err -> log.error("Error from ThaID: {}", err)) // ✅ log error
 								.flatMap(errorResponseBody -> Mono.error(new ResponseStatusException(
@@ -168,7 +168,7 @@ public class ThaidServiceWebClientImpl implements ThaidService {
 		return webClient.get()
 				.uri(THAID_JWKS_PATH)
 				.retrieve()
-				.onStatus(HttpStatus::isError,
+				.onStatus(HttpStatusCode::isError,
 						clientResponse -> clientResponse.bodyToMono(String.class)
 							.flatMap(errorBody -> {
 								log.error("❌ Failed to fetch JWKS. Response: {}", errorBody);
